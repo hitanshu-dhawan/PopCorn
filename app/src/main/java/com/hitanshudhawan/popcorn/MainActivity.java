@@ -3,6 +3,9 @@ package com.hitanshudhawan.popcorn;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(MainActivity.this);
         mNavigationView.setCheckedItem(R.id.nav_movies);
-        // TODO set movies fragment by default
+        setTitle(R.string.movies);
     }
 
     @Override
@@ -71,9 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer.closeDrawer(GravityCompat.START);
 
-        switch (id) { // TODO make separte methods for different fragments loading.
+        switch (id) {
             case R.id.nav_movies:
                 setTitle(R.string.movies);
+                setFragment(new MoviesFragment());
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
@@ -94,5 +98,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return false;
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_activity_fragment, fragment);
+        fragmentTransaction.commit();
     }
 }
