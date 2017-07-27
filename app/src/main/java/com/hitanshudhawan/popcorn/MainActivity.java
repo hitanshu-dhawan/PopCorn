@@ -3,6 +3,7 @@ package com.hitanshudhawan.popcorn;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout mDrawer;
     NavigationView mNavigationView;
+    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(MainActivity.this);
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
+
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
     }
 
     @Override
