@@ -33,11 +33,6 @@ public class MoviesFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         TabLayout tabLayout = (TabLayout) ((MainActivity)getActivity()).findViewById(R.id.tab_layout);
