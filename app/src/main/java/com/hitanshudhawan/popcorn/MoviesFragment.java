@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,15 +19,29 @@ import android.view.ViewGroup;
 
 public class MoviesFragment extends Fragment {
 
+    ViewPager mMoviesViewPager;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        ViewPager moviesViewPager = (ViewPager) view.findViewById(R.id.movies_view_pager);
-        moviesViewPager.setAdapter(new MoviesPagerAdapter(getChildFragmentManager()));
+        mMoviesViewPager = (ViewPager) view.findViewById(R.id.movies_view_pager);
+        mMoviesViewPager.setAdapter(new MoviesPagerAdapter(getChildFragmentManager()));
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        TabLayout tabLayout = (TabLayout) ((MainActivity)getActivity()).findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(mMoviesViewPager);
     }
 
     public class MoviesPagerAdapter extends FragmentPagerAdapter {
