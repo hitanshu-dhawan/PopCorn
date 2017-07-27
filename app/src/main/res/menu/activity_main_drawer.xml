@@ -31,7 +31,7 @@
             android:title="@string/favorites" />
         <item
             android:id="@+id/nav_offline"
-            android:icon="@mipmap/ic_info_outline_black_24dp"
+            android:icon="@mipmap/ic_turned_in_black_24dp"
             android:iconTint="@android:color/darker_gray"
             android:title="@string/offline" />
     </group>
