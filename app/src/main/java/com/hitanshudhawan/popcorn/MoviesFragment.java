@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,10 @@ public class MoviesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
         ViewPager moviesViewPager = (ViewPager) view.findViewById(R.id.movies_view_pager);
-        moviesViewPager.setAdapter(new MoviesPagerAdapter(getFragmentManager()));
+        moviesViewPager.setAdapter(new MoviesPagerAdapter(getChildFragmentManager()));
 
         return view;
     }
-
 
     public class MoviesPagerAdapter extends FragmentPagerAdapter {
 
