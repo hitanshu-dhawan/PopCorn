@@ -31,10 +31,13 @@
                 android:text="Title"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
-                android:background="#4FFFFFFF"
+                android:background="#AF000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="16dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
 
         </RelativeLayout>
 
@@ -42,15 +45,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingRight="16dp"
             android:background="@android:color/darker_gray"
             android:gravity="right">
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_favorite_border_black_24dp"
                     android:background="@android:color/transparent"
@@ -61,8 +66,8 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_turned_in_not_black_24dp"
                     android:background="@android:color/transparent"
@@ -73,8 +78,8 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_share_black_24dp"
                     android:background="@android:color/transparent"
