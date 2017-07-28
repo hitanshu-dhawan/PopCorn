@@ -35,10 +35,15 @@ import retrofit2.Response;
 
 public class MoviesNowShowingFragment extends Fragment {
 
-    RecyclerView mRecyclerView;
-    List<Movie> mMovies;
-    MoviesAdapter mMoviesAdapter;
+    private RecyclerView mRecyclerView;
+    private List<Movie> mMovies;
+    private MoviesAdapter mMoviesAdapter;
 
+    private boolean pagesOver = false;
+    private int presentPage = 1;
+    private boolean loading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
 
     @Nullable
     @Override
@@ -62,7 +67,7 @@ public class MoviesNowShowingFragment extends Fragment {
         MoviesAdapter.setLargeViewIntervalEnabled(true);
         MoviesAdapter.setLargeViewInterval(3);
         mRecyclerView.setAdapter(mMoviesAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -71,15 +76,47 @@ public class MoviesNowShowingFragment extends Fragment {
             }
         });
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                int visibleItemCount = gridLayoutManager.getChildCount();
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                    loadMovies();
+                    loading = true;
+                }
+            }
+        });
+
+        loadMovies();
+
+        return view;
+    }
+
+    private void loadMovies() {
+        if(pagesOver) return;
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1);
+        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
         call.enqueue(new Callback<NowShowingMovieResponse>() {
             @Override
             public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {
                 if (response.code() != 200) return;
                 mMovies.addAll(response.body().getResults());
                 mMoviesAdapter.notifyDataSetChanged();
+                if(response.body().getPage() == response.body().getTotalPages())
+                    pagesOver = true;
+                else
+                    presentPage++;
             }
 
             @Override
@@ -88,6 +125,5 @@ public class MoviesNowShowingFragment extends Fragment {
             }
         });
 
-        return view;
     }
 }
