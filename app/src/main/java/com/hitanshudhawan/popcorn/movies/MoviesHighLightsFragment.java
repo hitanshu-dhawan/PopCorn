@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn;
+package com.hitanshudhawan.popcorn.movies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.Movie;
@@ -23,7 +24,7 @@ import retrofit2.Response;
  * Created by hitanshu on 27/7/17.
  */
 
-public class MoviesPopularFragment extends Fragment {
+public class MoviesHighLightsFragment extends Fragment {
 
     @Nullable
     @Override
@@ -31,7 +32,7 @@ public class MoviesPopularFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movies_popular, container, false);
 
         // TESTING
-        String APIKEY = "";
+        String APIKEY = getResources().getString(R.string.MOVIE_DB_API_KEY);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<PopularMovieResponse> call = apiService.getPopularMovies(APIKEY,1);
         call.enqueue(new Callback<PopularMovieResponse>() {

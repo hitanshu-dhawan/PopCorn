@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn;
+package com.hitanshudhawan.popcorn.movies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,12 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.hitanshudhawan.popcorn.MainActivity;
+import com.hitanshudhawan.popcorn.R;
 
 /**
  * Created by hitanshu on 27/7/17.
@@ -49,7 +50,7 @@ public class MoviesFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new MoviesPopularFragment();
+                    return new MoviesHighLightsFragment();
                 case 1:
                     return new MoviesNowShowingFragment();
                 case 2:
@@ -67,7 +68,7 @@ public class MoviesFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getResources().getString(R.string.popular);
+                    return getResources().getString(R.string.highlights);
                 case 1:
                     return getResources().getString(R.string.now_showing);
                 case 2:
