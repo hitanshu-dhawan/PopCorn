@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,16 +38,22 @@ public class MoviesNowShowingFragment extends Fragment {
     private List<Movie> mMovies;
     private MoviesAdapter mMoviesAdapter;
 
-    private boolean pagesOver = false;
-    private int presentPage = 1;
-    private boolean loading = true;
-    private int previousTotal = 0;
-    private int visibleThreshold = 5;
+    private boolean pagesOver;
+    private int presentPage;
+    private boolean loading;
+    private int previousTotal;
+    private int visibleThreshold;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies_now_showing, container, false);
+
+        pagesOver = false;
+        presentPage = 1;
+        loading = true;
+        previousTotal = 0;
+        visibleThreshold = 5;
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_now_showing);
         mMovies = new ArrayList<>();
@@ -107,7 +112,6 @@ public class MoviesNowShowingFragment extends Fragment {
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
-        Log.d("TAGG",presentPage+"");
         call.enqueue(new Callback<NowShowingMovieResponse>() {
             @Override
             public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,16 +37,22 @@ public class MoviesUpcomingFragment extends Fragment {
     private List<Movie> mMovies;
     private MoviesAdapter mMoviesAdapter;
 
-    private boolean pagesOver = false;
-    private int presentPage = 1;
-    private boolean loading = true;
-    private int previousTotal = 0;
-    private int visibleThreshold = 5;
+    private boolean pagesOver;
+    private int presentPage;
+    private boolean loading;
+    private int previousTotal;
+    private int visibleThreshold;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies_upcoming, container, false);
+
+        pagesOver = false;
+        presentPage = 1;
+        loading = true;
+        previousTotal = 0;
+        visibleThreshold = 5;
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_upcoming);
         mMovies = new ArrayList<>();
@@ -84,6 +91,12 @@ public class MoviesUpcomingFragment extends Fragment {
         loadMovies();
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("TAGG","onDestroy");
     }
 
     private void loadMovies() {
