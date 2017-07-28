@@ -15,12 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hitanshudhawan.popcorn.movies.MoviesFragment;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout mDrawer;
     NavigationView mNavigationView;
-    TabLayout mTabLayout;
+    SmartTabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
 
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mTabLayout = (SmartTabLayout) findViewById(R.id.tab_layout);
     }
 
     @Override

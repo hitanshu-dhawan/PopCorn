@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.hitanshudhawan.popcorn.MainActivity;
 import com.hitanshudhawan.popcorn.R;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 /**
  * Created by hitanshu on 27/7/17.
@@ -36,8 +37,8 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        TabLayout tabLayout = (TabLayout) ((MainActivity)getActivity()).findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(mMoviesViewPager);
+        SmartTabLayout tabLayout = (SmartTabLayout) ((MainActivity)getActivity()).findViewById(R.id.tab_layout);
+        tabLayout.setViewPager(mMoviesViewPager);
     }
 
     public class MoviesPagerAdapter extends FragmentPagerAdapter {

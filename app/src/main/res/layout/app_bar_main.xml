@@ -18,11 +18,21 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <android.support.design.widget.TabLayout
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </android.support.design.widget.TabLayout>
+            android:layout_height="48dp"
+            app:stl_indicatorColor="@color/colorAccent"
+            app:stl_distributeEvenly="true"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_defaultTabTextColor="@android:color/white"
+            app:stl_overlineThickness="0dp"
+            app:stl_underlineThickness="0dp"
+            app:stl_dividerThickness="0dp"
+            app:stl_defaultTabBackground="?attr/selectableItemBackground"
+            app:stl_drawDecorationAfterTab="true"/>
 
     </android.support.design.widget.AppBarLayout>
 
