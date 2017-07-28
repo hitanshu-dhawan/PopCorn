@@ -55,7 +55,7 @@ public class MoviesNowShowingFragment extends Fragment {
         mMoviesAdapter = new MoviesAdapter(getContext(), mMovies, new MoviesAdapter.OnBindViewHolderListener() {
             @Override
             public void onBindViewHolder(MoviesAdapter.MoviesViewHolder holder, int position) {
-                if (position % MoviesAdapter.getLargeViewInterval() == 0) {
+                if (position % mMoviesAdapter.getLargeViewInterval() == 0) {
                     holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
                     Glide.with(getContext()).load("https://image.tmdb.org/t/p/w780/" + mMovies.get(position).getBackdropPath()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.movieImageView);
                 } else {
@@ -64,14 +64,14 @@ public class MoviesNowShowingFragment extends Fragment {
                 }
             }
         });
-        MoviesAdapter.setLargeViewIntervalEnabled(true);
-        MoviesAdapter.setLargeViewInterval(3);
+        mMoviesAdapter.setLargeViewIntervalEnabled(true);
+        mMoviesAdapter.setLargeViewInterval(3);
         mRecyclerView.setAdapter(mMoviesAdapter);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position % MoviesAdapter.getLargeViewInterval() == 0) return 2;
+                if (position % mMoviesAdapter.getLargeViewInterval() == 0) return 2;
                 else return 1;
             }
         });
@@ -106,7 +106,8 @@ public class MoviesNowShowingFragment extends Fragment {
         if(pagesOver) return;
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
+        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
+        Log.d("TAGG",presentPage+"");
         call.enqueue(new Callback<NowShowingMovieResponse>() {
             @Override
             public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {

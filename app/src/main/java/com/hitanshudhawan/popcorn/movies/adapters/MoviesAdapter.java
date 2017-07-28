@@ -29,8 +29,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     private static final int MOVIE_CARD_LARGE_VIEW = 0;
     private static final int MOVIE_CARD_SMALL_VIEW = 1;
 
-    private static boolean largeViewIntervalEnabled = false;
-    private static int largeViewInterval = 5;
+    private boolean largeViewIntervalEnabled = false;
+    private int largeViewInterval = 5;
 
     public interface OnBindViewHolderListener {
         void onBindViewHolder(MoviesViewHolder holder, int position);
@@ -42,21 +42,20 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         mOnBindViewHolderListener = onBindViewHolderListener;
     }
 
-    public static boolean isLargeViewIntervalEnabled() {
+    public boolean isLargeViewIntervalEnabled() {
         return largeViewIntervalEnabled;
     }
 
-    public static void setLargeViewIntervalEnabled(boolean largeViewIntervalEnabled) {
-        MoviesAdapter.largeViewIntervalEnabled = largeViewIntervalEnabled;
+    public void setLargeViewIntervalEnabled(boolean largeViewIntervalEnabled) {
+        this.largeViewIntervalEnabled = largeViewIntervalEnabled;
     }
 
-    public static int getLargeViewInterval() {
+    public int getLargeViewInterval() {
         return largeViewInterval;
     }
 
-    public static void setLargeViewInterval(int largeViewInterval) {
-        if (largeViewInterval < 1) return;
-        MoviesAdapter.largeViewInterval = largeViewInterval;
+    public void setLargeViewInterval(int largeViewInterval) {
+        this.largeViewInterval = largeViewInterval;
     }
 
     @Override
