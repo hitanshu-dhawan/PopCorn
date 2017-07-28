@@ -29,28 +29,7 @@ public class MoviesHighLightsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movies_popular, container, false);
-
-        // TESTING
-        String APIKEY = getResources().getString(R.string.MOVIE_DB_API_KEY);
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<PopularMovieResponse> call = apiService.getPopularMovies(APIKEY,1);
-        call.enqueue(new Callback<PopularMovieResponse>() {
-            @Override
-            public void onResponse(Call<PopularMovieResponse> call, Response<PopularMovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
-                for(int i=0;i<movies.size();i++)
-                    Log.d("TAGG",movies.get(i).getTitle());
-            }
-
-            @Override
-            public void onFailure(Call<PopularMovieResponse> call, Throwable t) {
-
-            }
-        });
-        // TESTING
-
-
+        View view = inflater.inflate(R.layout.fragment_movies_highlights, container, false);
         return view;
     }
 
