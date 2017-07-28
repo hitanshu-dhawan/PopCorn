@@ -48,7 +48,6 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:paddingRight="16dp"
-            android:background="@android:color/darker_gray"
             android:gravity="right">
 
             <FrameLayout
@@ -58,7 +57,7 @@
                 android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_favorite_border_black_24dp"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>
@@ -70,7 +69,7 @@
                 android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_turned_in_not_black_24dp"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>
@@ -82,7 +81,7 @@
                 android:layout_marginRight="16dp">
                 <ImageButton
                     android:src="@mipmap/ic_share_black_24dp"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>

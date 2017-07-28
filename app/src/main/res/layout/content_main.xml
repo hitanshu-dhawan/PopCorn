@@ -8,7 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.hitanshudhawan.popcorn.MainActivity"
     tools:showIn="@layout/app_bar_main"
-    android:background="@android:color/background_dark">
+    android:background="@android:color/white">
 
     <fragment
         android:id="@+id/main_activity_fragment"
