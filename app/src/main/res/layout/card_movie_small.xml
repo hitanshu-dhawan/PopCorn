@@ -33,7 +33,10 @@
                 android:background="#AF000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"/>
 
         </RelativeLayout>
 
