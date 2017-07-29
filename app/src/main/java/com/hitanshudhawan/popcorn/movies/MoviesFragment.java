@@ -29,6 +29,7 @@ public class MoviesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
         mMoviesViewPager = (ViewPager) view.findViewById(R.id.movies_view_pager);
+        mMoviesViewPager.setOffscreenPageLimit(3);
         mMoviesViewPager.setAdapter(new MoviesPagerAdapter(getChildFragmentManager()));
 
         return view;
