@@ -57,7 +57,8 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:paddingRight="16dp"
-            android:gravity="right">
+            android:gravity="right"
+            android:alpha="0.7">
 
             <FrameLayout
                 android:layout_width="wrap_content"

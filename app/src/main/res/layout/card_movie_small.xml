@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:paddingBottom="16dp"
+            android:alpha="0.7">
 
             <FrameLayout
                 android:layout_width="0dp"
