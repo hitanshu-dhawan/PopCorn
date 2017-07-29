@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -87,11 +88,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         public ImageView movieImageView;
         public TextView movieTitleTextView;
+        public LinearLayout movieBottomBar;
 
         public MoviesViewHolder(View itemView) {
             super(itemView);
             movieImageView = (ImageView) itemView.findViewById(R.id.movie_imageview);
             movieTitleTextView = (TextView) itemView.findViewById(R.id.movie_title_textview);
+            movieBottomBar = (LinearLayout) itemView.findViewById(R.id.movie_bottom_bar);
         }
     }
 
