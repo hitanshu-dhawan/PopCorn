@@ -84,22 +84,11 @@ public class MoviesNowShowingFragment extends Fragment {
 
                                 @Override
                                 public boolean onResourceReady(final Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                                    Palette palette = Palette.generate(resource);
-//                                    Palette.Swatch swatch = palette.getVibrantSwatch();
-//                                    if(swatch != null)
-//                                        holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
-                                    Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                                        @Override
-                                        public void onGenerated(Palette palette) {
-                                            List<Palette.Swatch> swatches = palette.getSwatches();
-                                            for (Palette.Swatch swatch : swatches) {
-                                                if (swatch != null) {
-                                                    holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    });
+                                    Palette palette = Palette.generate(resource);
+                                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                                    if(swatch != null) {
+                                        holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
+                                    }
                                     return false;
                                 }
                             })
@@ -119,22 +108,11 @@ public class MoviesNowShowingFragment extends Fragment {
 
                                 @Override
                                 public boolean onResourceReady(final Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                                    Palette palette = Palette.generate(resource);
-//                                    Palette.Swatch swatch = palette.getVibrantSwatch();
-//                                    if(swatch != null)
-//                                        holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
-                                    Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
-                                        @Override
-                                        public void onGenerated(Palette palette) {
-                                            List<Palette.Swatch> swatches = palette.getSwatches();
-                                            for (Palette.Swatch swatch : swatches) {
-                                                if (swatch != null) {
-                                                    holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    });
+                                    Palette palette = Palette.generate(resource);
+                                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                                    if(swatch != null) {
+                                        holder.movieBottomBar.setBackgroundColor(swatch.getRgb());
+                                    }
                                     return false;
                                 }
                             })
