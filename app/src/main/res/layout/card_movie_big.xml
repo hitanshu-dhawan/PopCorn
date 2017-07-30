@@ -40,13 +40,15 @@
 
                 <TextView
                     android:id="@+id/textview_title_movie_card"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/card_big_title_width"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_margin="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
                 <TextView
                     android:id="@+id/textview_rating_movie_card"
@@ -74,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="8dp"
-            android:background="@android:color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@mipmap/ic_favorite_border_black_18dp"
             android:tint="@android:color/darker_gray" />
 

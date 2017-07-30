@@ -3,6 +3,7 @@ package com.hitanshudhawan.popcorn.network;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMovieResponse;
+import com.hitanshudhawan.popcorn.network.movies.TopRatedMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMovieResponse;
 
 import retrofit2.Call;
@@ -24,6 +25,9 @@ public interface ApiInterface {
 
     @GET("movie/upcoming")
     Call<UpcomingMovieResponse> getUpcomingMovies(@Query("api_key") String apiKey, @Query("page") Integer page, @Query("region") String region);
+
+    @GET("movie/top_rated")
+    Call<TopRatedMovieResponse> getTopRatedMovies(@Query("api_key") String apiKey, @Query("page") Integer page, @Query("region") String region);
 
     @GET("movie/{id}")
     Call<Movie> getMovieDetails(@Path("id") Integer id, @Query("api_key") String apiKey);

@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.movies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,17 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + "\u2605");
+        if(mMovies.get(position).getVoteAverage() > 0)
+            holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + "\u2605");
+        else
+            holder.movieRatingTextView.setVisibility(View.GONE);
         holder.movieGenreTextView.setText("Drama,Crime,Thriller");
-        //holder.movieFavImageButton.setOnClickListener();
+        holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            }
+        });
     }
 
     @Override

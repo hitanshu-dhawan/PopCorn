@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.movies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,12 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        //holder.movieFavImageButton.setOnClickListener();
+        holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            }
+        });
     }
 
     @Override
