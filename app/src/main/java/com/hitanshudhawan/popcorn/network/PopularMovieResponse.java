@@ -17,9 +17,9 @@ public class PopularMovieResponse {
     @SerializedName("total_pages")
     private Integer totalPages;
     @SerializedName("results")
-    private List<Movie> results;
+    private List<MovieBrief> results;
 
-    public PopularMovieResponse(Integer page, Integer totalResults, Integer totalPages, List<Movie> results) {
+    public PopularMovieResponse(Integer page, Integer totalResults, Integer totalPages, List<MovieBrief> results) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
@@ -50,11 +50,11 @@ public class PopularMovieResponse {
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getResults() {
+    public List<MovieBrief> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<MovieBrief> results) {
         this.results = results;
     }
 }

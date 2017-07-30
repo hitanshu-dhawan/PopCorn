@@ -24,7 +24,7 @@ import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.movies.adapters.MoviesAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.Movie;
+import com.hitanshudhawan.popcorn.network.MovieBrief;
 import com.hitanshudhawan.popcorn.network.NowShowingMovieResponse;
 import com.hitanshudhawan.popcorn.network.PopularMovieResponse;
 
@@ -45,7 +45,7 @@ import retrofit2.Response;
 public class MoviesNowShowingFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private List<Movie> mMovies;
+    private List<MovieBrief> mMovies;
     private MoviesAdapter mMoviesAdapter;
 
     private boolean pagesOver;

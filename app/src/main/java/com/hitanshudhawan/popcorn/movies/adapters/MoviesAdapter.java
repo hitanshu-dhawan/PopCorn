@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.network.Movie;
+import com.hitanshudhawan.popcorn.network.MovieBrief;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
     private Context mContext;
-    private List<Movie> mMovies;
+    private List<MovieBrief> mMovies;
     private OnBindViewHolderListener mOnBindViewHolderListener;
 
     private static final int MOVIE_CARD_LARGE_VIEW = 0;
@@ -37,7 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         void onBindViewHolder(MoviesViewHolder holder, int position);
     }
 
-    public MoviesAdapter(Context context, List<Movie> movies, OnBindViewHolderListener onBindViewHolderListener) {
+    public MoviesAdapter(Context context, List<MovieBrief> movies, OnBindViewHolderListener onBindViewHolderListener) {
         mContext = context;
         mMovies = movies;
         mOnBindViewHolderListener = onBindViewHolderListener;

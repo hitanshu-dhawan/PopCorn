@@ -11,7 +11,7 @@ import java.util.List;
 public class NowShowingMovieResponse {
 
     @SerializedName("results")
-    private List<Movie> results;
+    private List<MovieBrief> results;
     @SerializedName("page")
     private Integer page;
     @SerializedName("total_results")
@@ -20,18 +20,18 @@ public class NowShowingMovieResponse {
     @SerializedName("total_pages")
     private Integer totalPages;
 
-    public NowShowingMovieResponse(List<Movie> results, Integer page, Integer totalResults, Integer totalPages) {
+    public NowShowingMovieResponse(List<MovieBrief> results, Integer page, Integer totalResults, Integer totalPages) {
         this.results = results;
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getResults() {
+    public List<MovieBrief> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<MovieBrief> results) {
         this.results = results;
     }
 
@@ -58,5 +58,4 @@ public class NowShowingMovieResponse {
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
     }
-
 }

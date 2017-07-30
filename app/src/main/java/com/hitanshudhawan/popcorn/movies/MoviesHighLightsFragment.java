@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.Movie;
 import com.hitanshudhawan.popcorn.network.PopularMovieResponse;
 
 import java.util.List;
