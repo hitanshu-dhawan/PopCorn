@@ -15,8 +15,8 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:layout_width="354dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/card_big_width"
+            android:layout_height="@dimen/card_big_height"
             android:layout_weight="1">
 
             <RelativeLayout
@@ -65,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:maxLines="1" />
 
         <ImageButton
             android:id="@+id/imagebutton_fav_movie_card"
