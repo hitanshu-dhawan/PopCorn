@@ -2,83 +2,80 @@ package com.hitanshudhawan.popcorn.movies;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hitanshudhawan.popcorn.MainActivity;
+import com.bumptech.glide.load.engine.Resource;
 import com.hitanshudhawan.popcorn.R;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.hitanshudhawan.popcorn.network.ApiClient;
+import com.hitanshudhawan.popcorn.network.ApiInterface;
+import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
- * Created by hitanshu on 27/7/17.
+ * Created by hitanshu on 30/7/17.
  */
 
 public class MoviesFragment extends Fragment {
 
-    ViewPager mMoviesViewPager;
+    SnapHelper snapHelper;
+
+    RecyclerView mNowShowingRecyclerView;
+    List<MovieBrief> mNowShowingMovies;
+    MoviesBigAdapter mMoviesBigAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        snapHelper = new LinearSnapHelper();
 
-        mMoviesViewPager = (ViewPager) view.findViewById(R.id.movies_view_pager);
-        mMoviesViewPager.setOffscreenPageLimit(3);
-        mMoviesViewPager.setAdapter(new MoviesPagerAdapter(getChildFragmentManager()));
+        mNowShowingRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_now_showing);
+        snapHelper.attachToRecyclerView(mNowShowingRecyclerView);
+
+        mNowShowingMovies = new ArrayList<>();
+
+        mMoviesBigAdapter = new MoviesBigAdapter(getContext(),mNowShowingMovies);
+
+        mNowShowingRecyclerView.setAdapter(mMoviesBigAdapter);
+        mNowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        loadNowShowingMovies();
+
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        SmartTabLayout tabLayout = (SmartTabLayout) ((MainActivity)getActivity()).findViewById(R.id.tab_layout);
-        tabLayout.setViewPager(mMoviesViewPager);
-    }
-
-    public class MoviesPagerAdapter extends FragmentPagerAdapter {
-
-        public MoviesPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new MoviesHighLightsFragment();
-                case 1:
-                    return new MoviesNowShowingFragment();
-                case 2:
-                    return new MoviesUpcomingFragment();
+    private void loadNowShowingMovies() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        call.enqueue(new Callback<NowShowingMovieResponse>() {
+            @Override
+            public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {
+                if(response.code() != 200) return;
+                for(MovieBrief movieBrief : response.body().getResults()) {
+                    if(movieBrief.getBackdropPath() != null)
+                        mNowShowingMovies.add(movieBrief);
+                }
+                mMoviesBigAdapter.notifyDataSetChanged();
             }
-            return null;
-        }
 
-        @Override
-        public int getCount() {
-            return 3;
-        }
+            @Override
+            public void onFailure(Call<NowShowingMovieResponse> call, Throwable t) {
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getResources().getString(R.string.highlights);
-                case 1:
-                    return getResources().getString(R.string.now_showing);
-                case 2:
-                    return getResources().getString(R.string.upcoming);
             }
-            return null;
-        }
+        });
     }
-
 }
-

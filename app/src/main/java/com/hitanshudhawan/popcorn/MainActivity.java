@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout mDrawer;
     NavigationView mNavigationView;
-    SmartTabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
 
-        mTabLayout = (SmartTabLayout) findViewById(R.id.tab_layout);
     }
 
     @Override
