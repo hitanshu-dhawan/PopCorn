@@ -64,11 +64,13 @@
 
         <TextView
             android:id="@+id/textview_genre_movie_card"
+            android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         <ImageButton
             android:id="@+id/imagebutton_fav_movie_card"

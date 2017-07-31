@@ -14,9 +14,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.movies.FavouriteMoviesUtil;
+import com.hitanshudhawan.popcorn.network.ApiClient;
+import com.hitanshudhawan.popcorn.network.ApiInterface;
+import com.hitanshudhawan.popcorn.network.movies.Genre;
+import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by hitanshu on 30/7/17.
@@ -49,7 +59,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
             holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + "\u2605");
         else
             holder.movieRatingTextView.setVisibility(View.GONE);
-        holder.movieGenreTextView.setText("Drama,Crime,Thriller"); //todo
+        setGenres(holder, mMovies.get(position).getId());
         holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +91,32 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
             movieGenreTextView = (TextView) itemView.findViewById(R.id.textview_genre_movie_card);
             movieFavImageButton = (ImageButton) itemView.findViewById(R.id.imagebutton_fav_movie_card);
         }
+    }
+
+    private void setGenres(final MoviesViewHolder holder, Integer movieId) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Movie> call = apiService.getMovieDetails(movieId,mContext.getResources().getString(R.string.MOVIE_DB_API_KEY));
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                List<Genre> genresList = response.body().getGenres();
+                String genres = "";
+                for (int i=0;i<genresList.size();i++) {
+                    if(i == genresList.size()-1) {
+                        genres = genres.concat(genresList.get(i).getGenreName());
+                    }
+                    else {
+                        genres = genres.concat(genresList.get(i).getGenreName()+", ");
+                    }
+                }
+                holder.movieGenreTextView.setText(genres);
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+
+            }
+        });
     }
 
 }

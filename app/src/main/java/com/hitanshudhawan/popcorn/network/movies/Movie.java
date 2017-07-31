@@ -17,7 +17,8 @@ public class Movie {
     //belongs_to_collection missing
     @SerializedName("budget")
     private Integer budget;
-    //genres missing
+    @SerializedName("genres")
+    List<Genre> genres;
     @SerializedName("homepage")
     private String homepage;
     @SerializedName("id")
@@ -56,14 +57,11 @@ public class Movie {
     @SerializedName("vote_count")
     private Integer voteCount;
 
-    public Movie(Boolean adult, String backdropPath, Integer budget, String homepage,
-                 Integer id, String imdbId, String originalLanguage, String originalTitle,
-                 String overview, Double popularity, String posterPath, String releaseDate,
-                 Integer revenue, Integer runtime, String status, String tagline,
-                 String title, Boolean video, Double voteAverage, Integer voteCount) {
+    public Movie(Boolean adult, String backdropPath, Integer budget, List<Genre> genres, String homepage, Integer id, String imdbId, String originalLanguage, String originalTitle, String overview, Double popularity, String posterPath, String releaseDate, Integer revenue, Integer runtime, String status, String tagline, String title, Boolean video, Double voteAverage, Integer voteCount) {
         this.adult = adult;
         this.backdropPath = backdropPath;
         this.budget = budget;
+        this.genres = genres;
         this.homepage = homepage;
         this.id = id;
         this.imdbId = imdbId;
@@ -105,6 +103,14 @@ public class Movie {
 
     public void setBudget(Integer budget) {
         this.budget = budget;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     public String getHomepage() {
