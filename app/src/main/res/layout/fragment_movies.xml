@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,9 +11,11 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/layout_now_showing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:text="Now Showing"
@@ -41,9 +44,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <FrameLayout
+            android:id="@+id/layout_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:text="Popular"
@@ -72,9 +77,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <FrameLayout
+            android:id="@+id/layout_upcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:text="Upcoming"
@@ -103,9 +110,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <FrameLayout
+            android:id="@+id/layout_top_rated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:text="Top Rated"

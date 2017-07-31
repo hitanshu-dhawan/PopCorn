@@ -38,9 +38,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(MainActivity.this);
+
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
-
+        setFragment(new MoviesFragment());
     }
 
     @Override

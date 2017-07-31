@@ -6,13 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
-import com.bumptech.glide.load.engine.Resource;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.movies.adapters.MoviesBigAdapter;
+import com.hitanshudhawan.popcorn.movies.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
@@ -34,18 +35,22 @@ import retrofit2.Response;
 
 public class MoviesFragment extends Fragment {
 
+    FrameLayout mNowShowingLayout;
     RecyclerView mNowShowingRecyclerView;
     List<MovieBrief> mNowShowingMovies;
     MoviesBigAdapter mNowShowingAdapter;
 
+    FrameLayout mPopularLayout;
     RecyclerView mPopularRecyclerView;
     List<MovieBrief> mPopularMovies;
     MoviesSmallAdapter mPopularAdapter;
 
+    FrameLayout mUpcomingLayout;
     RecyclerView mUpcomingRecyclerView;
     List<MovieBrief> mUpcomingMovies;
     MoviesBigAdapter mUpcomingAdapter;
 
+    FrameLayout mTopRatedLayout;
     RecyclerView mTopRatedRecyclerView;
     List<MovieBrief> mTopRatedMovies;
     MoviesSmallAdapter mTopRatedAdapter;
@@ -54,6 +59,11 @@ public class MoviesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
+
+        mNowShowingLayout = (FrameLayout) view.findViewById(R.id.layout_now_showing);
+        mPopularLayout = (FrameLayout) view.findViewById(R.id.layout_popular);
+        mUpcomingLayout = (FrameLayout) view.findViewById(R.id.layout_upcoming);
+        mTopRatedLayout = (FrameLayout) view.findViewById(R.id.layout_top_rated);
 
         mNowShowingRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_now_showing);
         (new LinearSnapHelper()).attachToRecyclerView(mNowShowingRecyclerView);
@@ -98,6 +108,7 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {
                 if(response.code() != 200) return;
+                mNowShowingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getBackdropPath() != null)
                         mNowShowingMovies.add(movieBrief);
@@ -119,6 +130,7 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onResponse(Call<PopularMovieResponse> call, Response<PopularMovieResponse> response) {
                 if(response.code() != 200) return;
+                mPopularLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getPosterPath() != null)
                         mPopularMovies.add(movieBrief);
@@ -140,6 +152,7 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onResponse(Call<UpcomingMovieResponse> call, Response<UpcomingMovieResponse> response) {
                 if(response.code() != 200) return;
+                mUpcomingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getBackdropPath() != null)
                         mUpcomingMovies.add(movieBrief);
@@ -161,6 +174,7 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onResponse(Call<TopRatedMovieResponse> call, Response<TopRatedMovieResponse> response) {
                 if(response.code() != 200) return;
+                mTopRatedLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getPosterPath() != null)
                         mTopRatedMovies.add(movieBrief);

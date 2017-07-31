@@ -25,6 +25,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
             android:maxLines="2"
             android:ellipsize="end"/>
 
@@ -36,7 +37,8 @@
             android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@mipmap/ic_favorite_border_black_18dp"
-            android:tint="@android:color/darker_gray" />
+            android:tint="@android:color/darker_gray"
+            android:tag="@string/not_favourite_movie"/>
 
 
     </LinearLayout>
