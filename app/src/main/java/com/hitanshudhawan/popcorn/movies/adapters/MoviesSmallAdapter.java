@@ -40,6 +40,10 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
 
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
+
+        holder.moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
+        holder.moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
+
         holder.movieCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

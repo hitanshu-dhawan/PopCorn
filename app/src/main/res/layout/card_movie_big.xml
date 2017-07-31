@@ -13,37 +13,40 @@
     app:cardCornerRadius="4dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <RelativeLayout
+            android:id="@+id/image_layout_movie_card"
             android:layout_width="@dimen/card_big_width"
-            android:layout_height="@dimen/card_big_height"
-            android:layout_weight="1">
+            android:layout_height="@dimen/card_big_height">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <FrameLayout
+                <ImageView
+                    android:id="@+id/imageview_movie_card"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent" />
 
-                    <ImageView
-                        android:id="@+id/imageview_movie_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/movie_gradient" />
+            </FrameLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/movie_gradient" />
-                </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:id="@+id/textview_title_movie_card"
-                    android:layout_width="@dimen/card_big_title_width"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
@@ -62,8 +65,9 @@
                     android:layout_margin="8dp"
                     android:textColor="@android:color/white" />
 
-            </RelativeLayout>
-        </FrameLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textview_genre_movie_card"

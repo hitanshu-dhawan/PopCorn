@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,10 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
 
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
+
+        holder.imageLayout.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.9);
+        holder.imageLayout.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.9)/1.77);
+
         holder.movieCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +91,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
     public class MoviesViewHolder extends RecyclerView.ViewHolder {
 
         public CardView movieCard;
+        public RelativeLayout imageLayout;
         public ImageView moviePosterImageView;
         public TextView movieTitleTextView;
         public TextView movieRatingTextView;
@@ -96,6 +102,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
         public MoviesViewHolder(View itemView) {
             super(itemView);
             movieCard = (CardView) itemView.findViewById(R.id.cardview_movie_card);
+            imageLayout = (RelativeLayout) itemView.findViewById(R.id.image_layout_movie_card);
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.imageview_movie_card);
             movieTitleTextView = (TextView) itemView.findViewById(R.id.textview_title_movie_card);
             movieRatingTextView = (TextView) itemView.findViewById(R.id.textview_rating_movie_card);
