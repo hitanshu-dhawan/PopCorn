@@ -54,7 +54,7 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
                 mContext.startActivity(intent);
             }
         });
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w780/" + mMovies.get(position).getPosterPath())
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

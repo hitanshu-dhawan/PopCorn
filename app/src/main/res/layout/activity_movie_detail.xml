@@ -28,21 +28,46 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax">
 
-                <ImageView
-                    android:id="@+id/image_view_backdrop"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true" >
 
-                <ImageView
-                    android:id="@+id/image_view_poster"
+                    <ImageView
+                        android:id="@+id/image_view_backdrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/progress_bar_backdrop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:indicatorName="LineScalePulseOutRapidIndicator"/>
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentBottom="true"/>
+                    android:layout_alignParentBottom="true" >
 
+                    <ImageView
+                        android:id="@+id/image_view_poster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:background="@android:color/darker_gray"/>
 
+                    <com.wang.avi.AVLoadingIndicatorView
+                        android:id="@+id/progress_bar_poster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:indicatorName="BallScaleMultipleIndicator"/>
+
+                </FrameLayout>
 
             </RelativeLayout>
 

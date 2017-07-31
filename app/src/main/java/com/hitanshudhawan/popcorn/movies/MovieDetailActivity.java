@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.movies;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,10 +13,13 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,9 +34,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView mPosterImageView;
     private int mPosterHeight;
     private int mPosterWidth;
+    AVLoadingIndicatorView mPosterProgressBar;
     private ImageView mBackdropImageView;
     private int mBackdropHeight;
     private int mBackdropWidth;
+    AVLoadingIndicatorView mBackdropProgressBar;
 
 
     @Override
@@ -58,9 +64,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         mPosterImageView = (ImageView) findViewById(R.id.image_view_poster);
         mPosterImageView.getLayoutParams().width = mPosterWidth;
         mPosterImageView.getLayoutParams().height = mPosterHeight;
+        mPosterProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_poster);
 
         mBackdropImageView = (ImageView) findViewById(R.id.image_view_backdrop);
         mBackdropImageView.getLayoutParams().height = mBackdropHeight;
+        mBackdropProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_backdrop);
 
         loadActivity();
     }
@@ -72,15 +80,41 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
                 if(response.code() != 200) return;
-                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w780/" + response.body().getPosterPath())
+                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                mPosterProgressBar.hide();
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                mPosterProgressBar.hide();
+                                return false;
+                            }
+                        })
                         .into(mPosterImageView);
-                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w780/" + response.body().getBackdropPath())
+                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getBackdropPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                mBackdropProgressBar.hide();
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                mBackdropProgressBar.hide();
+                                return false;
+                            }
+                        })
                         .into(mBackdropImageView);
             }
 

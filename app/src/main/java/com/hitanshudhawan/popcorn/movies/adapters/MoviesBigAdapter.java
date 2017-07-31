@@ -66,7 +66,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
                 mContext.startActivity(intent);
             }
         });
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w780/" + mMovies.get(position).getBackdropPath())
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
