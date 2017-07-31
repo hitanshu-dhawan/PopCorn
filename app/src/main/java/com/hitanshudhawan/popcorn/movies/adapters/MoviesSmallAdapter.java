@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.movies.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.HapticFeedbackConstants;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.movies.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 
 import java.util.List;
@@ -47,8 +49,9 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
         holder.movieCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "clicked", Toast.LENGTH_SHORT).show();
-                // TODO
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra("movie_id",mMovies.get(position).getId());
+                mContext.startActivity(intent);
             }
         });
         Glide.with(mContext).load("https://image.tmdb.org/t/p/w780/" + mMovies.get(position).getPosterPath())
