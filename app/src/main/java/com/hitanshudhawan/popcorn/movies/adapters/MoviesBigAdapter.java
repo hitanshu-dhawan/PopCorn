@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.movies.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -49,6 +51,13 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
 
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
+        holder.movieCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "clicked", Toast.LENGTH_SHORT).show();
+                // TODO
+            }
+        });
         Glide.with(mContext).load("https://image.tmdb.org/t/p/w780/" + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
@@ -76,6 +85,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
 
     public class MoviesViewHolder extends RecyclerView.ViewHolder {
 
+        public CardView movieCard;
         public ImageView moviePosterImageView;
         public TextView movieTitleTextView;
         public TextView movieRatingTextView;
@@ -85,6 +95,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
 
         public MoviesViewHolder(View itemView) {
             super(itemView);
+            movieCard = (CardView) itemView.findViewById(R.id.cardview_movie_card);
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.imageview_movie_card);
             movieTitleTextView = (TextView) itemView.findViewById(R.id.textview_title_movie_card);
             movieRatingTextView = (TextView) itemView.findViewById(R.id.textview_rating_movie_card);
