@@ -37,8 +37,7 @@
             android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@mipmap/ic_favorite_border_black_18dp"
-            android:tint="@android:color/darker_gray"
-            android:tag="@string/not_favourite_movie"/>
+            android:tint="@android:color/darker_gray" />
 
 
     </LinearLayout>

@@ -50,24 +50,11 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
         else
             holder.movieRatingTextView.setVisibility(View.GONE);
         holder.movieGenreTextView.setText("Drama,Crime,Thriller"); //todo
-        if(FavouriteMoviesUtil.isFavouriteMovie(mContext.getApplicationContext(), mMovies.get(position).getId()))
-            holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
-        else
-            holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
         holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                if(holder.movieFavImageButton.getTag().toString().equals(mContext.getResources().getString(R.string.not_favourite_movie))) {
-                    holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
-                    holder.movieFavImageButton.setTag(mContext.getResources().getString(R.string.favourite_movie));
-                    FavouriteMoviesUtil.addMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
-                }
-                else {
-                    holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
-                    holder.movieFavImageButton.setTag(mContext.getResources().getString(R.string.not_favourite_movie));
-                    FavouriteMoviesUtil.removeMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
-                }
+                // TODO
             }
         });
     }

@@ -14,6 +14,7 @@
             android:id="@+id/layout_now_showing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:padding="8dp"
             android:visibility="gone">
 
@@ -47,6 +48,7 @@
             android:id="@+id/layout_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:padding="8dp"
             android:visibility="gone">
 
@@ -80,6 +82,7 @@
             android:id="@+id/layout_upcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:padding="8dp"
             android:visibility="gone">
 
@@ -113,6 +116,7 @@
             android:id="@+id/layout_top_rated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:padding="8dp"
             android:visibility="gone">
 
