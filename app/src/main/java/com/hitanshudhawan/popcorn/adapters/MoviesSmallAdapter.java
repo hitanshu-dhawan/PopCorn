@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.movies.adapters;
+package com.hitanshudhawan.popcorn.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -20,6 +21,10 @@ import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,11 +39,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView mPosterImageView;
     private int mPosterHeight;
     private int mPosterWidth;
-    AVLoadingIndicatorView mPosterProgressBar;
+    private AVLoadingIndicatorView mPosterProgressBar;
     private ImageView mBackdropImageView;
     private int mBackdropHeight;
     private int mBackdropWidth;
-    AVLoadingIndicatorView mBackdropProgressBar;
+    private AVLoadingIndicatorView mBackdropProgressBar;
+
+    private TextView mOverviewTextView;
+    private TextView mReleaseAndRuntimeTextView;
 
 
     @Override
@@ -70,6 +78,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBackdropImageView.getLayoutParams().height = mBackdropHeight;
         mBackdropProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_backdrop);
 
+        mOverviewTextView = (TextView) findViewById(R.id.textview_overview_movie_detail);
+        mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.textview_release_and_runtime_movie_detail);
+
         loadActivity();
     }
 
@@ -90,7 +101,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 mPosterProgressBar.hide();
                                 return false;
                             }
-
                             @Override
                             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                                 mPosterProgressBar.hide();
@@ -108,7 +118,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                                 mBackdropProgressBar.hide();
                                 return false;
                             }
-
                             @Override
                             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                                 mBackdropProgressBar.hide();
@@ -116,6 +125,17 @@ public class MovieDetailActivity extends AppCompatActivity {
                             }
                         })
                         .into(mBackdropImageView);
+                mOverviewTextView.setText(response.body().getOverview());
+//                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+//                SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+//                try {
+//                    Date releaseDate = sdf1.parse(response.body().getReleaseDate());
+//                    String releaseDateString = sdf2.format(releaseDate);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+                // TODO release and Runtime
+
             }
 
             @Override

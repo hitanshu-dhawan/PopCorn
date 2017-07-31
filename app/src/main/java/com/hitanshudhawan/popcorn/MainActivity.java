@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.hitanshudhawan.popcorn.movies.MoviesFragment;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.adapters.MoviesBigAdapter;
-import com.hitanshudhawan.popcorn.movies.adapters.MoviesSmallAdapter;
+import com.hitanshudhawan.popcorn.adapters.MoviesBigAdapter;
+import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;

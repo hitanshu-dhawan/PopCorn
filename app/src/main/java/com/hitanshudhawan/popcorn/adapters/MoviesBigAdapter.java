@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.movies.adapters;
+package com.hitanshudhawan.popcorn.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,21 +12,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.FavouriteMoviesUtil;
 import com.hitanshudhawan.popcorn.movies.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
