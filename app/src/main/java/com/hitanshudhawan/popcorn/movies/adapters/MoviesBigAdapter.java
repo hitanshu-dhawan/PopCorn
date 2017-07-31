@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.FavouriteMovies;
+import com.hitanshudhawan.popcorn.movies.FavouriteMoviesUtil;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
         else
             holder.movieRatingTextView.setVisibility(View.GONE);
         holder.movieGenreTextView.setText("Drama,Crime,Thriller"); //todo
-        if(FavouriteMovies.isFavouriteMovie(mContext.getApplicationContext(), mMovies.get(position).getId()))
+        if(FavouriteMoviesUtil.isFavouriteMovie(mContext.getApplicationContext(), mMovies.get(position).getId()))
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
         else
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
@@ -61,12 +61,12 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
                 if(holder.movieFavImageButton.getTag().toString().equals(mContext.getResources().getString(R.string.not_favourite_movie))) {
                     holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
                     holder.movieFavImageButton.setTag(mContext.getResources().getString(R.string.favourite_movie));
-                    FavouriteMovies.addMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
+                    FavouriteMoviesUtil.addMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
                 }
                 else {
                     holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
                     holder.movieFavImageButton.setTag(mContext.getResources().getString(R.string.not_favourite_movie));
-                    FavouriteMovies.removeMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
+                    FavouriteMoviesUtil.removeMovie(mContext.getApplicationContext(), mMovies.get(position).getId());
                 }
             }
         });

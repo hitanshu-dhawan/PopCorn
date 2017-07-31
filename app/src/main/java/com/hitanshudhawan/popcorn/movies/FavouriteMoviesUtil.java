@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by hitanshu on 31/7/17.
  */
 
-public class FavouriteMovies {
+public class FavouriteMoviesUtil {
 
     private static final String SHARED_PREFERENCES_FILE_NAME = "FavouriteMovies";
     private static final String SHARED_PREFERENCES_KEY = "favouriteMovies";
