@@ -91,6 +91,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
                 if(response.code() != 200) return;
+
                 Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
@@ -108,6 +109,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             }
                         })
                         .into(mPosterImageView);
+
                 Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getBackdropPath())
                         .asBitmap()
                         .centerCrop()
@@ -125,16 +127,31 @@ public class MovieDetailActivity extends AppCompatActivity {
                             }
                         })
                         .into(mBackdropImageView);
+
                 mOverviewTextView.setText(response.body().getOverview());
-//                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-//                SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
-//                try {
-//                    Date releaseDate = sdf1.parse(response.body().getReleaseDate());
-//                    String releaseDateString = sdf2.format(releaseDate);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-                // TODO release and Runtime
+
+                String releaseAndRuntimeString = "";
+                if(response.body().getReleaseDate() != null) {
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+                    try {
+                        Date releaseDate = sdf1.parse(response.body().getReleaseDate());
+                        releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    releaseAndRuntimeString = "-\n";
+                }
+                if(response.body().getRuntime() != 0) {
+                    releaseAndRuntimeString += response.body().getRuntime() + " mins";
+                }
+                else {
+                    releaseAndRuntimeString += "-";
+                }
+                mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
+
 
             }
 
