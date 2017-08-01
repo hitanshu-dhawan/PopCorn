@@ -25,10 +25,12 @@
             android:layout_marginRight="8dp"/>
 
         <LinearLayout
+            android:id="@+id/layout_release_and_runtime_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:text="Release Date \nRuntime "
