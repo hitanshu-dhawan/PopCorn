@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.MovieDetailActivity;
+import com.hitanshudhawan.popcorn.movies.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
@@ -62,7 +62,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
                 mContext.startActivity(intent);
             }
         });
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -100,13 +100,13 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
 
         public MoviesViewHolder(View itemView) {
             super(itemView);
-            movieCard = (CardView) itemView.findViewById(R.id.cardview_movie_card);
+            movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_card);
             imageLayout = (RelativeLayout) itemView.findViewById(R.id.image_layout_movie_card);
-            moviePosterImageView = (ImageView) itemView.findViewById(R.id.imageview_movie_card);
-            movieTitleTextView = (TextView) itemView.findViewById(R.id.textview_title_movie_card);
-            movieRatingTextView = (TextView) itemView.findViewById(R.id.textview_rating_movie_card);
-            movieGenreTextView = (TextView) itemView.findViewById(R.id.textview_genre_movie_card);
-            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.imagebutton_fav_movie_card);
+            moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_card);
+            movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_movie_card);
+            movieRatingTextView = (TextView) itemView.findViewById(R.id.text_view_rating_movie_card);
+            movieGenreTextView = (TextView) itemView.findViewById(R.id.text_view_genre_movie_card);
+            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
         }
     }
 
@@ -116,6 +116,7 @@ public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.Movi
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
+                if(response.code() != 200) return;
                 List<Genre> genresList = response.body().getGenres();
                 String genres = "";
                 for (int i=0;i<genresList.size();i++) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview_movie_card"
+    android:id="@+id/card_view_movie_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -18,12 +18,12 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageview_movie_card"
+            android:id="@+id/image_view_movie_card"
             android:layout_width="@dimen/card_small_width"
             android:layout_height="@dimen/card_small_height" />
 
         <TextView
-            android:id="@+id/textview_title_movie_card"
+            android:id="@+id/text_view_title_movie_card"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="8dp"
@@ -33,7 +33,7 @@
             android:ellipsize="end"/>
 
         <ImageButton
-            android:id="@+id/imagebutton_fav_movie_card"
+            android:id="@+id/image_button_fav_movie_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

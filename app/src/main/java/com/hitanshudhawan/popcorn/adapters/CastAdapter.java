@@ -31,13 +31,13 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CastAdapter.CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.cast_item,parent,false));
+        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.cast_item,parent,false));
     }
 
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
 
-        Glide.with(mContext).load("https://image.tmdb.org/t/p/w1000/" + mCasts.get(position).getProfilePath())
+        Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w185/" + mCasts.get(position).getProfilePath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -63,9 +63,9 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
         public CastViewHolder(View itemView) {
             super(itemView);
-            castImageView = (ImageView) itemView.findViewById(R.id.imageview_cast);
-            nameTextView = (TextView) itemView.findViewById(R.id.textview_cast_name);
-            characterTextView = (TextView) itemView.findViewById(R.id.textview_cast_as);
+            castImageView = (ImageView) itemView.findViewById(R.id.image_view_cast);
+            nameTextView = (TextView) itemView.findViewById(R.id.text_view_cast_name);
+            characterTextView = (TextView) itemView.findViewById(R.id.text_view_cast_as);
         }
     }
 

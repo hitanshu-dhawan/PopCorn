@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview_movie_card"
+    android:id="@+id/card_view_movie_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageview_movie_card"
+                    android:id="@+id/image_view_movie_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -44,7 +44,7 @@
                 android:layout_alignParentBottom="true">
 
                 <TextView
-                    android:id="@+id/textview_title_movie_card"
+                    android:id="@+id/text_view_title_movie_card"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     android:ellipsize="end"/>
 
                 <TextView
-                    android:id="@+id/textview_rating_movie_card"
+                    android:id="@+id/text_view_rating_movie_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -70,7 +70,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/textview_genre_movie_card"
+            android:id="@+id/text_view_genre_movie_card"
             android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:ellipsize="end"/>
 
         <ImageButton
-            android:id="@+id/imagebutton_fav_movie_card"
+            android:id="@+id/image_button_fav_movie_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -1,12 +1,9 @@
-package com.hitanshudhawan.popcorn;
+package com.hitanshudhawan.popcorn.movies;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.solver.widgets.ConstraintAnchor;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,13 +19,15 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.CastAdapter;
-import com.hitanshudhawan.popcorn.adapters.MoviesBigAdapter;
+import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Cast;
 import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
+import com.hitanshudhawan.popcorn.network.movies.Video;
+import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -63,6 +61,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mOverviewTextView;
     private LinearLayout mReleaseAndRuntimeTextLayout;
     private TextView mReleaseAndRuntimeTextView;
+
+    private TextView mTrailerTextView;
+    private RecyclerView mTrailerRecyclerView;
+    private List<Video> mTrailers;
+    private VideoAdapter mTrailerAdapter;
+
+    private View mHorizontalLine;
 
     private TextView mCastTextView;
     private RecyclerView mCastRecyclerView;
@@ -99,15 +104,24 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBackdropImageView.getLayoutParams().height = mBackdropHeight;
         mBackdropProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_backdrop);
 
-        mTitleTextView = (TextView) findViewById(R.id.textview_title_movie_detail);
-        mGenreTextView = (TextView) findViewById(R.id.textview_genre_movie_detail);
-        mYearTextView = (TextView) findViewById(R.id.textview_year_movie_detail);
+        mTitleTextView = (TextView) findViewById(R.id.text_view_title_movie_detail);
+        mGenreTextView = (TextView) findViewById(R.id.text_view_genre_movie_detail);
+        mYearTextView = (TextView) findViewById(R.id.text_view_year_movie_detail);
 
-        mOverviewTextView = (TextView) findViewById(R.id.textview_overview_movie_detail);
+        mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
         mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_movie_detail);
-        mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.textview_release_and_runtime_movie_detail);
+        mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.text_view_release_and_runtime_movie_detail);
 
-        mCastTextView = (TextView) findViewById(R.id.textview_cast_movie_detail);
+        mTrailerTextView = (TextView) findViewById(R.id.text_view_trailer_movie_detail);
+        mTrailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_movie_detail);
+        mTrailers = new ArrayList<>();
+        mTrailerAdapter = new VideoAdapter(MovieDetailActivity.this, mTrailers);
+        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
+        mTrailerRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        mHorizontalLine = (View) findViewById(R.id.view_horizontal_line);
+
+        mCastTextView = (TextView) findViewById(R.id.text_view_cast_movie_detail);
         mCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_cast_movie_detail);
         mCasts = new ArrayList<>();
         mCastAdapter = new CastAdapter(MovieDetailActivity.this, mCasts);
@@ -172,7 +186,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
                 setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
 
-                mCastTextView.setVisibility(View.VISIBLE);
+                setTrailers();
+
+                mHorizontalLine.setVisibility(View.VISIBLE);
+
                 setCasts();
 
             }
@@ -239,12 +256,36 @@ public class MovieDetailActivity extends AppCompatActivity {
         mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
     }
 
+    private void setTrailers() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<VideosResponse> call = apiService.getMovieVideos(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        call.enqueue(new Callback<VideosResponse>() {
+            @Override
+            public void onResponse(Call<VideosResponse> call, Response<VideosResponse> response) {
+                if(response.code() != 200) return;
+                mTrailerTextView.setVisibility(View.VISIBLE);
+                for(Video video : response.body().getVideos()) {
+                    if(video.getSite().equals("YouTube") && video.getType().equals("Trailer"))
+                        mTrailers.add(video);
+                }
+                mTrailerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<VideosResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void setCasts() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<CreditsResponse> call = apiService.getMovieCredits(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
         call.enqueue(new Callback<CreditsResponse>() {
             @Override
             public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
+                if(response.code() != 200) return;
+                mCastTextView.setVisibility(View.VISIBLE);
                 mCasts.addAll(response.body().getCasts());
                 mCastAdapter.notifyDataSetChanged();
             }

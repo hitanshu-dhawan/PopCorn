@@ -6,6 +6,7 @@ import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMovieResponse;
+import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -35,4 +36,8 @@ public interface ApiInterface {
 
     @GET("movie/{id}/credits")
     Call<CreditsResponse> getMovieCredits(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/{id}/videos")
+    Call<VideosResponse> getMovieVideos(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
 }
