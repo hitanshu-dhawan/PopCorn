@@ -56,7 +56,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_cast_movie_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
