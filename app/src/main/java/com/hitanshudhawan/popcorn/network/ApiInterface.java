@@ -1,5 +1,6 @@
 package com.hitanshudhawan.popcorn.network;
 
+import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMovieResponse;
@@ -30,5 +31,8 @@ public interface ApiInterface {
     Call<TopRatedMovieResponse> getTopRatedMovies(@Query("api_key") String apiKey, @Query("page") Integer page, @Query("region") String region);
 
     @GET("movie/{id}")
-    Call<Movie> getMovieDetails(@Path("id") Integer id, @Query("api_key") String apiKey);
+    Call<Movie> getMovieDetails(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/{id}/credits")
+    Call<CreditsResponse> getMovieCredits(@Path("id") Integer movieId, @Query("api_key") String apiKey);
 }

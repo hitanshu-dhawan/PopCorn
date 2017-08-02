@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.movies;
+package com.hitanshudhawan.popcorn;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +8,8 @@ import android.support.constraint.solver.widgets.ConstraintAnchor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,15 +22,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.adapters.CastAdapter;
 import com.hitanshudhawan.popcorn.adapters.MoviesBigAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
+import com.hitanshudhawan.popcorn.network.movies.Cast;
+import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +63,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mOverviewTextView;
     private LinearLayout mReleaseAndRuntimeTextLayout;
     private TextView mReleaseAndRuntimeTextView;
+
+    private TextView mCastTextView;
+    private RecyclerView mCastRecyclerView;
+    private List<Cast> mCasts;
+    private CastAdapter mCastAdapter;
 
 
     @Override
@@ -95,6 +106,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         mOverviewTextView = (TextView) findViewById(R.id.textview_overview_movie_detail);
         mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_movie_detail);
         mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.textview_release_and_runtime_movie_detail);
+
+        mCastTextView = (TextView) findViewById(R.id.textview_cast_movie_detail);
+        mCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_cast_movie_detail);
+        mCasts = new ArrayList<>();
+        mCastAdapter = new CastAdapter(MovieDetailActivity.this, mCasts);
+        mCastRecyclerView.setAdapter(mCastAdapter);
+        mCastRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         loadActivity();
     }
@@ -145,35 +163,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 mTitleTextView.setText(response.body().getTitle());
 
-                setGenres(mMovieId, response.body().getGenres());
+                setGenres(response.body().getGenres());
 
-                setYear(mMovieId, response.body().getReleaseDate());
+                setYear(response.body().getReleaseDate());
 
                 mOverviewTextView.setText(response.body().getOverview());
 
                 mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
-                String releaseAndRuntimeString = "";
-                if(response.body().getReleaseDate() != null) {
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
-                    try {
-                        Date releaseDate = sdf1.parse(response.body().getReleaseDate());
-                        releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-                    releaseAndRuntimeString = "-\n";
-                }
-                if(response.body().getRuntime() != 0) {
-                    releaseAndRuntimeString += response.body().getRuntime() + " mins";
-                }
-                else {
-                    releaseAndRuntimeString += "-";
-                }
-                mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
+                setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
 
+                mCastTextView.setVisibility(View.VISIBLE);
+                setCasts();
 
             }
 
@@ -184,7 +184,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void setGenres(Integer movieId, List<Genre> genresList) {
+    private void setGenres(List<Genre> genresList) {
         String genres = "";
         for (int i=0;i<genresList.size();i++) {
             if(i == genresList.size()-1) {
@@ -197,7 +197,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mGenreTextView.setText(genres);
     }
 
-    private void setYear(Integer movieId, String releaseDateString) {
+    private void setYear(String releaseDateString) {
         if(releaseDateString != null) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
@@ -209,4 +209,51 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void setReleaseAndRuntime(String releaseString, Integer runtime) {
+        String releaseAndRuntimeString = "";
+        if(releaseString != null) {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+            try {
+                Date releaseDate = sdf1.parse(releaseString);
+                releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            releaseAndRuntimeString = "-\n";
+        }
+        if(runtime != 0) {
+            if(runtime < 60) {
+                releaseAndRuntimeString += runtime + " min(s)";
+            }
+            else {
+                releaseAndRuntimeString += runtime/60 + " hr " + runtime%60 + " mins";
+            }
+        }
+        else {
+            releaseAndRuntimeString += "-";
+        }
+        mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
+    }
+
+    private void setCasts() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CreditsResponse> call = apiService.getMovieCredits(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        call.enqueue(new Callback<CreditsResponse>() {
+            @Override
+            public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
+                mCasts.addAll(response.body().getCasts());
+                mCastAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<CreditsResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

@@ -5,12 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.hitanshudhawan.popcorn.movies.MovieDetailActivity"
+    tools:context="com.hitanshudhawan.popcorn.MovieDetailActivity"
     tools:showIn="@layout/activity_movie_detail"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingBottom="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,19 +19,19 @@
             android:id="@+id/textview_overview_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <LinearLayout
             android:id="@+id/layout_release_and_runtime_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="8dp"
+            android:layout_margin="16dp"
             android:visibility="gone">
 
             <TextView
-                android:text="Release Date \nRuntime "
+                android:text="Release Date  \nRuntime  "
                 android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -44,6 +42,22 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_cast_movie_detail"
+            android:text="Cast"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_cast_movie_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
