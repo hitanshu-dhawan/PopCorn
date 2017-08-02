@@ -19,8 +19,8 @@
         <ImageView
             android:id="@+id/image_view_video"
             android:background="@android:color/darker_gray"
-            android:layout_width="160dp"
-            android:layout_height="90dp" />
+            android:layout_width="240dp"
+            android:layout_height="135dp" />
 
     </android.support.v7.widget.CardView>
 

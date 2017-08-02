@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.hitanshudhawan.popcorn.movies.MovieDetailActivity"
-    tools:showIn="@layout/activity_movie_detail"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    tools:showIn="@layout/activity_movie_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +17,7 @@
             android:id="@+id/text_view_overview_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
 
@@ -86,6 +85,26 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">
         </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/text_view_similar_movie_detail"
+            android:text="Similar Movies"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_similar_movie_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="8dp">
+        </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 

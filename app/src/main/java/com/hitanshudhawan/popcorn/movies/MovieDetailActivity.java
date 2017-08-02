@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.CastAdapter;
+import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
@@ -26,6 +28,8 @@ import com.hitanshudhawan.popcorn.network.movies.Cast;
 import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
+import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.Video;
 import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -74,6 +78,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private List<Cast> mCasts;
     private CastAdapter mCastAdapter;
 
+    private TextView mSimilarMoviesTextView;
+    private RecyclerView mSimilarMoviesRecyclerView;
+    private List<MovieBrief> mSimilarMovies;
+    private MoviesSmallAdapter mSimilarMoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +122,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mTrailerTextView = (TextView) findViewById(R.id.text_view_trailer_movie_detail);
         mTrailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_movie_detail);
+        (new LinearSnapHelper()).attachToRecyclerView(mTrailerRecyclerView);
         mTrailers = new ArrayList<>();
         mTrailerAdapter = new VideoAdapter(MovieDetailActivity.this, mTrailers);
         mTrailerRecyclerView.setAdapter(mTrailerAdapter);
@@ -127,6 +136,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         mCastAdapter = new CastAdapter(MovieDetailActivity.this, mCasts);
         mCastRecyclerView.setAdapter(mCastAdapter);
         mCastRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        mSimilarMoviesTextView = (TextView) findViewById(R.id.text_view_similar_movie_detail);
+        mSimilarMoviesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_similar_movie_detail);
+        mSimilarMovies = new ArrayList<>();
+        mSimilarMoviesAdapter = new MoviesSmallAdapter(MovieDetailActivity.this, mSimilarMovies);
+        mSimilarMoviesRecyclerView.setAdapter(mSimilarMoviesAdapter);
+        mSimilarMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         loadActivity();
     }
@@ -191,6 +207,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mHorizontalLine.setVisibility(View.VISIBLE);
 
                 setCasts();
+
+                setSimilarMovies();
 
             }
 
@@ -263,11 +281,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<VideosResponse> call, Response<VideosResponse> response) {
                 if(response.code() != 200) return;
-                mTrailerTextView.setVisibility(View.VISIBLE);
                 for(Video video : response.body().getVideos()) {
                     if(video.getSite().equals("YouTube") && video.getType().equals("Trailer"))
                         mTrailers.add(video);
                 }
+                if(!mTrailers.isEmpty())
+                    mTrailerTextView.setVisibility(View.VISIBLE);
                 mTrailerAdapter.notifyDataSetChanged();
             }
 
@@ -285,13 +304,34 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
                 if(response.code() != 200) return;
-                mCastTextView.setVisibility(View.VISIBLE);
                 mCasts.addAll(response.body().getCasts());
+                if(!mCasts.isEmpty())
+                    mCastTextView.setVisibility(View.VISIBLE);
                 mCastAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<CreditsResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setSimilarMovies() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<SimilarMoviesResponse> call = apiService.getSimilarMovies(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY), 1);
+        call.enqueue(new Callback<SimilarMoviesResponse>() {
+            @Override
+            public void onResponse(Call<SimilarMoviesResponse> call, Response<SimilarMoviesResponse> response) {
+                if(response.code() != 200) return;
+                mSimilarMovies.addAll(response.body().getResults());
+                if(!mSimilarMovies.isEmpty())
+                    mSimilarMoviesTextView.setVisibility(View.VISIBLE);
+                mSimilarMoviesAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<SimilarMoviesResponse> call, Throwable t) {
 
             }
         });

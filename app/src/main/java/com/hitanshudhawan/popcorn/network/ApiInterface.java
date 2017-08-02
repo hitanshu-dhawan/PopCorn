@@ -4,6 +4,7 @@ import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMovieResponse;
+import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMovieResponse;
 import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
@@ -39,5 +40,9 @@ public interface ApiInterface {
 
     @GET("movie/{id}/videos")
     Call<VideosResponse> getMovieVideos(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/{id}/similar")
+    Call<SimilarMoviesResponse> getSimilarMovies(@Path("id") Integer movieId, @Query("api_key") String apiKey, @Query("page") Integer page);
+
 
 }
