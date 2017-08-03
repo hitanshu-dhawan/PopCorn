@@ -27,6 +27,10 @@
         <activity
             android:name=".movies.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
+            android:theme="@style/AppTheme.NoActionBar.DetailScreen" />
+        <activity
+            android:name=".movies.CastDetailActivity"
+            android:label="@string/title_activity_cast_detail"
             android:theme="@style/AppTheme.NoActionBar.DetailScreen"></activity>
     </application>
 

@@ -3,70 +3,65 @@ package com.hitanshudhawan.popcorn.network.movies;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by hitanshu on 2/8/17.
+ * Created by hitanshu on 3/8/17.
  */
 
 public class Cast {
 
-    @SerializedName("cast_id")
-    private Integer castId;
-    @SerializedName("character")
-    private String character;
-    @SerializedName("credit_id")
-    private String creditId;
-    @SerializedName("gender")
-    private Integer gender;
+    @SerializedName("birthday")
+    private String dateOfBirth;
+    @SerializedName("deathday")
+    private String dateOfDeath;
     @SerializedName("id")
     private Integer id;
     @SerializedName("name")
     private String name;
-    @SerializedName("order")
-    private Integer order;
+    //also_known_as missing
+    @SerializedName("gender")
+    private Integer gender;
+    @SerializedName("biography")
+    private String biography;
+    @SerializedName("popularity")
+    private Double popularity;
+    @SerializedName("place_of_birth")
+    private String placeOfBirth;
     @SerializedName("profile_path")
     private String profilePath;
+    @SerializedName("adult")
+    private Boolean adult;
+    @SerializedName("imdb_id")
+    private String imdbId;
+    //homepage missing
 
-    public Cast(Integer castId, String character, String creditId, Integer gender,
-                Integer id, String name, Integer order, String profilePath) {
-        this.castId = castId;
-        this.character = character;
-        this.creditId = creditId;
-        this.gender = gender;
+
+    public Cast(String dateOfBirth, String dateOfDeath, Integer id, String name, Integer gender, String biography, Double popularity, String placeOfBirth, String profilePath, Boolean adult, String imdbId) {
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfDeath = dateOfDeath;
         this.id = id;
         this.name = name;
-        this.order = order;
-        this.profilePath = profilePath;
-    }
-
-    public Integer getCastId() {
-        return castId;
-    }
-
-    public void setCastId(Integer castId) {
-        this.castId = castId;
-    }
-
-    public String getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(String character) {
-        this.character = character;
-    }
-
-    public String getCreditId() {
-        return creditId;
-    }
-
-    public void setCreditId(String creditId) {
-        this.creditId = creditId;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
         this.gender = gender;
+        this.biography = biography;
+        this.popularity = popularity;
+        this.placeOfBirth = placeOfBirth;
+        this.profilePath = profilePath;
+        this.adult = adult;
+        this.imdbId = imdbId;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getDateOfDeath() {
+        return dateOfDeath;
+    }
+
+    public void setDateOfDeath(String dateOfDeath) {
+        this.dateOfDeath = dateOfDeath;
     }
 
     public Integer getId() {
@@ -85,12 +80,36 @@ public class Cast {
         this.name = name;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public Double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getPlaceOfBirth() {
+        return placeOfBirth;
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
     }
 
     public String getProfilePath() {
@@ -100,4 +119,21 @@ public class Cast {
     public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
     }
+
+    public Boolean getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
 }

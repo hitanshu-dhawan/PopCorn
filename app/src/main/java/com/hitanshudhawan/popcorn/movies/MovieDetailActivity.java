@@ -24,7 +24,7 @@ import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Cast;
+import com.hitanshudhawan.popcorn.network.movies.CastBrief;
 import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
@@ -75,7 +75,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private TextView mCastTextView;
     private RecyclerView mCastRecyclerView;
-    private List<Cast> mCasts;
+    private List<CastBrief> mCasts;
     private CastAdapter mCastAdapter;
 
     private TextView mSimilarMoviesTextView;

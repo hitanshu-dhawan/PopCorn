@@ -7,10 +7,4 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="card_big_height">200dp</dimen>
-    <dimen name="card_big_width">354dp</dimen>
-    <dimen name="card_big_title_width">300dp</dimen>
-    <dimen name="card_small_height">200dp</dimen>
-    <dimen name="card_small_width">132dp</dimen>
-
 </resources>

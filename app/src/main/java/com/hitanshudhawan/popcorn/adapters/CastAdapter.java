@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.network.movies.Cast;
+import com.hitanshudhawan.popcorn.movies.CastDetailActivity;
+import com.hitanshudhawan.popcorn.network.movies.CastBrief;
 
 import java.util.List;
 
@@ -22,9 +24,9 @@ import java.util.List;
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
 
     Context mContext;
-    List<Cast> mCasts;
+    List<CastBrief> mCasts;
 
-    public CastAdapter(Context mContext, List<Cast> mCasts) {
+    public CastAdapter(Context mContext, List<CastBrief> mCasts) {
         this.mContext = mContext;
         this.mCasts = mCasts;
     }
@@ -35,7 +37,16 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CastViewHolder holder, int position) {
+    public void onBindViewHolder(CastViewHolder holder, final int position) {
+
+        holder.castImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, CastDetailActivity.class);
+                intent.putExtra("cast_id",mCasts.get(position).getId());
+                mContext.startActivity(intent);
+            }
+        });
 
         Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w185/" + mCasts.get(position).getProfilePath())
                 .asBitmap()
@@ -52,7 +63,6 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     public int getItemCount() {
         return mCasts.size();
     }
-
 
 
     public class CastViewHolder extends RecyclerView.ViewHolder {
