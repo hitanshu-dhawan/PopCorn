@@ -37,16 +37,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:visibility="gone"
             android:text="Read More"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/text_view_movie_cast_cast_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:text="Movie Cast"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
