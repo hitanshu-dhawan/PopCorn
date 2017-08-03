@@ -51,7 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_trailers_movie_detail"
@@ -65,7 +66,7 @@
             android:background="@android:color/darker_gray"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:visibility="gone"/>
 
         <TextView
@@ -77,12 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_cast_movie_detail"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="180dp"
             android:nestedScrollingEnabled="false">
         </android.support.v7.widget.RecyclerView>
 
@@ -95,7 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_similar_movie_detail"

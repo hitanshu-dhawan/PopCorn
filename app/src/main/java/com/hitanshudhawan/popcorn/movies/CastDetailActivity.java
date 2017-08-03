@@ -48,6 +48,10 @@ public class CastDetailActivity extends AppCompatActivity {
     private TextView mCastAgeTextView;
     private TextView mCastBirthPlaceTextView;
 
+    private TextView mCastBioHeaderTextView;
+    private TextView mCastBioTextView;
+    private TextView mCastReadMoreBioTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +64,8 @@ public class CastDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mCastId = intent.getIntExtra("cast_id",-1);
 
-        mCastImageSideSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.33);
-
         mCastImageCardView = (CardView) findViewById(R.id.card_view_cast_detail);
+        mCastImageSideSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.33);
         mCastImageCardView.getLayoutParams().height = mCastImageSideSize;
         mCastImageCardView.getLayoutParams().width = mCastImageSideSize;
         mCastImageCardView.setRadius(mCastImageSideSize/2);
@@ -73,6 +76,10 @@ public class CastDetailActivity extends AppCompatActivity {
         params.setMargins(params.leftMargin,mCastImageSideSize/3,params.rightMargin,params.bottomMargin);
         mCastAgeTextView = (TextView) findViewById(R.id.text_view_age_cast_detail);
         mCastBirthPlaceTextView = (TextView) findViewById(R.id.text_view_birthplace_cast_detail);
+
+        mCastBioHeaderTextView = (TextView) findViewById(R.id.text_view_bio_header_cast_detail);
+        mCastBioTextView = (TextView) findViewById(R.id.text_view_bio_cast_detail);
+        mCastReadMoreBioTextView = (TextView) findViewById(R.id.text_view_read_more_cast_detail);
 
         loadActivity();
 
@@ -105,7 +112,21 @@ public class CastDetailActivity extends AppCompatActivity {
                         .into(mCastImageView);
                 mCastNameTextView.setText(response.body().getName());
                 setAge(response.body().getDateOfBirth());
-                mCastBirthPlaceTextView.setText(response.body().getPlaceOfBirth());
+                if(response.body().getPlaceOfBirth() != null)
+                    mCastBirthPlaceTextView.setText(response.body().getPlaceOfBirth());
+
+                if(response.body().getBiography() != null && !response.body().getBiography().trim().equals("")) {
+                    mCastBioHeaderTextView.setVisibility(View.VISIBLE);
+                    mCastReadMoreBioTextView.setVisibility(View.VISIBLE);
+                    mCastBioTextView.setText(response.body().getBiography());
+                    mCastReadMoreBioTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mCastBioTextView.setMaxLines(Integer.MAX_VALUE);
+                            mCastReadMoreBioTextView.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
 
             @Override
