@@ -13,9 +13,9 @@ public class CreditsResponse {
     @SerializedName("id")
     private Integer id;
     @SerializedName("cast")
-    List<CastBrief> casts;
+    private List<CastBrief> casts;
     @SerializedName("crew")
-    List<Crew> crews;
+    private List<Crew> crews;
 
     public CreditsResponse(Integer id, List<CastBrief> casts, List<Crew> crews) {
         this.id = id;

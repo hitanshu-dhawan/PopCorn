@@ -13,7 +13,7 @@ public class VideosResponse {
     @SerializedName("id")
     private Integer id;
     @SerializedName("results")
-    List<Video> videos;
+    private List<Video> videos;
 
     public VideosResponse(Integer id, List<Video> videos) {
         this.id = id;

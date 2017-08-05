@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.movies;
+package com.hitanshudhawan.popcorn.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.adapters.MoviesBigAdapter;
+import com.hitanshudhawan.popcorn.adapters.MoviesLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
@@ -35,25 +35,25 @@ import retrofit2.Response;
 
 public class MoviesFragment extends Fragment {
 
-    FrameLayout mNowShowingLayout;
-    RecyclerView mNowShowingRecyclerView;
-    List<MovieBrief> mNowShowingMovies;
-    MoviesBigAdapter mNowShowingAdapter;
+    private FrameLayout mNowShowingLayout;
+    private RecyclerView mNowShowingRecyclerView;
+    private List<MovieBrief> mNowShowingMovies;
+    private MoviesLargeAdapter mNowShowingAdapter;
 
-    FrameLayout mPopularLayout;
-    RecyclerView mPopularRecyclerView;
-    List<MovieBrief> mPopularMovies;
-    MoviesSmallAdapter mPopularAdapter;
+    private FrameLayout mPopularLayout;
+    private RecyclerView mPopularRecyclerView;
+    private List<MovieBrief> mPopularMovies;
+    private MoviesSmallAdapter mPopularAdapter;
 
-    FrameLayout mUpcomingLayout;
-    RecyclerView mUpcomingRecyclerView;
-    List<MovieBrief> mUpcomingMovies;
-    MoviesBigAdapter mUpcomingAdapter;
+    private FrameLayout mUpcomingLayout;
+    private RecyclerView mUpcomingRecyclerView;
+    private List<MovieBrief> mUpcomingMovies;
+    private MoviesLargeAdapter mUpcomingAdapter;
 
-    FrameLayout mTopRatedLayout;
-    RecyclerView mTopRatedRecyclerView;
-    List<MovieBrief> mTopRatedMovies;
-    MoviesSmallAdapter mTopRatedAdapter;
+    private FrameLayout mTopRatedLayout;
+    private RecyclerView mTopRatedRecyclerView;
+    private List<MovieBrief> mTopRatedMovies;
+    private MoviesSmallAdapter mTopRatedAdapter;
 
     @Nullable
     @Override
@@ -77,9 +77,9 @@ public class MoviesFragment extends Fragment {
         mUpcomingMovies = new ArrayList<>();
         mTopRatedMovies = new ArrayList<>();
 
-        mNowShowingAdapter = new MoviesBigAdapter(getContext(),mNowShowingMovies);
+        mNowShowingAdapter = new MoviesLargeAdapter(getContext(),mNowShowingMovies);
         mPopularAdapter = new MoviesSmallAdapter(getContext(),mPopularMovies);
-        mUpcomingAdapter = new MoviesBigAdapter(getContext(),mUpcomingMovies);
+        mUpcomingAdapter = new MoviesLargeAdapter(getContext(),mUpcomingMovies);
         mTopRatedAdapter = new MoviesSmallAdapter(getContext(),mTopRatedMovies);
 
         mNowShowingRecyclerView.setAdapter(mNowShowingAdapter);

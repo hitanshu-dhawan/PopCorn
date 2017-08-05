@@ -1,7 +1,6 @@
-package com.hitanshudhawan.popcorn;
+package com.hitanshudhawan.popcorn.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,14 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
-import com.hitanshudhawan.popcorn.movies.MoviesFragment;
+import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout mDrawer;
-    NavigationView mNavigationView;
+    private DrawerLayout mDrawer;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

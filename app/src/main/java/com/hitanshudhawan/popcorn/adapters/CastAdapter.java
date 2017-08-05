@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hitanshudhawan.popcorn.activities.CastDetailActivity;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.CastDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.CastBrief;
 
 import java.util.List;
@@ -23,8 +23,8 @@ import java.util.List;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
 
-    Context mContext;
-    List<CastBrief> mCasts;
+    private Context mContext;
+    private List<CastBrief> mCasts;
 
     public CastAdapter(Context mContext, List<CastBrief> mCasts) {
         this.mContext = mContext;

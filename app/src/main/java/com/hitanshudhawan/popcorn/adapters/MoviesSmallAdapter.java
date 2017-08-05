@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 
 import java.util.List;
@@ -26,8 +26,8 @@ import java.util.List;
 
 public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.MoviesViewHolder> {
 
-    Context mContext;
-    List<MovieBrief> mMovies;
+    private Context mContext;
+    private List<MovieBrief> mMovies;
 
     public MoviesSmallAdapter(Context context, List<MovieBrief> movies) {
         mContext = context;
@@ -36,7 +36,7 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
 
     @Override
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_movie_small,parent,false));
+        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small,parent,false));
     }
 
     @Override

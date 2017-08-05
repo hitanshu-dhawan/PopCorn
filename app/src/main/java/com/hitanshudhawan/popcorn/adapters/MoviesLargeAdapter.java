@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.movies.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
@@ -33,19 +33,19 @@ import retrofit2.Response;
  * Created by hitanshu on 30/7/17.
  */
 
-public class MoviesBigAdapter extends RecyclerView.Adapter<MoviesBigAdapter.MoviesViewHolder> {
+public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.MoviesViewHolder> {
 
-    Context mContext;
-    List<MovieBrief> mMovies;
+    private Context mContext;
+    private List<MovieBrief> mMovies;
 
-    public MoviesBigAdapter(Context context, List<MovieBrief> movies) {
+    public MoviesLargeAdapter(Context context, List<MovieBrief> movies) {
         mContext = context;
         mMovies = movies;
     }
 
     @Override
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.card_movie_big,parent,false));
+        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large,parent,false));
     }
 
     @Override

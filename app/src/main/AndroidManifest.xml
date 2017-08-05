@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,11 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".movies.MovieDetailActivity"
+            android:name=".activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:theme="@style/AppTheme.NoActionBar.DetailScreen" />
         <activity
-            android:name=".movies.CastDetailActivity"
+            android:name=".activities.CastDetailActivity"
             android:label="@string/title_activity_cast_detail"
             android:theme="@style/AppTheme.NoActionBar.DetailScreen"></activity>
     </application>

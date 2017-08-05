@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.movies;
+package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
