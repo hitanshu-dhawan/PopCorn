@@ -106,5 +106,6 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_cast_detail">CastDetailActivity</string>
+    <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>
 
 </resources>

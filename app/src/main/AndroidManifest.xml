@@ -31,7 +31,11 @@
         <activity
             android:name=".activities.CastDetailActivity"
             android:label="@string/title_activity_cast_detail"
-            android:theme="@style/AppTheme.NoActionBar.DetailScreen"></activity>
+            android:theme="@style/AppTheme.NoActionBar.DetailScreen" />
+        <activity
+            android:name=".activities.ViewAllMoviesActivity"
+            android:label="@string/title_activity_view_all_movies"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

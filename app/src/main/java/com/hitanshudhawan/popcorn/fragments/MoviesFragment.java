@@ -1,5 +1,6 @@
 package com.hitanshudhawan.popcorn.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.activities.ViewAllMoviesActivity;
 import com.hitanshudhawan.popcorn.adapters.MoviesLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
@@ -36,21 +39,25 @@ import retrofit2.Response;
 public class MoviesFragment extends Fragment {
 
     private FrameLayout mNowShowingLayout;
+    private TextView mNowShowingViewAllTextView;
     private RecyclerView mNowShowingRecyclerView;
     private List<MovieBrief> mNowShowingMovies;
     private MoviesLargeAdapter mNowShowingAdapter;
 
     private FrameLayout mPopularLayout;
+    private TextView mPopularViewAllTextView;
     private RecyclerView mPopularRecyclerView;
     private List<MovieBrief> mPopularMovies;
     private MoviesSmallAdapter mPopularAdapter;
 
     private FrameLayout mUpcomingLayout;
+    private TextView mUpcomingViewAllTextView;
     private RecyclerView mUpcomingRecyclerView;
     private List<MovieBrief> mUpcomingMovies;
     private MoviesLargeAdapter mUpcomingAdapter;
 
     private FrameLayout mTopRatedLayout;
+    private TextView mTopRatedViewAllTextView;
     private RecyclerView mTopRatedRecyclerView;
     private List<MovieBrief> mTopRatedMovies;
     private MoviesSmallAdapter mTopRatedAdapter;
@@ -64,6 +71,11 @@ public class MoviesFragment extends Fragment {
         mPopularLayout = (FrameLayout) view.findViewById(R.id.layout_popular);
         mUpcomingLayout = (FrameLayout) view.findViewById(R.id.layout_upcoming);
         mTopRatedLayout = (FrameLayout) view.findViewById(R.id.layout_top_rated);
+
+        mNowShowingViewAllTextView = (TextView) view.findViewById(R.id.text_view_view_all_now_showing);
+        mPopularViewAllTextView = (TextView) view.findViewById(R.id.text_view_view_all_popular);
+        mUpcomingViewAllTextView = (TextView) view.findViewById(R.id.text_view_view_all_upcoming);
+        mTopRatedViewAllTextView = (TextView) view.findViewById(R.id.text_view_view_all_top_rated);
 
         mNowShowingRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_now_showing);
         (new LinearSnapHelper()).attachToRecyclerView(mNowShowingRecyclerView);
@@ -97,6 +109,32 @@ public class MoviesFragment extends Fragment {
         mTopRatedRecyclerView.setAdapter(mTopRatedAdapter);
         mTopRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         loadTopRatedMovies();
+
+        mNowShowingViewAllTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
+                startActivity(intent); // todo send nnowshowing in intent...
+            }
+        });
+        mPopularViewAllTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mUpcomingViewAllTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mTopRatedViewAllTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return view;
     }

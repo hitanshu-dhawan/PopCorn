@@ -30,7 +30,7 @@
                 android:layout_gravity="left"/>
 
             <TextView
-                android:id="@+id/view_more_now_showing"
+                android:id="@+id/text_view_view_all_now_showing"
                 android:text="View All"
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
@@ -68,7 +68,7 @@
                 android:layout_gravity="left"/>
 
             <TextView
-                android:id="@+id/view_more_popular"
+                android:id="@+id/text_view_view_all_popular"
                 android:text="View All"
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
@@ -106,7 +106,7 @@
                 android:layout_gravity="left"/>
 
             <TextView
-                android:id="@+id/view_more_upcoming"
+                android:id="@+id/text_view_view_all_upcoming"
                 android:text="View All"
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
@@ -144,7 +144,7 @@
                 android:layout_gravity="left"/>
 
             <TextView
-                android:id="@+id/view_more_top_rated"
+                android:id="@+id/text_view_view_all_top_rated"
                 android:text="View All"
                 android:textSize="14sp"
                 android:textColor="@color/colorPrimary"
