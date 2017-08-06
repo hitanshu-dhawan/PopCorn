@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by hitanshu on 3/8/17.
  */
 
-public class Cast {
+public class Person {
 
     @SerializedName("birthday")
     private String dateOfBirth;
@@ -34,7 +34,7 @@ public class Cast {
     //homepage missing
 
 
-    public Cast(String dateOfBirth, String dateOfDeath, Integer id, String name, Integer gender, String biography, Double popularity, String placeOfBirth, String profilePath, Boolean adult, String imdbId) {
+    public Person(String dateOfBirth, String dateOfDeath, Integer id, String name, Integer gender, String biography, Double popularity, String placeOfBirth, String profilePath, Boolean adult, String imdbId) {
         this.dateOfBirth = dateOfBirth;
         this.dateOfDeath = dateOfDeath;
         this.id = id;

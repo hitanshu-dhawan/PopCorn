@@ -1,10 +1,10 @@
 package com.hitanshudhawan.popcorn.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -83,9 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
-                return true;
-            case R.id.nav_popular_people:
-                setTitle(R.string.popular_people);
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);

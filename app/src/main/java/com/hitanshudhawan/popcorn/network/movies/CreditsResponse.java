@@ -15,9 +15,9 @@ public class CreditsResponse {
     @SerializedName("cast")
     private List<CastBrief> casts;
     @SerializedName("crew")
-    private List<Crew> crews;
+    private List<CrewBrief> crews;
 
-    public CreditsResponse(Integer id, List<CastBrief> casts, List<Crew> crews) {
+    public CreditsResponse(Integer id, List<CastBrief> casts, List<CrewBrief> crews) {
         this.id = id;
         this.casts = casts;
         this.crews = crews;
@@ -39,11 +39,11 @@ public class CreditsResponse {
         this.casts = casts;
     }
 
-    public List<Crew> getCrews() {
+    public List<CrewBrief> getCrews() {
         return crews;
     }
 
-    public void setCrews(List<Crew> crews) {
+    public void setCrews(List<CrewBrief> crews) {
         this.crews = crews;
     }
 

@@ -5,33 +5,24 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by hitanshu on 28/7/17.
+ * Created by hitanshu on 31/7/17.
  */
 
-public class NowShowingMovieResponse {
+public class TopRatedMoviesResponse {
 
-    @SerializedName("results")
-    private List<MovieBrief> results;
     @SerializedName("page")
     private Integer page;
     @SerializedName("total_results")
     private Integer totalResults;
-    //dates missing
     @SerializedName("total_pages")
     private Integer totalPages;
+    @SerializedName("results")
+    private List<MovieBrief> results;
 
-    public NowShowingMovieResponse(List<MovieBrief> results, Integer page, Integer totalResults, Integer totalPages) {
-        this.results = results;
+    public TopRatedMoviesResponse(Integer page, Integer totalResults, Integer totalPages, List<MovieBrief> results) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
-    }
-
-    public List<MovieBrief> getResults() {
-        return results;
-    }
-
-    public void setResults(List<MovieBrief> results) {
         this.results = results;
     }
 
@@ -57,5 +48,13 @@ public class NowShowingMovieResponse {
 
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public List<MovieBrief> getResults() {
+        return results;
+    }
+
+    public void setResults(List<MovieBrief> results) {
+        this.results = results;
     }
 }

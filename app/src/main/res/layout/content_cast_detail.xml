@@ -50,6 +50,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:text="Movie Cast"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
@@ -57,7 +58,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_movie_cast_cast_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
         <!--<TextView-->
         <!--android:text="TV Cast"-->

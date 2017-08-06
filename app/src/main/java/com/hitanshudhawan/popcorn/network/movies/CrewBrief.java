@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by hitanshu on 2/8/17.
  */
 
-public class Crew {
+public class CrewBrief {
 
     @SerializedName("credit_id")
     private String creditId;
@@ -23,7 +23,7 @@ public class Crew {
     @SerializedName("profile_path")
     private String profilePath;
 
-    public Crew(String creditId, String department, Integer gender, Integer id,
+    public CrewBrief(String creditId, String department, Integer gender, Integer id,
                 String job, String name, String profilePath) {
         this.creditId = creditId;
         this.department = department;

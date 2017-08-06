@@ -8,7 +8,7 @@ import java.util.List;
  * Created by hitanshu on 28/7/17.
  */
 
-public class UpcomingMovieResponse {
+public class NowShowingMoviesResponse {
 
     @SerializedName("results")
     private List<MovieBrief> results;
@@ -20,7 +20,7 @@ public class UpcomingMovieResponse {
     @SerializedName("total_pages")
     private Integer totalPages;
 
-    public UpcomingMovieResponse(List<MovieBrief> results, Integer page, Integer totalResults, Integer totalPages) {
+    public NowShowingMoviesResponse(List<MovieBrief> results, Integer page, Integer totalResults, Integer totalPages) {
         this.results = results;
         this.page = page;
         this.totalResults = totalResults;

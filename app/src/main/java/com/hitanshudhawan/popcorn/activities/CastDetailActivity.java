@@ -2,17 +2,15 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,17 +18,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.adapters.MovieCastsOfPersonAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Cast;
+import com.hitanshudhawan.popcorn.network.movies.MovieCastOfPerson;
+import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
+import com.hitanshudhawan.popcorn.network.movies.Person;
 import com.wang.avi.AVLoadingIndicatorView;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +52,11 @@ public class CastDetailActivity extends AppCompatActivity {
     private TextView mCastBioHeaderTextView;
     private TextView mCastBioTextView;
     private TextView mCastReadMoreBioTextView;
+
+    private TextView mMovieCastTextView;
+    private RecyclerView mMovieCastRecyclerView;
+    private List<MovieCastOfPerson> mMovieCastOfPersons;
+    private MovieCastsOfPersonAdapter mMovieCastsOfPersonAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +87,23 @@ public class CastDetailActivity extends AppCompatActivity {
         mCastBioTextView = (TextView) findViewById(R.id.text_view_bio_cast_detail);
         mCastReadMoreBioTextView = (TextView) findViewById(R.id.text_view_read_more_cast_detail);
 
+        mMovieCastTextView = (TextView) findViewById(R.id.text_view_movie_cast_cast_detail);
+        mMovieCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movie_cast_cast_detail);
+        mMovieCastOfPersons = new ArrayList<>();
+        mMovieCastsOfPersonAdapter = new MovieCastsOfPersonAdapter(CastDetailActivity.this, mMovieCastOfPersons);
+        mMovieCastRecyclerView.setAdapter(mMovieCastsOfPersonAdapter);
+        mMovieCastRecyclerView.setLayoutManager(new LinearLayoutManager(CastDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
         loadActivity();
 
     }
 
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Cast> call = apiService.getCastDetails(mCastId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        call.enqueue(new Callback<Cast>() {
+        Call<Person> call = apiService.getPersonDetails(mCastId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        call.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<Cast> call, Response<Cast> response) {
+            public void onResponse(Call<Person> call, Response<Person> response) {
                 if(response.code() != 200) return;
                 Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getProfilePath())
                         .asBitmap()
@@ -127,10 +140,12 @@ public class CastDetailActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+                setMovieCast(response.body().getId());
             }
 
             @Override
-            public void onFailure(Call<Cast> call, Throwable t) {
+            public void onFailure(Call<Person> call, Throwable t) {
 
             }
         });
@@ -147,6 +162,27 @@ public class CastDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setMovieCast(Integer personId) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<MovieCastsOfPersonResponse> call = apiService.getMovieCastsOfPerson(personId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        call.enqueue(new Callback<MovieCastsOfPersonResponse>() {
+            @Override
+            public void onResponse(Call<MovieCastsOfPersonResponse> call, Response<MovieCastsOfPersonResponse> response) {
+                if(response.code() != 200) return;
+                mMovieCastTextView.setVisibility(View.VISIBLE);
+                for(MovieCastOfPerson movieCastOfPerson : response.body().getCasts())
+                    if(movieCastOfPerson.getPosterPath() != null)
+                        mMovieCastOfPersons.add(movieCastOfPerson);
+                mMovieCastsOfPersonAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<MovieCastsOfPersonResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 }

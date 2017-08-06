@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by hitanshu on 31/7/17.
+ * Created by hitanshu on 27/7/17.
  */
 
-public class TopRatedMovieResponse {
+public class PopularMoviesResponse {
 
     @SerializedName("page")
     private Integer page;
@@ -19,7 +19,7 @@ public class TopRatedMovieResponse {
     @SerializedName("results")
     private List<MovieBrief> results;
 
-    public TopRatedMovieResponse(Integer page, Integer totalResults, Integer totalPages, List<MovieBrief> results) {
+    public PopularMoviesResponse(Integer page, Integer totalResults, Integer totalPages, List<MovieBrief> results) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;

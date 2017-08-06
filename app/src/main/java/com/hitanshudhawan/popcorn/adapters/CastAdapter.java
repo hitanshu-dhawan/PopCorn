@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.hitanshudhawan.popcorn.activities.CastDetailActivity;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.activities.CastDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.CastBrief;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.cast_item,parent,false));
+        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cast_of_movie,parent,false));
     }
 
     @Override

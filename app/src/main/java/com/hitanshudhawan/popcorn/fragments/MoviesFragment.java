@@ -17,10 +17,10 @@ import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.network.movies.NowShowingMovieResponse;
-import com.hitanshudhawan.popcorn.network.movies.PopularMovieResponse;
-import com.hitanshudhawan.popcorn.network.movies.TopRatedMovieResponse;
-import com.hitanshudhawan.popcorn.network.movies.UpcomingMovieResponse;
+import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
+import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
+import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
+import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +103,10 @@ public class MoviesFragment extends Fragment {
 
     private void loadNowShowingMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<NowShowingMovieResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<NowShowingMovieResponse>() {
+        Call<NowShowingMoviesResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        call.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
-            public void onResponse(Call<NowShowingMovieResponse> call, Response<NowShowingMovieResponse> response) {
+            public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mNowShowingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
@@ -117,7 +117,7 @@ public class MoviesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<NowShowingMovieResponse> call, Throwable t) {
+            public void onFailure(Call<NowShowingMoviesResponse> call, Throwable t) {
 
             }
         });
@@ -125,10 +125,10 @@ public class MoviesFragment extends Fragment {
 
     private void loadPopularMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<PopularMovieResponse> call = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<PopularMovieResponse>() {
+        Call<PopularMoviesResponse> call = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        call.enqueue(new Callback<PopularMoviesResponse>() {
             @Override
-            public void onResponse(Call<PopularMovieResponse> call, Response<PopularMovieResponse> response) {
+            public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mPopularLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
@@ -139,7 +139,7 @@ public class MoviesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<PopularMovieResponse> call, Throwable t) {
+            public void onFailure(Call<PopularMoviesResponse> call, Throwable t) {
 
             }
         });
@@ -147,10 +147,10 @@ public class MoviesFragment extends Fragment {
 
     private void loadUpcomingMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UpcomingMovieResponse> call = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<UpcomingMovieResponse>() {
+        Call<UpcomingMoviesResponse> call = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        call.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
-            public void onResponse(Call<UpcomingMovieResponse> call, Response<UpcomingMovieResponse> response) {
+            public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mUpcomingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
@@ -161,7 +161,7 @@ public class MoviesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<UpcomingMovieResponse> call, Throwable t) {
+            public void onFailure(Call<UpcomingMoviesResponse> call, Throwable t) {
 
             }
         });
@@ -169,10 +169,10 @@ public class MoviesFragment extends Fragment {
 
     private void loadTopRatedMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<TopRatedMovieResponse> call = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<TopRatedMovieResponse>() {
+        Call<TopRatedMoviesResponse> call = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        call.enqueue(new Callback<TopRatedMoviesResponse>() {
             @Override
-            public void onResponse(Call<TopRatedMovieResponse> call, Response<TopRatedMovieResponse> response) {
+            public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mTopRatedLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
@@ -183,7 +183,7 @@ public class MoviesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TopRatedMovieResponse> call, Throwable t) {
+            public void onFailure(Call<TopRatedMoviesResponse> call, Throwable t) {
 
             }
         });
