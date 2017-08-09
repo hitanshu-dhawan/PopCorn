@@ -38,7 +38,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CastViewHolder holder, final int position) {
+    public void onBindViewHolder(CastViewHolder holder, int position) {
 
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_185 + mCasts.get(position).getProfilePath())
                 .asBitmap()

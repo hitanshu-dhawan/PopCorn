@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Created by hitanshu on 7/8/17.
  */
 
-public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdapter.MoviesViewHolder> {
+public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdapter.MovieViewHolder> {
 
     private Context mContext;
     private List<MovieBrief> mMovies;
@@ -45,12 +45,12 @@ public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdap
     }
 
     @Override
-    public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small,parent,false));
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
 
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getPosterPath())
                 .asBitmap()
@@ -66,7 +66,7 @@ public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdap
         return mMovies.size();
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         public CardView movieCard;
         public ImageView moviePosterImageView;
@@ -74,7 +74,7 @@ public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdap
         public ImageButton movieFavImageButton;
 
 
-        public MoviesViewHolder(View itemView) {
+        public MovieViewHolder(View itemView) {
             super(itemView);
             movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_card);
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_card);

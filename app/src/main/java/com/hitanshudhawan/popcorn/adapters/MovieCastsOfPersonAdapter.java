@@ -25,7 +25,7 @@ import java.util.List;
  * Created by hitanshu on 6/8/17.
  */
 
-public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOfPersonAdapter.MoviesViewHolder> {
+public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOfPersonAdapter.MovieViewHolder> {
 
     private Context mContext;
     private List<MovieCastOfPerson> mMovieCasts;
@@ -36,12 +36,12 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
     }
 
     @Override
-    public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movies_of_cast,parent,false));
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movies_of_cast,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(MoviesViewHolder holder, final int position) {
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
 
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovieCasts.get(position).getPosterPath())
                 .asBitmap()
@@ -58,14 +58,14 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
         return mMovieCasts.size();
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         public CardView movieCard;
         public ImageView moviePosterImageView;
         public TextView movieTitleTextView;
         public TextView castCharacterTextView;
 
-        public MoviesViewHolder(View itemView) {
+        public MovieViewHolder(View itemView) {
             super(itemView);
             movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_cast);
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_cast);

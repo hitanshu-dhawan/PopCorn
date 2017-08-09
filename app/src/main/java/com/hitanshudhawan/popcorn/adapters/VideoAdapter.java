@@ -39,7 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     @Override
-    public void onBindViewHolder(VideoViewHolder holder, final int position) {
+    public void onBindViewHolder(VideoViewHolder holder, int position) {
 
         Glide.with(mContext.getApplicationContext()).load(Constant.YOUTUBE_THUMBNAIL_BASE_URL + mVideos.get(position).getKey() + Constant.YOUTUBE_THUMBNAIL_IMAGE_QUALITY)
                 .asBitmap()

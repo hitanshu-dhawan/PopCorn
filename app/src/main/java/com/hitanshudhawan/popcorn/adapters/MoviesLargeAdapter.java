@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Created by hitanshu on 30/7/17.
  */
 
-public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.MoviesViewHolder> {
+public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.MovieViewHolder> {
 
     private Context mContext;
     private List<MovieBrief> mMovies;
@@ -45,12 +45,12 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
     }
 
     @Override
-    public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MoviesViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large,parent,false));
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
 
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getBackdropPath())
                 .asBitmap()
@@ -70,7 +70,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
         return mMovies.size();
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         public CardView movieCard;
         public RelativeLayout imageLayout;
@@ -81,7 +81,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
         public ImageButton movieFavImageButton;
 
 
-        public MoviesViewHolder(View itemView) {
+        public MovieViewHolder(View itemView) {
             super(itemView);
             movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_card);
             imageLayout = (RelativeLayout) itemView.findViewById(R.id.image_layout_movie_card);
@@ -113,7 +113,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
         }
     }
 
-    private void setGenres(final MoviesViewHolder holder, Integer movieId) {
+    private void setGenres(final MovieViewHolder holder, Integer movieId) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Movie> call = apiService.getMovieDetails(movieId,mContext.getResources().getString(R.string.MOVIE_DB_API_KEY));
         call.enqueue(new Callback<Movie>() {
