@@ -37,9 +37,9 @@ import retrofit2.Response;
 public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.MovieViewHolder> {
 
     private Context mContext;
-    private List<MovieBrief> mMovies;
+    private List<Movie> mMovies;
 
-    public MoviesLargeAdapter(Context context, List<MovieBrief> movies) {
+    public MoviesLargeAdapter(Context context, List<Movie> movies) {
         mContext = context;
         mMovies = movies;
     }
@@ -62,7 +62,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
             holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
         else
             holder.movieRatingTextView.setVisibility(View.GONE);
-        setGenres(holder, mMovies.get(position).getId());
+        setGenres(holder, mMovies.get(position));
     }
 
     @Override
@@ -113,31 +113,15 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
         }
     }
 
-    private void setGenres(final MovieViewHolder holder, Integer movieId) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Movie> call = apiService.getMovieDetails(movieId,mContext.getResources().getString(R.string.MOVIE_DB_API_KEY));
-        call.enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
-                if(response.code() != 200) return;
-                List<Genre> genresList = response.body().getGenres();
-                String genres = "";
-                for (int i=0;i<genresList.size();i++) {
-                    if(i == genresList.size()-1) {
-                        genres = genres.concat(genresList.get(i).getGenreName());
-                    }
-                    else {
-                        genres = genres.concat(genresList.get(i).getGenreName()+", ");
-                    }
-                }
-                holder.movieGenreTextView.setText(genres);
-            }
-
-            @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
-
-            }
-        });
+    private void setGenres(MovieViewHolder holder, Movie movie) {
+        String genreString = "";
+        for(int i=0;i<movie.getGenres().size();i++) {
+            if(i == movie.getGenres().size()-1)
+                genreString += movie.getGenres().get(i).getGenreName();
+            else
+                genreString += movie.getGenres().get(i).getGenreName() + ", ";
+        }
+        holder.movieGenreTextView.setText(genreString);
     }
 
 }

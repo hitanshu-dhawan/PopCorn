@@ -19,6 +19,7 @@ import com.hitanshudhawan.popcorn.adapters.MoviesLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
+import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
@@ -42,7 +43,7 @@ public class MoviesFragment extends Fragment {
     private FrameLayout mNowShowingLayout;
     private TextView mNowShowingViewAllTextView;
     private RecyclerView mNowShowingRecyclerView;
-    private List<MovieBrief> mNowShowingMovies;
+    private List<Movie> mNowShowingMovies;
     private MoviesLargeAdapter mNowShowingAdapter;
 
     private FrameLayout mPopularLayout;
@@ -54,7 +55,7 @@ public class MoviesFragment extends Fragment {
     private FrameLayout mUpcomingLayout;
     private TextView mUpcomingViewAllTextView;
     private RecyclerView mUpcomingRecyclerView;
-    private List<MovieBrief> mUpcomingMovies;
+    private List<Movie> mUpcomingMovies;
     private MoviesLargeAdapter mUpcomingAdapter;
 
     private FrameLayout mTopRatedLayout;
@@ -149,18 +150,31 @@ public class MoviesFragment extends Fragment {
     }
 
     private void loadNowShowingMovies() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<NowShowingMoviesResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         call.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
             public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mNowShowingLayout.setVisibility(View.VISIBLE);
-                for(MovieBrief movieBrief : response.body().getResults()) {
-                    if(movieBrief.getBackdropPath() != null)
-                        mNowShowingMovies.add(movieBrief);
+                for(MovieBrief movie : response.body().getResults()) {
+                    Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
+                    call2.enqueue(new Callback<Movie>() {
+                        @Override
+                        public void onResponse(Call<Movie> call, Response<Movie> response) {
+                            if (response.code() != 200) return;
+                            if(response.body().getBackdropPath() != null) {
+                                mNowShowingMovies.add(response.body());
+                                mNowShowingAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Movie> call, Throwable t) {
+
+                        }
+                    });
                 }
-                mNowShowingAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -193,18 +207,31 @@ public class MoviesFragment extends Fragment {
     }
 
     private void loadUpcomingMovies() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<UpcomingMoviesResponse> call = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         call.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
             public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
                 if(response.code() != 200) return;
                 mUpcomingLayout.setVisibility(View.VISIBLE);
-                for(MovieBrief movieBrief : response.body().getResults()) {
-                    if(movieBrief.getBackdropPath() != null)
-                        mUpcomingMovies.add(movieBrief);
+                for(MovieBrief movie : response.body().getResults()) {
+                    Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
+                    call2.enqueue(new Callback<Movie>() {
+                        @Override
+                        public void onResponse(Call<Movie> call, Response<Movie> response) {
+                            if (response.code() != 200) return;
+                            if(response.body().getBackdropPath() != null) {
+                                mUpcomingMovies.add(response.body());
+                                mUpcomingAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Movie> call, Throwable t) {
+
+                        }
+                    });
                 }
-                mUpcomingAdapter.notifyDataSetChanged();
             }
 
             @Override
