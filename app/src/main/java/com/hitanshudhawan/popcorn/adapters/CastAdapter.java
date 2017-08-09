@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.activities.CastDetailActivity;
+import com.hitanshudhawan.popcorn.activities.PersonDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.CastBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 
@@ -72,7 +72,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
             castImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, CastDetailActivity.class);
+                    Intent intent = new Intent(mContext, PersonDetailActivity.class);
                     intent.putExtra(Constant.PERSON_ID,mCasts.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }

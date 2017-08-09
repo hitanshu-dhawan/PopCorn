@@ -11,10 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -25,11 +22,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activities.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:theme="@style/AppTheme.NoActionBar.DetailScreen" />
         <activity
-            android:name=".activities.CastDetailActivity"
+            android:name=".activities.PersonDetailActivity"
             android:label="@string/title_activity_cast_detail"
             android:theme="@style/AppTheme.NoActionBar.DetailScreen" />
         <activity

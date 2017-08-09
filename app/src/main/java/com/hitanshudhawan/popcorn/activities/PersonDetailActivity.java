@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CastDetailActivity extends AppCompatActivity {
+public class PersonDetailActivity extends AppCompatActivity {
 
     private int mCastId;
 
@@ -91,9 +91,9 @@ public class CastDetailActivity extends AppCompatActivity {
         mMovieCastTextView = (TextView) findViewById(R.id.text_view_movie_cast_cast_detail);
         mMovieCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movie_cast_cast_detail);
         mMovieCastOfPersons = new ArrayList<>();
-        mMovieCastsOfPersonAdapter = new MovieCastsOfPersonAdapter(CastDetailActivity.this, mMovieCastOfPersons);
+        mMovieCastsOfPersonAdapter = new MovieCastsOfPersonAdapter(PersonDetailActivity.this, mMovieCastOfPersons);
         mMovieCastRecyclerView.setAdapter(mMovieCastsOfPersonAdapter);
-        mMovieCastRecyclerView.setLayoutManager(new LinearLayoutManager(CastDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        mMovieCastRecyclerView.setLayoutManager(new LinearLayoutManager(PersonDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         loadActivity();
 
