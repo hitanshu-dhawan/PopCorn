@@ -101,7 +101,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 callNowShowingMovies.enqueue(new Callback<NowShowingMoviesResponse>() {
                     @Override
                     public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
-                        if (response.code() != 200) return;
+                        if(!response.isSuccessful()) {
+                            call.clone().enqueue(this);
+                            return;
+                        }
+
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if(response.body().getPage() == response.body().getTotalPages())
@@ -121,7 +125,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 callPopularMovies.enqueue(new Callback<PopularMoviesResponse>() {
                     @Override
                     public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
-                        if (response.code() != 200) return;
+                        if(!response.isSuccessful()) {
+                            call.clone().enqueue(this);
+                            return;
+                        }
+
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if(response.body().getPage() == response.body().getTotalPages())
@@ -141,7 +149,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 callUpcomingMovies.enqueue(new Callback<UpcomingMoviesResponse>() {
                     @Override
                     public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
-                        if (response.code() != 200) return;
+                        if(!response.isSuccessful()) {
+                            call.clone().enqueue(this);
+                            return;
+                        }
+
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if(response.body().getPage() == response.body().getTotalPages())
@@ -161,7 +173,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 callTopRatedMovies.enqueue(new Callback<TopRatedMoviesResponse>() {
                     @Override
                     public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
-                        if (response.code() != 200) return;
+                        if(!response.isSuccessful()) {
+                            call.clone().enqueue(this);
+                            return;
+                        }
+
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if(response.body().getPage() == response.body().getTotalPages())

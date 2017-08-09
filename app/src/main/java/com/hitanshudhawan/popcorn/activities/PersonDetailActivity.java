@@ -113,7 +113,10 @@ public class PersonDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, final Response<Person> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
 
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
@@ -189,7 +192,11 @@ public class PersonDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<MovieCastsOfPersonResponse>() {
             @Override
             public void onResponse(Call<MovieCastsOfPersonResponse> call, Response<MovieCastsOfPersonResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mMovieCastTextView.setVisibility(View.VISIBLE);
                 for(MovieCastOfPerson movieCastOfPerson : response.body().getCasts())
                     if(movieCastOfPerson.getPosterPath() != null)

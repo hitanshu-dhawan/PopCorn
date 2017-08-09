@@ -161,7 +161,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, final Response<Movie> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
 
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
@@ -297,7 +300,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<VideosResponse>() {
             @Override
             public void onResponse(Call<VideosResponse> call, Response<VideosResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 for(Video video : response.body().getVideos()) {
                     if(video.getSite().equals("YouTube") && video.getType().equals("Trailer"))
                         mTrailers.add(video);
@@ -320,7 +327,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<CreditsResponse>() {
             @Override
             public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mCasts.addAll(response.body().getCasts());
                 if(!mCasts.isEmpty())
                     mCastTextView.setVisibility(View.VISIBLE);
@@ -340,7 +351,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<SimilarMoviesResponse>() {
             @Override
             public void onResponse(Call<SimilarMoviesResponse> call, Response<SimilarMoviesResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mSimilarMovies.addAll(response.body().getResults());
                 if(!mSimilarMovies.isEmpty())
                     mSimilarMoviesTextView.setVisibility(View.VISIBLE);

@@ -155,14 +155,22 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
             public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mNowShowingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if (response.code() != 200) return;
+                            if(!response.isSuccessful()) {
+                                call.clone().enqueue(this);
+                                return;
+                            }
+
                             if(response.body().getBackdropPath() != null) {
                                 mNowShowingMovies.add(response.body());
                                 mNowShowingAdapter.notifyDataSetChanged();
@@ -190,7 +198,11 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<PopularMoviesResponse>() {
             @Override
             public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mPopularLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getPosterPath() != null)
@@ -212,14 +224,22 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
             public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mUpcomingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if (response.code() != 200) return;
+                            if(!response.isSuccessful()) {
+                                call.clone().enqueue(this);
+                                return;
+                            }
+
                             if(response.body().getBackdropPath() != null) {
                                 mUpcomingMovies.add(response.body());
                                 mUpcomingAdapter.notifyDataSetChanged();
@@ -247,7 +267,11 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<TopRatedMoviesResponse>() {
             @Override
             public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
-                if(response.code() != 200) return;
+                if(!response.isSuccessful()) {
+                    call.clone().enqueue(this);
+                    return;
+                }
+
                 mTopRatedLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movieBrief : response.body().getResults()) {
                     if(movieBrief.getPosterPath() != null)
