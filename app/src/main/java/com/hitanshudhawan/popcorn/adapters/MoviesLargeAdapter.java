@@ -23,6 +23,7 @@ import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Favourite;
 
 import java.util.List;
 
@@ -58,11 +59,22 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        if(mMovies.get(position).getVoteAverage() > 0)
+        if(mMovies.get(position).getVoteAverage() > 0) {
+            holder.movieRatingTextView.setVisibility(View.VISIBLE);
             holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
-        else
+        }
+        else {
             holder.movieRatingTextView.setVisibility(View.GONE);
+        }
         setGenres(holder, mMovies.get(position));
+        if(Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
+            holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
+            holder.movieFavImageButton.setEnabled(false);
+        }
+        else {
+            holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
+            holder.movieFavImageButton.setEnabled(true);
+        }
     }
 
     @Override
@@ -107,7 +119,9 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 @Override
                 public void onClick(View view) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    // TODO
+                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId());
+                    movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
+                    movieFavImageButton.setEnabled(false);
                 }
             });
         }
