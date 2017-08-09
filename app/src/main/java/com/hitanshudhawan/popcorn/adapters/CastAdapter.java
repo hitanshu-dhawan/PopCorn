@@ -40,15 +40,6 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
     @Override
     public void onBindViewHolder(CastViewHolder holder, final int position) {
 
-        holder.castImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, CastDetailActivity.class);
-                intent.putExtra(Constant.PERSON_ID,mCasts.get(position).getId());
-                mContext.startActivity(intent);
-            }
-        });
-
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_185 + mCasts.get(position).getProfilePath())
                 .asBitmap()
                 .centerCrop()
@@ -77,6 +68,15 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
             castImageView = (ImageView) itemView.findViewById(R.id.image_view_cast);
             nameTextView = (TextView) itemView.findViewById(R.id.text_view_cast_name);
             characterTextView = (TextView) itemView.findViewById(R.id.text_view_cast_as);
+
+            castImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, CastDetailActivity.class);
+                    intent.putExtra(Constant.PERSON_ID,mCasts.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -43,17 +43,6 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
     @Override
     public void onBindViewHolder(MoviesViewHolder holder, final int position) {
 
-        holder.moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
-        holder.moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
-
-        holder.movieCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(Constant.MOVIE_ID,mMovieCasts.get(position).getId());
-                mContext.startActivity(intent);
-            }
-        });
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovieCasts.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
@@ -62,13 +51,6 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
         holder.movieTitleTextView.setText(mMovieCasts.get(position).getTitle());
         if(mMovieCasts.get(position).getCharacter() != null && !mMovieCasts.get(position).getCharacter().trim().isEmpty())
             holder.castCharacterTextView.setText("as " + mMovieCasts.get(position).getCharacter());
-//        holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//                //TODO
-//            }
-//        });
     }
 
     @Override
@@ -82,7 +64,6 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
         public ImageView moviePosterImageView;
         public TextView movieTitleTextView;
         public TextView castCharacterTextView;
-        //public ImageButton movieFavImageButton;
 
         public MoviesViewHolder(View itemView) {
             super(itemView);
@@ -90,7 +71,18 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_cast);
             movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_movie_cast);
             castCharacterTextView = (TextView) itemView.findViewById(R.id.text_view_cast_character_movie_cast);
-            //movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_cast);
+
+            moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
+            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
+
+            movieCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra(Constant.MOVIE_ID,mMovieCasts.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

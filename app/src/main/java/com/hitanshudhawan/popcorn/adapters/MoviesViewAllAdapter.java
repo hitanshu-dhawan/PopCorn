@@ -52,30 +52,13 @@ public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdap
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, final int position) {
 
-        holder.moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
-        holder.moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
-
-        holder.movieCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(Constant.MOVIE_ID,mMovies.get(position).getId());
-                mContext.startActivity(intent);
-            }
-        });
         Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        holder.movieFavImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                //TODO
-            }
-        });
+
     }
 
     @Override
@@ -97,6 +80,26 @@ public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdap
             moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_card);
             movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_movie_card);
             movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
+
+            moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
+            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
+
+            movieCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra(Constant.MOVIE_ID,mMovies.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
+                }
+            });
+
+            movieFavImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    //TODO
+                }
+            });
         }
     }
 

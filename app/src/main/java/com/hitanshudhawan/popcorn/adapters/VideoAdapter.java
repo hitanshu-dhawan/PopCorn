@@ -41,13 +41,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(VideoViewHolder holder, final int position) {
 
-        holder.videoCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.YOUTUBE_WATCH_BASE_URL + mVideos.get(position).getKey()));
-                mContext.startActivity(youtubeIntent);
-            }
-        });
         Glide.with(mContext.getApplicationContext()).load(Constant.YOUTUBE_THUMBNAIL_BASE_URL + mVideos.get(position).getKey() + Constant.YOUTUBE_THUMBNAIL_IMAGE_QUALITY)
                 .asBitmap()
                 .centerCrop()
@@ -73,6 +66,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoCard = (CardView) itemView.findViewById(R.id.card_view_video);
             videoImageView = (ImageView) itemView.findViewById(R.id.image_view_video);
             videoTextView = (TextView) itemView.findViewById(R.id.text_view_video_name);
+
+            videoCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.YOUTUBE_WATCH_BASE_URL + mVideos.get(getAdapterPosition()).getKey()));
+                    mContext.startActivity(youtubeIntent);
+                }
+            });
         }
     }
 
