@@ -3,6 +3,8 @@ package com.hitanshudhawan.popcorn.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +42,10 @@ import retrofit2.Response;
 
 public class PersonDetailActivity extends AppCompatActivity {
 
-    private int mCastId;
+    private int mPersonId;
+
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private AppBarLayout mAppBarLayout;
 
     private CardView mCastImageCardView;
     private int mCastImageSideSize;
@@ -66,10 +71,13 @@ public class PersonDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(""); //todo
+        setTitle("");
 
         Intent receivedIntent = getIntent();
-        mCastId = receivedIntent.getIntExtra(Constant.PERSON_ID,-1);
+        mPersonId = receivedIntent.getIntExtra(Constant.PERSON_ID,-1);
+
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
         mCastImageCardView = (CardView) findViewById(R.id.card_view_cast_detail);
         mCastImageSideSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.33);
@@ -101,11 +109,21 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Person> call = apiService.getPersonDetails(mCastId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        Call<Person> call = apiService.getPersonDetails(mPersonId, getResources().getString(R.string.MOVIE_DB_API_KEY));
         call.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(Call<Person> call, final Response<Person> response) {
                 if(response.code() != 200) return;
+
+                mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        if(appBarLayout.getTotalScrollRange() + verticalOffset == 0)
+                            mCollapsingToolbarLayout.setTitle(response.body().getName());
+                        else
+                            mCollapsingToolbarLayout.setTitle("");
+                    }
+                });
                 Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getProfilePath())
                         .asBitmap()
                         .centerCrop()

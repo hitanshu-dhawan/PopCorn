@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -49,8 +51,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private int mMovieId;
 
-    private ConstraintLayout mMovieTabLayout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+    private AppBarLayout mAppBarLayout;
 
+    private ConstraintLayout mMovieTabLayout;
     private ImageView mPosterImageView;
     private int mPosterHeight;
     private int mPosterWidth;
@@ -91,10 +95,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle(""); //todo
+        setTitle("");
 
         Intent receivedIntent = getIntent();
         mMovieId = receivedIntent.getIntExtra(Constant.MOVIE_ID,-1);
+
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
         mPosterWidth = (int)(getResources().getDisplayMetrics().widthPixels * 0.25);
         mPosterHeight = (int)(mPosterWidth/0.66);
@@ -153,9 +160,18 @@ public class MovieDetailActivity extends AppCompatActivity {
         Call<Movie> call = apiService.getMovieDetails(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
         call.enqueue(new Callback<Movie>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
+            public void onResponse(Call<Movie> call, final Response<Movie> response) {
                 if(response.code() != 200) return;
 
+                mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        if(appBarLayout.getTotalScrollRange() + verticalOffset == 0)
+                            mCollapsingToolbarLayout.setTitle(response.body().getTitle());
+                        else
+                            mCollapsingToolbarLayout.setTitle("");
+                    }
+                });
                 Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
