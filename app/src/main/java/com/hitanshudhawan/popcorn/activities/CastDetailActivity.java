@@ -24,6 +24,7 @@ import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastOfPerson;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.network.movies.Person;
+import com.hitanshudhawan.popcorn.utils.Constant;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -67,8 +68,8 @@ public class CastDetailActivity extends AppCompatActivity {
 
         setTitle(""); //todo
 
-        Intent intent = getIntent();
-        mCastId = intent.getIntExtra("cast_id",-1);
+        Intent receivedIntent = getIntent();
+        mCastId = receivedIntent.getIntExtra(Constant.PERSON_ID,-1);
 
         mCastImageCardView = (CardView) findViewById(R.id.card_view_cast_detail);
         mCastImageSideSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.33);
@@ -105,7 +106,7 @@ public class CastDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Person> call, Response<Person> response) {
                 if(response.code() != 200) return;
-                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getProfilePath())
+                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getProfilePath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)

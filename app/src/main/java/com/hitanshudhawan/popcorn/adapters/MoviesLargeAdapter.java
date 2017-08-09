@@ -22,6 +22,7 @@ import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;
 
@@ -62,14 +63,14 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 mContext.startActivity(intent);
             }
         });
-        Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
         if(mMovies.get(position).getVoteAverage() > 0)
-            holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + "\u2605");
+            holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
         else
             holder.movieRatingTextView.setVisibility(View.GONE);
         setGenres(holder, mMovies.get(position).getId());

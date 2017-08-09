@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.CastDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.CastBrief;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;
 
@@ -43,12 +44,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CastDetailActivity.class);
-                intent.putExtra("cast_id",mCasts.get(position).getId());
+                intent.putExtra(Constant.PERSON_ID,mCasts.get(position).getId());
                 mContext.startActivity(intent);
             }
         });
 
-        Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w185/" + mCasts.get(position).getProfilePath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_185 + mCasts.get(position).getProfilePath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

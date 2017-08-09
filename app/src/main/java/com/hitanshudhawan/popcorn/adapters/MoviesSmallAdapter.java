@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
                 mContext.startActivity(intent);
             }
         });
-        Glide.with(mContext.getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + mMovies.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

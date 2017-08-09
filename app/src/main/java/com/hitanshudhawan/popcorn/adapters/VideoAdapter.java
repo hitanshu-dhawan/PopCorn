@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.movies.Video;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;
 
@@ -43,11 +44,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + mVideos.get(position).getKey()));
+                Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.YOUTUBE_WATCH_BASE_URL + mVideos.get(position).getKey()));
                 mContext.startActivity(youtubeIntent);
             }
         });
-        Glide.with(mContext.getApplicationContext()).load("http://img.youtube.com/vi/" + mVideos.get(position).getKey() + "/hqdefault.jpg")
+        Glide.with(mContext.getApplicationContext()).load(Constant.YOUTUBE_THUMBNAIL_BASE_URL + mVideos.get(position).getKey() + Constant.YOUTUBE_THUMBNAIL_IMAGE_QUALITY)
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

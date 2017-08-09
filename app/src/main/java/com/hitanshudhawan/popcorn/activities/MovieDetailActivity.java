@@ -32,6 +32,7 @@ import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.Video;
 import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
+import com.hitanshudhawan.popcorn.utils.Constant;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -92,8 +93,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         setTitle(""); //todo
 
-        Intent intent = getIntent();
-        mMovieId = intent.getIntExtra("movie_id",-1);
+        Intent receivedIntent = getIntent();
+        mMovieId = receivedIntent.getIntExtra(Constant.MOVIE_ID,-1);
 
         mPosterWidth = (int)(getResources().getDisplayMetrics().widthPixels * 0.25);
         mPosterHeight = (int)(mPosterWidth/0.66);
@@ -155,7 +156,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onResponse(Call<Movie> call, Response<Movie> response) {
                 if(response.code() != 200) return;
 
-                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getPosterPath())
+                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -173,7 +174,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         })
                         .into(mPosterImageView);
 
-                Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w1000/" + response.body().getBackdropPath())
+                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getBackdropPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)

@@ -24,6 +24,7 @@ import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class MoviesFragment extends Fragment {
     private RecyclerView mTopRatedRecyclerView;
     private List<MovieBrief> mTopRatedMovies;
     private MoviesSmallAdapter mTopRatedAdapter;
+
 
     @Nullable
     @Override
@@ -114,25 +116,32 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-                startActivity(intent); // todo send nnowshowing in intent...
+                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.NOW_SHOWING_MOVIES_TYPE);
+                startActivity(intent);
             }
         });
         mPopularViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.POPULAR_MOVIES_TYPE);
+                startActivity(intent);
             }
         });
         mUpcomingViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.UPCOMING_MOVIES_TYPE);
+                startActivity(intent);
             }
         });
         mTopRatedViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.TOP_RATED_MOVIES_TYPE);
+                startActivity(intent);
             }
         });
 
