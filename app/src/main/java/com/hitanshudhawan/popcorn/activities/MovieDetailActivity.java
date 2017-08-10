@@ -234,7 +234,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getImdbId());
+                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId());
 
                 mOverviewTextView.setText(response.body().getOverview());
 
@@ -284,7 +284,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer movieId, final String imdbId) {
+    private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId) {
         if(Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
@@ -314,8 +314,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (imdbId != null) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Intent imdbIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.imdb.com/title/" + imdbId));
-                    startActivity(imdbIntent);
+                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
+                    movieShareIntent.setType("text/plain");
+                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, movieTitle + "\n"
+                    + movieTagline + "\n"
+                    + "http://www.imdb.com/title/" + imdbId);
+                    startActivity(movieShareIntent);
                 }
             }
         });
