@@ -12,10 +12,7 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
-    <string name="favourite_movie">fav</string>
-    <string name="not_favourite_movie">not_fav</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_cast_detail">CastDetailActivity</string>
     <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>
 

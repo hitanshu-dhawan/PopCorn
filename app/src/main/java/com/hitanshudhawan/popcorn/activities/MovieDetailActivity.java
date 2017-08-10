@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
@@ -11,7 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.Video;
 import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -54,6 +58,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private AppBarLayout mAppBarLayout;
+    private Toolbar mToolbar;
 
     private ConstraintLayout mMovieTabLayout;
     private ImageView mPosterImageView;
@@ -67,6 +72,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mTitleTextView;
     private TextView mGenreTextView;
     private TextView mYearTextView;
+    private ImageButton mFavImageButton;
+    private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
     private LinearLayout mReleaseAndRuntimeTextLayout;
@@ -93,8 +100,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         setTitle("");
 
@@ -124,6 +131,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         mTitleTextView = (TextView) findViewById(R.id.text_view_title_movie_detail);
         mGenreTextView = (TextView) findViewById(R.id.text_view_genre_movie_detail);
         mYearTextView = (TextView) findViewById(R.id.text_view_year_movie_detail);
+
+        mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_movie_detail);
+        mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
         mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_movie_detail);
@@ -170,10 +180,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                        if(appBarLayout.getTotalScrollRange() + verticalOffset == 0)
+                        if(appBarLayout.getTotalScrollRange() + verticalOffset == 0) {
                             mCollapsingToolbarLayout.setTitle(response.body().getTitle());
-                        else
+                            mToolbar.setVisibility(View.VISIBLE);
+                        }
+                        else {
                             mCollapsingToolbarLayout.setTitle("");
+                            mToolbar.setVisibility(View.INVISIBLE);
+                        }
                     }
                 });
                 Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getPosterPath())
@@ -217,6 +231,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 setGenres(response.body().getGenres());
 
                 setYear(response.body().getReleaseDate());
+
+                mFavImageButton.setVisibility(View.VISIBLE);
+                mShareImageButton.setVisibility(View.VISIBLE);
+                setImageButtons(response.body().getId(), response.body().getImdbId());
 
                 mOverviewTextView.setText(response.body().getOverview());
 
@@ -264,6 +282,43 @@ public class MovieDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setImageButtons(final Integer movieId, final String imdbId) {
+        if(Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
+            mFavImageButton.setTag(Constant.TAG_FAV);
+            mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
+        }
+        else  {
+            mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+            mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
+        }
+        mFavImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                if((int)mFavImageButton.getTag() == Constant.TAG_FAV) {
+                    Favourite.removeMovieFromFav(MovieDetailActivity.this, mMovieId);
+                    mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+                    mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
+                }
+                else {
+                    Favourite.addMovieToFav(MovieDetailActivity.this, mMovieId);
+                    mFavImageButton.setTag(Constant.TAG_FAV);
+                    mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
+                }
+            }
+        });
+        mShareImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (imdbId != null) {
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    Intent imdbIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.imdb.com/title/" + imdbId));
+                    startActivity(imdbIntent);
+                }
+            }
+        });
     }
 
     private void setReleaseAndRuntime(String releaseString, Integer runtime) {

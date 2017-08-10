@@ -58,8 +58,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
-                    tools:layout_editor_absoluteY="25dp"
-                    tools:layout_editor_absoluteX="0dp"
                     android:layout_marginLeft="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -79,6 +77,32 @@
                         app:indicatorName="BallScaleMultipleIndicator"/>
 
                 </FrameLayout>
+
+                <ImageButton
+                    android:id="@+id/image_button_share_movie_detail"
+                    android:src="@mipmap/ic_share_white_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:translationZ="2dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="16dp"/>
+
+                <ImageButton
+                    android:id="@+id/image_button_fav_movie_detail"
+                    android:src="@mipmap/ic_favorite_border_white_24dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:translationZ="2dp"
+                    app:layout_constraintRight_toLeftOf="@id/image_button_share_movie_detail"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="16dp"/>
 
                 <TextView
                     android:id="@+id/text_view_title_movie_detail"
