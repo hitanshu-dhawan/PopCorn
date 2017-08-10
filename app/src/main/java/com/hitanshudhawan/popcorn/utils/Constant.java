@@ -21,5 +21,8 @@ public class Constant {
     public static final String YOUTUBE_THUMBNAIL_IMAGE_QUALITY = "/hqdefault.jpg";
     public static final int TAG_FAV = 0;
     public static final int TAG_NOT_FAV = 1;
+    public static final String TAG_MOVIES_FRAGMENT = "tag_movies_fragment";
+    public static final String TAG_TV_SHOWS_FRAGMENT = "tag_tv_shows_fragment";
+    public static final String TAG_FAV_FRAGMENT = "tag_fav_fragment";
 
 }

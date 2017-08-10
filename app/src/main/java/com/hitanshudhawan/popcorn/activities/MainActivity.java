@@ -16,11 +16,15 @@ import android.view.MenuItem;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
+import com.hitanshudhawan.popcorn.utils.Constant;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
+
+    MoviesFragment mMoviesFragment;
+    FavouritesFragment mFavouritesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(MainActivity.this);
 
+        mMoviesFragment = new MoviesFragment();
+        mFavouritesFragment = new FavouritesFragment();
+
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
-        setFragment(new MoviesFragment());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.main_activity_fragment_container, mMoviesFragment, Constant.TAG_MOVIES_FRAGMENT);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -77,17 +87,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer.closeDrawer(GravityCompat.START);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (id) {
             case R.id.nav_movies:
                 setTitle(R.string.movies);
-                setFragment(new MoviesFragment());
+                if (fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) == null) {
+                    fragmentTransaction.add(R.id.main_activity_fragment_container, mMoviesFragment, Constant.TAG_MOVIES_FRAGMENT);
+                }
+                if(fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) != null) {
+                    fragmentTransaction.hide(mFavouritesFragment);
+                }
+                fragmentTransaction.show(mMoviesFragment);
+                fragmentTransaction.commit();
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);
-                setFragment(new FavouritesFragment());
+                if (fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) == null) {
+                    fragmentTransaction.add(R.id.main_activity_fragment_container, mFavouritesFragment, Constant.TAG_FAV_FRAGMENT);
+                }
+                if(fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) != null) {
+                    fragmentTransaction.hide(mMoviesFragment);
+                }
+                fragmentTransaction.show(mFavouritesFragment);
+                fragmentTransaction.commit();
                 return true;
             case R.id.nav_settings:
                 return false;
@@ -96,12 +123,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return false;
-    }
-
-    private void setFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_activity_fragment_container, fragment);
-        fragmentTransaction.commit();
     }
 }
