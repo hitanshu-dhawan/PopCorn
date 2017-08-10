@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
+import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
@@ -23,15 +24,15 @@ import com.hitanshudhawan.popcorn.utils.Favourite;
 import java.util.List;
 
 /**
- * Created by hitanshu on 31/7/17.
+ * Created by hitanshu on 10/8/17.
  */
 
 public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.MovieViewHolder> {
 
     private Context mContext;
-    private List<MovieBrief> mMovies;
+    private List<Movie> mMovies;
 
-    public MoviesSmallAdapter(Context context, List<MovieBrief> movies) {
+    public MoviesSmallAdapter(Context context, List<Movie> movies) {
         mContext = context;
         mMovies = movies;
     }

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);
+                setFragment(new FavouritesFragment());
                 return true;
             case R.id.nav_offline:
                 setTitle(R.string.offline);

@@ -22,7 +22,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.CastAdapter;
-import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
+
+import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
@@ -86,7 +87,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mSimilarMoviesTextView;
     private RecyclerView mSimilarMoviesRecyclerView;
     private List<MovieBrief> mSimilarMovies;
-    private MoviesSmallAdapter mSimilarMoviesAdapter;
+    private MovieBriefsSmallAdapter mSimilarMoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mSimilarMoviesTextView = (TextView) findViewById(R.id.text_view_similar_movie_detail);
         mSimilarMoviesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_similar_movie_detail);
         mSimilarMovies = new ArrayList<>();
-        mSimilarMoviesAdapter = new MoviesSmallAdapter(MovieDetailActivity.this, mSimilarMovies);
+        mSimilarMoviesAdapter = new MovieBriefsSmallAdapter(MovieDetailActivity.this, mSimilarMovies);
         mSimilarMoviesRecyclerView.setAdapter(mSimilarMoviesAdapter);
         mSimilarMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 

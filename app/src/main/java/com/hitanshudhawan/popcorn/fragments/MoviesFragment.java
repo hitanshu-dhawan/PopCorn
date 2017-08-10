@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllMoviesActivity;
+import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.MoviesLargeAdapter;
-import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
@@ -50,7 +50,7 @@ public class MoviesFragment extends Fragment {
     private TextView mPopularViewAllTextView;
     private RecyclerView mPopularRecyclerView;
     private List<MovieBrief> mPopularMovies;
-    private MoviesSmallAdapter mPopularAdapter;
+    private MovieBriefsSmallAdapter mPopularAdapter;
 
     private FrameLayout mUpcomingLayout;
     private TextView mUpcomingViewAllTextView;
@@ -62,7 +62,7 @@ public class MoviesFragment extends Fragment {
     private TextView mTopRatedViewAllTextView;
     private RecyclerView mTopRatedRecyclerView;
     private List<MovieBrief> mTopRatedMovies;
-    private MoviesSmallAdapter mTopRatedAdapter;
+    private MovieBriefsSmallAdapter mTopRatedAdapter;
 
 
     @Nullable
@@ -93,9 +93,9 @@ public class MoviesFragment extends Fragment {
         mTopRatedMovies = new ArrayList<>();
 
         mNowShowingAdapter = new MoviesLargeAdapter(getContext(),mNowShowingMovies);
-        mPopularAdapter = new MoviesSmallAdapter(getContext(),mPopularMovies);
+        mPopularAdapter = new MovieBriefsSmallAdapter(getContext(),mPopularMovies);
         mUpcomingAdapter = new MoviesLargeAdapter(getContext(),mUpcomingMovies);
-        mTopRatedAdapter = new MoviesSmallAdapter(getContext(),mTopRatedMovies);
+        mTopRatedAdapter = new MovieBriefsSmallAdapter(getContext(),mTopRatedMovies);
 
         mNowShowingRecyclerView.setAdapter(mNowShowingAdapter);
         mNowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
@@ -160,7 +160,6 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
-                mNowShowingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
@@ -171,6 +170,7 @@ public class MoviesFragment extends Fragment {
                                 return;
                             }
 
+                            mNowShowingLayout.setVisibility(View.VISIBLE);
                             if(response.body().getBackdropPath() != null) {
                                 mNowShowingMovies.add(response.body());
                                 mNowShowingAdapter.notifyDataSetChanged();
@@ -229,7 +229,6 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
-                mUpcomingLayout.setVisibility(View.VISIBLE);
                 for(MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
@@ -240,6 +239,7 @@ public class MoviesFragment extends Fragment {
                                 return;
                             }
 
+                            mUpcomingLayout.setVisibility(View.VISIBLE);
                             if(response.body().getBackdropPath() != null) {
                                 mUpcomingMovies.add(response.body());
                                 mUpcomingAdapter.notifyDataSetChanged();

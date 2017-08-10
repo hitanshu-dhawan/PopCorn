@@ -10,37 +10,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
-import com.hitanshudhawan.popcorn.network.ApiClient;
-import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Genre;
-import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
- * Created by hitanshu on 7/8/17.
+ * Created by hitanshu on 31/7/17.
  */
 
-public class MoviesViewAllAdapter extends RecyclerView.Adapter<MoviesViewAllAdapter.MovieViewHolder> {
+public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSmallAdapter.MovieViewHolder> {
 
     private Context mContext;
     private List<MovieBrief> mMovies;
 
-    public MoviesViewAllAdapter(Context context, List<MovieBrief> movies) {
+    public MovieBriefsSmallAdapter(Context context, List<MovieBrief> movies) {
         mContext = context;
         mMovies = movies;
     }

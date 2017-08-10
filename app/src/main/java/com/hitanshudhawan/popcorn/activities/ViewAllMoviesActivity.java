@@ -2,17 +2,13 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.adapters.MoviesViewAllAdapter;
+import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
@@ -33,7 +29,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private List<MovieBrief> mMovies;
-    private MoviesViewAllAdapter mMoviesAdapter;
+    private MovieBriefsSmallAdapter mMoviesAdapter;
 
     private boolean pagesOver = false;
     private int presentPage = 1;
@@ -60,7 +56,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_all);
         mMovies = new ArrayList<>();
-        mMoviesAdapter = new MoviesViewAllAdapter(ViewAllMoviesActivity.this, mMovies);
+        mMoviesAdapter = new MovieBriefsSmallAdapter(ViewAllMoviesActivity.this, mMovies);
         mRecyclerView.setAdapter(mMoviesAdapter);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(ViewAllMoviesActivity.this, 3);
         mRecyclerView.setLayoutManager(gridLayoutManager);
