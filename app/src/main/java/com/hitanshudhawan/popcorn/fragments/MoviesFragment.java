@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
@@ -39,6 +40,12 @@ import retrofit2.Response;
  */
 
 public class MoviesFragment extends Fragment {
+
+    private ProgressBar mProgressBar;
+    private boolean mNowShowingSectionLoaded;
+    private boolean mPopularSectionLoaded;
+    private boolean mUpcomingSectionLoaded;
+    private boolean mTopRatedSectionLoaded;
 
     private FrameLayout mNowShowingLayout;
     private TextView mNowShowingViewAllTextView;
@@ -75,6 +82,12 @@ public class MoviesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mNowShowingSectionLoaded = false;
+        mPopularSectionLoaded = false;
+        mUpcomingSectionLoaded = false;
+        mTopRatedSectionLoaded = false;
 
         mNowShowingLayout = (FrameLayout) view.findViewById(R.id.layout_now_showing);
         mPopularLayout = (FrameLayout) view.findViewById(R.id.layout_popular);
@@ -185,6 +198,7 @@ public class MoviesFragment extends Fragment {
 
     private void loadNowShowingMovies() {
         final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
         mNowShowingMoviesCall = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         mNowShowingMoviesCall.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
@@ -208,10 +222,11 @@ public class MoviesFragment extends Fragment {
                                 return;
                             }
 
-                            mNowShowingLayout.setVisibility(View.VISIBLE);
                             if (response.body().getBackdropPath() != null) {
                                 mNowShowingMovies.add(response.body());
                                 mNowShowingAdapter.notifyDataSetChanged();
+                                mNowShowingSectionLoaded = true;
+                                checkAllDataLoaded();
                             }
                         }
 
@@ -232,6 +247,7 @@ public class MoviesFragment extends Fragment {
 
     private void loadPopularMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
         mPopularMoviesCall = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         mPopularMoviesCall.enqueue(new Callback<PopularMoviesResponse>() {
             @Override
@@ -242,7 +258,8 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
-                mPopularLayout.setVisibility(View.VISIBLE);
+                mPopularSectionLoaded = true;
+                checkAllDataLoaded();
                 for (MovieBrief movieBrief : response.body().getResults()) {
                     if (movieBrief.getPosterPath() != null)
                         mPopularMovies.add(movieBrief);
@@ -259,6 +276,7 @@ public class MoviesFragment extends Fragment {
 
     private void loadUpcomingMovies() {
         final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
         mUpcomingMoviesCall = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         mUpcomingMoviesCall.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
@@ -282,10 +300,11 @@ public class MoviesFragment extends Fragment {
                                 return;
                             }
 
-                            mUpcomingLayout.setVisibility(View.VISIBLE);
                             if (response.body().getBackdropPath() != null) {
                                 mUpcomingMovies.add(response.body());
                                 mUpcomingAdapter.notifyDataSetChanged();
+                                mUpcomingSectionLoaded = true;
+                                checkAllDataLoaded();
                             }
                         }
 
@@ -306,6 +325,7 @@ public class MoviesFragment extends Fragment {
 
     private void loadTopRatedMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
         mTopRatedMoviesCall = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
         mTopRatedMoviesCall.enqueue(new Callback<TopRatedMoviesResponse>() {
             @Override
@@ -316,7 +336,8 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
-                mTopRatedLayout.setVisibility(View.VISIBLE);
+                mTopRatedSectionLoaded = true;
+                checkAllDataLoaded();
                 for (MovieBrief movieBrief : response.body().getResults()) {
                     if (movieBrief.getPosterPath() != null)
                         mTopRatedMovies.add(movieBrief);
@@ -329,5 +350,19 @@ public class MoviesFragment extends Fragment {
 
             }
         });
+    }
+
+    private void checkAllDataLoaded() {
+        if (mNowShowingSectionLoaded && mPopularSectionLoaded && mUpcomingSectionLoaded && mTopRatedSectionLoaded) {
+            mProgressBar.setVisibility(View.GONE);
+            mNowShowingLayout.setVisibility(View.VISIBLE);
+            mNowShowingRecyclerView.setVisibility(View.VISIBLE);
+            mPopularLayout.setVisibility(View.VISIBLE);
+            mPopularRecyclerView.setVisibility(View.VISIBLE);
+            mUpcomingLayout.setVisibility(View.VISIBLE);
+            mUpcomingRecyclerView.setVisibility(View.VISIBLE);
+            mTopRatedLayout.setVisibility(View.VISIBLE);
+            mTopRatedRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

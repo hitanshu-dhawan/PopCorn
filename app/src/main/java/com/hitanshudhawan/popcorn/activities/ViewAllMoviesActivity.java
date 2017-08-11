@@ -21,11 +21,14 @@ import com.hitanshudhawan.popcorn.utils.Constant;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewAllMoviesActivity extends AppCompatActivity {
+
+    private SmoothProgressBar mSmoothProgressBar;
 
     private RecyclerView mRecyclerView;
     private List<MovieBrief> mMovies;
@@ -66,6 +69,8 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 setTitle("Top Rated Movies");
                 break;
         }
+
+        mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_all);
         mMovies = new ArrayList<>();
@@ -118,6 +123,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         if (pagesOver) return;
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mSmoothProgressBar.progressiveStart();
 
         switch (movieType) {
             case Constant.NOW_SHOWING_MOVIES_TYPE:
@@ -131,6 +137,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        mSmoothProgressBar.progressiveStop();
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
@@ -156,6 +163,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        mSmoothProgressBar.progressiveStop();
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
@@ -181,6 +189,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        mSmoothProgressBar.progressiveStop();
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
@@ -206,6 +215,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        mSmoothProgressBar.progressiveStop();
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())

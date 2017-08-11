@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorAccent">#FFFF00</color>
+    <color name="colorAccent">#009688</color>
 
     <color name="navigationHeaderBackground">#212121</color>
     <color name="navigationDrawerBackgroud">#E0E0E0</color>

@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
-import com.hitanshudhawan.popcorn.utils.Constant;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

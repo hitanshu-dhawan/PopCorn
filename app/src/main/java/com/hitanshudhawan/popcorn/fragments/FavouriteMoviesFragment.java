@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.MoviesSmallAdapter;
@@ -29,6 +30,8 @@ import retrofit2.Response;
 
 public class FavouriteMoviesFragment extends Fragment {
 
+    private ProgressBar mProgressBar;
+
     private RecyclerView mFavMoviesRecyclerView;
     private List<Movie> mFavMovies;
     private MoviesSmallAdapter mFavMoviesAdapter;
@@ -39,6 +42,8 @@ public class FavouriteMoviesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite_movies, container, false);
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         mFavMoviesRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fav_movies);
         mFavMovies = new ArrayList<>();
@@ -63,14 +68,15 @@ public class FavouriteMoviesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         if (mMovieDetailsCalls != null) {
-            for(Call<Movie> movieCall : mMovieDetailsCalls) {
-                if(movieCall != null) movieCall.cancel();
+            for (Call<Movie> movieCall : mMovieDetailsCalls) {
+                if (movieCall != null) movieCall.cancel();
             }
         }
     }
 
     private void loadFavMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
         List<Integer> favMovieIds = Favourite.getFavMovieIds(getContext());
         mMovieDetailsCalls = new ArrayList<>();
         for (int i = 0; i < favMovieIds.size(); i++) {
@@ -85,6 +91,7 @@ public class FavouriteMoviesFragment extends Fragment {
                         return;
                     }
 
+                    mProgressBar.setVisibility(View.GONE);
                     if (response.body().getPosterPath() != null) {
                         mFavMovies.add(response.body());
                         mFavMoviesAdapter.notifyDataSetChanged();

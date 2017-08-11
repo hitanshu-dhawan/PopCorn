@@ -17,7 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
-import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
