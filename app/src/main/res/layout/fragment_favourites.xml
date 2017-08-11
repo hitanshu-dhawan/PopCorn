@@ -9,22 +9,21 @@
         android:id="@+id/tab_view_pager_fav"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:stl_indicatorColor="@color/colorPrimary"
+        app:stl_defaultTabBackground="?attr/selectableItemBackground"
+        app:stl_defaultTabTextColor="@android:color/black"
         app:stl_distributeEvenly="true"
+        app:stl_dividerThickness="0dp"
+        app:stl_drawDecorationAfterTab="true"
+        app:stl_indicatorColor="@color/colorPrimary"
+        app:stl_indicatorCornerRadius="2dp"
         app:stl_indicatorInterpolation="smart"
         app:stl_indicatorThickness="4dp"
-        app:stl_indicatorCornerRadius="2dp"
-        app:stl_defaultTabTextColor="@android:color/black"
         app:stl_overlineThickness="0dp"
-        app:stl_underlineThickness="0dp"
-        app:stl_dividerThickness="0dp"
-        app:stl_defaultTabBackground="?attr/selectableItemBackground"
-        app:stl_drawDecorationAfterTab="true"/>
+        app:stl_underlineThickness="0dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_fav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

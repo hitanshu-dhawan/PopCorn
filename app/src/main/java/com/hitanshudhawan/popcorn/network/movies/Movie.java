@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Movie {
 
+    @SerializedName("genres")
+    List<Genre> genres;
     @SerializedName("adult")
     private Boolean adult;
     @SerializedName("backdrop_path")
@@ -17,8 +19,6 @@ public class Movie {
     //belongs_to_collection missing
     @SerializedName("budget")
     private Integer budget;
-    @SerializedName("genres")
-    List<Genre> genres;
     @SerializedName("homepage")
     private String homepage;
     @SerializedName("id")

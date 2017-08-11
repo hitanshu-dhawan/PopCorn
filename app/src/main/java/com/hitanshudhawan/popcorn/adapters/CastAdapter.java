@@ -34,7 +34,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
 
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cast_of_movie,parent,false));
+        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cast_of_movie, parent, false));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, PersonDetailActivity.class);
-                    intent.putExtra(Constant.PERSON_ID,mCasts.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constant.PERSON_ID, mCasts.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

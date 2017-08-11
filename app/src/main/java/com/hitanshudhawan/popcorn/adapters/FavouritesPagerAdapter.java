@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouriteMoviesFragment;
-import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
-import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 
 /**
  * Created by hitanshu on 10/8/17.

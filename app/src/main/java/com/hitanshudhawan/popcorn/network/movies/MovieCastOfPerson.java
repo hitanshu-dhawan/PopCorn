@@ -44,9 +44,9 @@ public class MovieCastOfPerson {
     private String posterPath;
 
     public MovieCastOfPerson(String character, String creditId, String releaseDate, Integer voteCount,
-                                Boolean video, Boolean adult, Double voteAverage, String title,
-                                List<Integer> genreIds, String originalLanguage, String originalTitle,
-                                Double popularity, Integer id, String backdropPath, String overview, String posterPath) {
+                             Boolean video, Boolean adult, Double voteAverage, String title,
+                             List<Integer> genreIds, String originalLanguage, String originalTitle,
+                             Double popularity, Integer id, String backdropPath, String overview, String posterPath) {
         this.character = character;
         this.creditId = creditId;
         this.releaseDate = releaseDate;

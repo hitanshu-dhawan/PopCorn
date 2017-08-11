@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@color/navigationHeaderBackground"
@@ -13,12 +12,12 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:text="TODO"
-        android:fontFamily="cursive"
-        android:textSize="80sp"
-        android:textColor="@android:color/white"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:text="TODO"
+        android:textColor="@android:color/white"
+        android:textSize="80sp" />
 
 </LinearLayout>

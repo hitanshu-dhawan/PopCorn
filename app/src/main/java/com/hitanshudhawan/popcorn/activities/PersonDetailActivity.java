@@ -64,6 +64,9 @@ public class PersonDetailActivity extends AppCompatActivity {
     private List<MovieCastOfPerson> mMovieCastOfPersons;
     private MovieCastsOfPersonAdapter mMovieCastsOfPersonAdapter;
 
+    private Call<Person> mPersonDetailsCall;
+    private Call<MovieCastsOfPersonResponse> mMovieCastsOfPersonsCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,21 +77,21 @@ public class PersonDetailActivity extends AppCompatActivity {
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mPersonId = receivedIntent.getIntExtra(Constant.PERSON_ID,-1);
+        mPersonId = receivedIntent.getIntExtra(Constant.PERSON_ID, -1);
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
         mCastImageCardView = (CardView) findViewById(R.id.card_view_cast_detail);
-        mCastImageSideSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.33);
+        mCastImageSideSize = (int) (getResources().getDisplayMetrics().widthPixels * 0.33);
         mCastImageCardView.getLayoutParams().height = mCastImageSideSize;
         mCastImageCardView.getLayoutParams().width = mCastImageSideSize;
-        mCastImageCardView.setRadius(mCastImageSideSize/2);
+        mCastImageCardView.setRadius(mCastImageSideSize / 2);
         mCastImageView = (ImageView) findViewById(R.id.image_view_cast_detail);
         mProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_cast_detail);
         mCastNameTextView = (TextView) findViewById(R.id.text_view_name_cast_detail);
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mCastNameTextView.getLayoutParams();
-        params.setMargins(params.leftMargin,mCastImageSideSize/3,params.rightMargin,params.bottomMargin);
+        params.setMargins(params.leftMargin, mCastImageSideSize / 3, params.rightMargin, params.bottomMargin);
         mCastAgeTextView = (TextView) findViewById(R.id.text_view_age_cast_detail);
         mCastBirthPlaceTextView = (TextView) findViewById(R.id.text_view_birthplace_cast_detail);
 
@@ -107,21 +110,29 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPersonDetailsCall != null) mPersonDetailsCall.cancel();
+        if (mMovieCastsOfPersonsCall != null) mMovieCastsOfPersonsCall.cancel();
+    }
+
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Person> call = apiService.getPersonDetails(mPersonId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        call.enqueue(new Callback<Person>() {
+        mPersonDetailsCall = apiService.getPersonDetails(mPersonId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mPersonDetailsCall.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(Call<Person> call, final Response<Person> response) {
-                if(!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                if (!response.isSuccessful()) {
+                    mPersonDetailsCall = call.clone();
+                    mPersonDetailsCall.enqueue(this);
                     return;
                 }
 
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                        if(appBarLayout.getTotalScrollRange() + verticalOffset == 0)
+                        if (appBarLayout.getTotalScrollRange() + verticalOffset == 0)
                             mCollapsingToolbarLayout.setTitle(response.body().getName());
                         else
                             mCollapsingToolbarLayout.setTitle("");
@@ -147,10 +158,10 @@ public class PersonDetailActivity extends AppCompatActivity {
                         .into(mCastImageView);
                 mCastNameTextView.setText(response.body().getName());
                 setAge(response.body().getDateOfBirth());
-                if(response.body().getPlaceOfBirth() != null)
+                if (response.body().getPlaceOfBirth() != null)
                     mCastBirthPlaceTextView.setText(response.body().getPlaceOfBirth());
 
-                if(response.body().getBiography() != null && !response.body().getBiography().trim().equals("")) {
+                if (response.body().getBiography() != null && !response.body().getBiography().trim().equals("")) {
                     mCastBioHeaderTextView.setVisibility(View.VISIBLE);
                     mCastReadMoreBioTextView.setVisibility(View.VISIBLE);
                     mCastBioTextView.setText(response.body().getBiography());
@@ -174,12 +185,12 @@ public class PersonDetailActivity extends AppCompatActivity {
     }
 
     private void setAge(String dateOfBirthString) {
-        if(dateOfBirthString != null) {
+        if (dateOfBirthString != null) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
                 Date releaseDate = sdf1.parse(dateOfBirthString);
-                mCastAgeTextView.setText((Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(sdf2.format(releaseDate)))+"");
+                mCastAgeTextView.setText((Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(sdf2.format(releaseDate))) + "");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -188,18 +199,19 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     private void setMovieCast(Integer personId) {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<MovieCastsOfPersonResponse> call = apiService.getMovieCastsOfPerson(personId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        call.enqueue(new Callback<MovieCastsOfPersonResponse>() {
+        mMovieCastsOfPersonsCall = apiService.getMovieCastsOfPerson(personId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mMovieCastsOfPersonsCall.enqueue(new Callback<MovieCastsOfPersonResponse>() {
             @Override
             public void onResponse(Call<MovieCastsOfPersonResponse> call, Response<MovieCastsOfPersonResponse> response) {
-                if(!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                if (!response.isSuccessful()) {
+                    mMovieCastsOfPersonsCall = call.clone();
+                    mMovieCastsOfPersonsCall.enqueue(this);
                     return;
                 }
 
                 mMovieCastTextView.setVisibility(View.VISIBLE);
-                for(MovieCastOfPerson movieCastOfPerson : response.body().getCasts())
-                    if(movieCastOfPerson.getPosterPath() != null)
+                for (MovieCastOfPerson movieCastOfPerson : response.body().getCasts())
+                    if (movieCastOfPerson.getPosterPath() != null)
                         mMovieCastOfPersons.add(movieCastOfPerson);
                 mMovieCastsOfPersonAdapter.notifyDataSetChanged();
             }

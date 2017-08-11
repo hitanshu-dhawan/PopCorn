@@ -37,6 +37,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
     private int previousTotal = 0;
     private int visibleThreshold = 5;
 
+    private Call<NowShowingMoviesResponse> mNowShowingMoviesCall;
+    private Call<PopularMoviesResponse> mPopularMoviesCall;
+    private Call<UpcomingMoviesResponse> mUpcomingMoviesCall;
+    private Call<TopRatedMoviesResponse> mTopRatedMoviesCall;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +53,18 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         final int movieType = receivedIntent.getIntExtra(Constant.VIEW_ALL_MOVIES_TYPE, -1);
 
         switch (movieType) {
-            case Constant.NOW_SHOWING_MOVIES_TYPE: setTitle("Now Showing Movies"); break;
-            case Constant.POPULAR_MOVIES_TYPE: setTitle("Popular Movies"); break;
-            case Constant.UPCOMING_MOVIES_TYPE: setTitle("Upcoming Movies"); break;
-            case Constant.TOP_RATED_MOVIES_TYPE: setTitle("Top Rated Movies"); break;
+            case Constant.NOW_SHOWING_MOVIES_TYPE:
+                setTitle("Now Showing Movies");
+                break;
+            case Constant.POPULAR_MOVIES_TYPE:
+                setTitle("Popular Movies");
+                break;
+            case Constant.UPCOMING_MOVIES_TYPE:
+                setTitle("Upcoming Movies");
+                break;
+            case Constant.TOP_RATED_MOVIES_TYPE:
+                setTitle("Top Rated Movies");
+                break;
         }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_all);
@@ -86,25 +99,35 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
+        if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
+        if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
+        if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
+    }
+
     private void loadMovies(int movieType) {
-        if(pagesOver) return;
+        if (pagesOver) return;
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         switch (movieType) {
             case Constant.NOW_SHOWING_MOVIES_TYPE:
-                Call<NowShowingMoviesResponse> callNowShowingMovies = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
-                callNowShowingMovies.enqueue(new Callback<NowShowingMoviesResponse>() {
+                mNowShowingMoviesCall = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
+                mNowShowingMoviesCall.enqueue(new Callback<NowShowingMoviesResponse>() {
                     @Override
                     public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
-                        if(!response.isSuccessful()) {
-                            call.clone().enqueue(this);
+                        if (!response.isSuccessful()) {
+                            mNowShowingMoviesCall = call.clone();
+                            mNowShowingMoviesCall.enqueue(this);
                             return;
                         }
 
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
-                        if(response.body().getPage() == response.body().getTotalPages())
+                        if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
                         else
                             presentPage++;
@@ -117,18 +140,19 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 });
                 break;
             case Constant.POPULAR_MOVIES_TYPE:
-                Call<PopularMoviesResponse> callPopularMovies = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
-                callPopularMovies.enqueue(new Callback<PopularMoviesResponse>() {
+                mPopularMoviesCall = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
+                mPopularMoviesCall.enqueue(new Callback<PopularMoviesResponse>() {
                     @Override
                     public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
-                        if(!response.isSuccessful()) {
-                            call.clone().enqueue(this);
+                        if (!response.isSuccessful()) {
+                            mPopularMoviesCall = call.clone();
+                            mPopularMoviesCall.enqueue(this);
                             return;
                         }
 
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
-                        if(response.body().getPage() == response.body().getTotalPages())
+                        if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
                         else
                             presentPage++;
@@ -141,18 +165,19 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 });
                 break;
             case Constant.UPCOMING_MOVIES_TYPE:
-                Call<UpcomingMoviesResponse> callUpcomingMovies = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
-                callUpcomingMovies.enqueue(new Callback<UpcomingMoviesResponse>() {
+                mUpcomingMoviesCall = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
+                mUpcomingMoviesCall.enqueue(new Callback<UpcomingMoviesResponse>() {
                     @Override
                     public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
-                        if(!response.isSuccessful()) {
-                            call.clone().enqueue(this);
+                        if (!response.isSuccessful()) {
+                            mUpcomingMoviesCall = call.clone();
+                            mUpcomingMoviesCall.enqueue(this);
                             return;
                         }
 
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
-                        if(response.body().getPage() == response.body().getTotalPages())
+                        if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
                         else
                             presentPage++;
@@ -165,18 +190,19 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 });
                 break;
             case Constant.TOP_RATED_MOVIES_TYPE:
-                Call<TopRatedMoviesResponse> callTopRatedMovies = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
-                callTopRatedMovies.enqueue(new Callback<TopRatedMoviesResponse>() {
+                mTopRatedMoviesCall = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
+                mTopRatedMoviesCall.enqueue(new Callback<TopRatedMoviesResponse>() {
                     @Override
                     public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
-                        if(!response.isSuccessful()) {
-                            call.clone().enqueue(this);
+                        if (!response.isSuccessful()) {
+                            mTopRatedMoviesCall = call.clone();
+                            mTopRatedMoviesCall.enqueue(this);
                             return;
                         }
 
                         mMovies.addAll(response.body().getResults());
                         mMoviesAdapter.notifyDataSetChanged();
-                        if(response.body().getPage() == response.body().getTotalPages())
+                        if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
                         else
                             presentPage++;

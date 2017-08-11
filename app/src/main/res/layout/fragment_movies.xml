@@ -15,29 +15,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <TextView
-                android:text="Now Showing"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"/>
+                android:layout_gravity="left"
+                android:text="Now Showing"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_view_view_all_now_showing"
-                android:text="View All"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:text="View All"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </FrameLayout>
 
@@ -45,37 +45,36 @@
             android:id="@+id/recycler_view_now_showing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
         <FrameLayout
             android:id="@+id/layout_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <TextView
-                android:text="Popular"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"/>
+                android:layout_gravity="left"
+                android:text="Popular"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_view_view_all_popular"
-                android:text="View All"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:text="View All"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </FrameLayout>
 
@@ -83,37 +82,36 @@
             android:id="@+id/recycler_view_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
         <FrameLayout
             android:id="@+id/layout_upcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <TextView
-                android:text="Upcoming"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"/>
+                android:layout_gravity="left"
+                android:text="Upcoming"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_view_view_all_upcoming"
-                android:text="View All"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:text="View All"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </FrameLayout>
 
@@ -121,37 +119,36 @@
             android:id="@+id/recycler_view_upcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
         <FrameLayout
             android:id="@+id/layout_top_rated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:visibility="gone">
 
             <TextView
-                android:text="Top Rated"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"/>
+                android:layout_gravity="left"
+                android:text="Top Rated"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/text_view_view_all_top_rated"
-                android:text="View All"
-                android:textSize="14sp"
-                android:textColor="@color/colorPrimary"
-                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"/>
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:text="View All"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </FrameLayout>
 
@@ -159,8 +156,7 @@
             android:id="@+id/recycler_view_top_rated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false">
-        </android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

@@ -5,20 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.database.DatabaseHelper;
-import com.hitanshudhawan.popcorn.network.ApiClient;
-import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Movie;
-import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by hitanshu on 9/8/17.

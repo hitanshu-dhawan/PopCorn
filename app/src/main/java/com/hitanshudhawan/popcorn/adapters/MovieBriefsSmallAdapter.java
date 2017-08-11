@@ -38,7 +38,7 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small,parent,false));
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small, parent, false));
     }
 
     @Override
@@ -50,11 +50,10 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        if(Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
+        if (Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
             holder.movieFavImageButton.setEnabled(false);
-        }
-        else {
+        } else {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
             holder.movieFavImageButton.setEnabled(true);
         }
@@ -81,13 +80,13 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
             movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
 
             moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
-            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
+            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31) / 0.66);
 
             movieCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(Constant.MOVIE_ID,mMovies.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constant.MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

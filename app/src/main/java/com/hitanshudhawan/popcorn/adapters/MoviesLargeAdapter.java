@@ -17,19 +17,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
-import com.hitanshudhawan.popcorn.network.ApiClient;
-import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
-import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by hitanshu on 30/7/17.
@@ -47,7 +39,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large,parent,false));
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large, parent, false));
     }
 
     @Override
@@ -59,19 +51,17 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        if(mMovies.get(position).getVoteAverage() > 0) {
+        if (mMovies.get(position).getVoteAverage() > 0) {
             holder.movieRatingTextView.setVisibility(View.VISIBLE);
             holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
-        }
-        else {
+        } else {
             holder.movieRatingTextView.setVisibility(View.GONE);
         }
         setGenres(holder, mMovies.get(position));
-        if(Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
+        if (Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
             holder.movieFavImageButton.setEnabled(false);
-        }
-        else {
+        } else {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
             holder.movieFavImageButton.setEnabled(true);
         }
@@ -80,6 +70,17 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
     @Override
     public int getItemCount() {
         return mMovies.size();
+    }
+
+    private void setGenres(MovieViewHolder holder, Movie movie) {
+        String genreString = "";
+        for (int i = 0; i < movie.getGenres().size(); i++) {
+            if (i == movie.getGenres().size() - 1)
+                genreString += movie.getGenres().get(i).getGenreName();
+            else
+                genreString += movie.getGenres().get(i).getGenreName() + ", ";
+        }
+        holder.movieGenreTextView.setText(genreString);
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -104,7 +105,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
             movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
 
             imageLayout.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.9);
-            imageLayout.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.9)/1.77);
+            imageLayout.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.9) / 1.77);
 
             movieCard.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,17 +126,6 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 }
             });
         }
-    }
-
-    private void setGenres(MovieViewHolder holder, Movie movie) {
-        String genreString = "";
-        for(int i=0;i<movie.getGenres().size();i++) {
-            if(i == movie.getGenres().size()-1)
-                genreString += movie.getGenres().get(i).getGenreName();
-            else
-                genreString += movie.getGenres().get(i).getGenreName() + ", ";
-        }
-        holder.movieGenreTextView.setText(genreString);
     }
 
 }

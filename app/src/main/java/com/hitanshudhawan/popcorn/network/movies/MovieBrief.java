@@ -40,9 +40,9 @@ public class MovieBrief {
     private String releaseDate;
 
     public MovieBrief(Integer voteCount, Integer id, Boolean video, Double voteAverage,
-                 String title, Double popularity, String posterPath, String originalLanguage,
-                 String originalTitle, List<Integer> genreIds, String backdropPath,
-                 Boolean adult, String overview, String releaseDate) {
+                      String title, Double popularity, String posterPath, String originalLanguage,
+                      String originalTitle, List<Integer> genreIds, String backdropPath,
+                      Boolean adult, String overview, String releaseDate) {
         this.voteCount = voteCount;
         this.id = id;
         this.video = video;

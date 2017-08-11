@@ -92,25 +92,25 @@ public class MoviesFragment extends Fragment {
         mUpcomingMovies = new ArrayList<>();
         mTopRatedMovies = new ArrayList<>();
 
-        mNowShowingAdapter = new MoviesLargeAdapter(getContext(),mNowShowingMovies);
-        mPopularAdapter = new MovieBriefsSmallAdapter(getContext(),mPopularMovies);
-        mUpcomingAdapter = new MoviesLargeAdapter(getContext(),mUpcomingMovies);
-        mTopRatedAdapter = new MovieBriefsSmallAdapter(getContext(),mTopRatedMovies);
+        mNowShowingAdapter = new MoviesLargeAdapter(getContext(), mNowShowingMovies);
+        mPopularAdapter = new MovieBriefsSmallAdapter(getContext(), mPopularMovies);
+        mUpcomingAdapter = new MoviesLargeAdapter(getContext(), mUpcomingMovies);
+        mTopRatedAdapter = new MovieBriefsSmallAdapter(getContext(), mTopRatedMovies);
 
         mNowShowingRecyclerView.setAdapter(mNowShowingAdapter);
-        mNowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mNowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         loadNowShowingMovies();
 
         mPopularRecyclerView.setAdapter(mPopularAdapter);
-        mPopularRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mPopularRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         loadPopularMovies();
 
         mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
-        mUpcomingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mUpcomingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         loadUpcomingMovies();
 
         mTopRatedRecyclerView.setAdapter(mTopRatedAdapter);
-        mTopRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        mTopRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         loadTopRatedMovies();
 
         mNowShowingViewAllTextView.setOnClickListener(new View.OnClickListener() {
@@ -155,23 +155,23 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
             public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     call.clone().enqueue(this);
                     return;
                 }
 
-                for(MovieBrief movie : response.body().getResults()) {
+                for (MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if(!response.isSuccessful()) {
+                            if (!response.isSuccessful()) {
                                 call.clone().enqueue(this);
                                 return;
                             }
 
                             mNowShowingLayout.setVisibility(View.VISIBLE);
-                            if(response.body().getBackdropPath() != null) {
+                            if (response.body().getBackdropPath() != null) {
                                 mNowShowingMovies.add(response.body());
                                 mNowShowingAdapter.notifyDataSetChanged();
                             }
@@ -198,14 +198,14 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<PopularMoviesResponse>() {
             @Override
             public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     call.clone().enqueue(this);
                     return;
                 }
 
                 mPopularLayout.setVisibility(View.VISIBLE);
-                for(MovieBrief movieBrief : response.body().getResults()) {
-                    if(movieBrief.getPosterPath() != null)
+                for (MovieBrief movieBrief : response.body().getResults()) {
+                    if (movieBrief.getPosterPath() != null)
                         mPopularMovies.add(movieBrief);
                 }
                 mPopularAdapter.notifyDataSetChanged();
@@ -224,23 +224,23 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
             public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     call.clone().enqueue(this);
                     return;
                 }
 
-                for(MovieBrief movie : response.body().getResults()) {
+                for (MovieBrief movie : response.body().getResults()) {
                     Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
                     call2.enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if(!response.isSuccessful()) {
+                            if (!response.isSuccessful()) {
                                 call.clone().enqueue(this);
                                 return;
                             }
 
                             mUpcomingLayout.setVisibility(View.VISIBLE);
-                            if(response.body().getBackdropPath() != null) {
+                            if (response.body().getBackdropPath() != null) {
                                 mUpcomingMovies.add(response.body());
                                 mUpcomingAdapter.notifyDataSetChanged();
                             }
@@ -267,14 +267,14 @@ public class MoviesFragment extends Fragment {
         call.enqueue(new Callback<TopRatedMoviesResponse>() {
             @Override
             public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
-                if(!response.isSuccessful()) {
+                if (!response.isSuccessful()) {
                     call.clone().enqueue(this);
                     return;
                 }
 
                 mTopRatedLayout.setVisibility(View.VISIBLE);
-                for(MovieBrief movieBrief : response.body().getResults()) {
-                    if(movieBrief.getPosterPath() != null)
+                for (MovieBrief movieBrief : response.body().getResults()) {
+                    if (movieBrief.getPosterPath() != null)
                         mTopRatedMovies.add(movieBrief);
                 }
                 mTopRatedAdapter.notifyDataSetChanged();

@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,7 +35,7 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movies_of_cast,parent,false));
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movies_of_cast, parent, false));
     }
 
     @Override
@@ -49,7 +47,7 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
         holder.movieTitleTextView.setText(mMovieCasts.get(position).getTitle());
-        if(mMovieCasts.get(position).getCharacter() != null && !mMovieCasts.get(position).getCharacter().trim().isEmpty())
+        if (mMovieCasts.get(position).getCharacter() != null && !mMovieCasts.get(position).getCharacter().trim().isEmpty())
             holder.castCharacterTextView.setText("as " + mMovieCasts.get(position).getCharacter());
     }
 
@@ -73,13 +71,13 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
             castCharacterTextView = (TextView) itemView.findViewById(R.id.text_view_cast_character_movie_cast);
 
             moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
-            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31)/0.66);
+            moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31) / 0.66);
 
             movieCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(Constant.MOVIE_ID,mMovieCasts.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constant.MOVIE_ID, mMovieCasts.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

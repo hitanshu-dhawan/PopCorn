@@ -2,7 +2,6 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -20,11 +19,10 @@ import com.hitanshudhawan.popcorn.utils.Constant;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawer;
-    private NavigationView mNavigationView;
-
     MoviesFragment mMoviesFragment;
     FavouritesFragment mFavouritesFragment;
+    private DrawerLayout mDrawer;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) == null) {
                     fragmentTransaction.add(R.id.main_activity_fragment_container, mMoviesFragment, Constant.TAG_MOVIES_FRAGMENT);
                 }
-                if(fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) != null) {
+                if (fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) != null) {
                     fragmentTransaction.hide(mFavouritesFragment);
                 }
                 fragmentTransaction.show(mMoviesFragment);
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) == null) {
                     fragmentTransaction.add(R.id.main_activity_fragment_container, mFavouritesFragment, Constant.TAG_FAV_FRAGMENT);
                 }
-                if(fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) != null) {
+                if (fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) != null) {
                     fragmentTransaction.hide(mMoviesFragment);
                 }
                 fragmentTransaction.show(mFavouritesFragment);
