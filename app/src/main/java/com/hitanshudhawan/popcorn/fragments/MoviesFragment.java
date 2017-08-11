@@ -156,6 +156,15 @@ public class MoviesFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mNowShowingAdapter.notifyDataSetChanged();
+        mPopularAdapter.notifyDataSetChanged();
+        mUpcomingAdapter.notifyDataSetChanged();
+        mTopRatedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();

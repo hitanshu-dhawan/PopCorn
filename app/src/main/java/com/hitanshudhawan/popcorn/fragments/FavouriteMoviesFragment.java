@@ -52,6 +52,14 @@ public class FavouriteMoviesFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // TODO
+        // for now when coming back to this activity after removing from fav it shows border heart.
+        mFavMoviesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (mMovieDetailsCalls != null) {
