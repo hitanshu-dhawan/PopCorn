@@ -33,6 +33,8 @@ public class FavouriteMoviesFragment extends Fragment {
     private List<Movie> mFavMovies;
     private MoviesSmallAdapter mFavMoviesAdapter;
 
+    private List<Call<Movie>> mMovieDetailsCalls;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,16 +51,29 @@ public class FavouriteMoviesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mMovieDetailsCalls != null) {
+            for(Call<Movie> movieCall : mMovieDetailsCalls) {
+                if(movieCall != null) movieCall.cancel();
+            }
+        }
+    }
+
     private void loadFavMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         List<Integer> favMovieIds = Favourite.getFavMovieIds(getContext());
-        for (Integer movieId : favMovieIds) {
-            Call<Movie> call = apiService.getMovieDetails(movieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-            call.enqueue(new Callback<Movie>() {
+        mMovieDetailsCalls = new ArrayList<>();
+        for (int i = 0; i < favMovieIds.size(); i++) {
+            final int index = i;
+            mMovieDetailsCalls.add(apiService.getMovieDetails(favMovieIds.get(index), getResources().getString(R.string.MOVIE_DB_API_KEY)));
+            mMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
                 @Override
                 public void onResponse(Call<Movie> call, Response<Movie> response) {
                     if (!response.isSuccessful()) {
-                        call.clone().enqueue(this);
+                        mMovieDetailsCalls.set(index, call.clone());
+                        mMovieDetailsCalls.get(index).enqueue(this);
                         return;
                     }
 
@@ -75,4 +90,6 @@ public class FavouriteMoviesFragment extends Fragment {
             });
         }
     }
+
+
 }
