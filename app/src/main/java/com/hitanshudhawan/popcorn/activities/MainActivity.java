@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -45,10 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mNavigationView.setCheckedItem(R.id.nav_movies);
         setTitle(R.string.movies);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_activity_fragment_container, mMoviesFragment, Constant.TAG_MOVIES_FRAGMENT);
-        fragmentTransaction.commit();
+        setFragment(new MoviesFragment());
     }
 
     @Override
@@ -85,34 +83,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawer.closeDrawer(GravityCompat.START);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         switch (id) {
             case R.id.nav_movies:
                 setTitle(R.string.movies);
-                if (fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) == null) {
-                    fragmentTransaction.add(R.id.main_activity_fragment_container, mMoviesFragment, Constant.TAG_MOVIES_FRAGMENT);
-                }
-                if (fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) != null) {
-                    fragmentTransaction.hide(mFavouritesFragment);
-                }
-                fragmentTransaction.show(mMoviesFragment);
-                fragmentTransaction.commit();
+                setFragment(new MoviesFragment());
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);
-                if (fragmentManager.findFragmentByTag(Constant.TAG_FAV_FRAGMENT) == null) {
-                    fragmentTransaction.add(R.id.main_activity_fragment_container, mFavouritesFragment, Constant.TAG_FAV_FRAGMENT);
-                }
-                if (fragmentManager.findFragmentByTag(Constant.TAG_MOVIES_FRAGMENT) != null) {
-                    fragmentTransaction.hide(mMoviesFragment);
-                }
-                fragmentTransaction.show(mFavouritesFragment);
-                fragmentTransaction.commit();
+                setFragment(new FavouritesFragment());
                 return true;
             case R.id.nav_settings:
                 return false;
@@ -122,4 +103,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return false;
     }
+
+    private void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_activity_fragment_container, fragment);
+        fragmentTransaction.commit();
+    }
+
 }
