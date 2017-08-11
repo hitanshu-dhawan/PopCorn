@@ -64,6 +64,12 @@ public class MoviesFragment extends Fragment {
     private List<MovieBrief> mTopRatedMovies;
     private MovieBriefsSmallAdapter mTopRatedAdapter;
 
+    private Call<NowShowingMoviesResponse> mNowShowingMoviesCall;
+    private List<Call<Movie>> mNowShowingMovieDetailsCalls;
+    private Call<PopularMoviesResponse> mPopularMoviesCall;
+    private Call<UpcomingMoviesResponse> mUpcomingMoviesCall;
+    private List<Call<Movie>> mUpcomingMovieDetailsCalls;
+    private Call<TopRatedMoviesResponse> mTopRatedMoviesCall;
 
     @Nullable
     @Override
@@ -149,24 +155,47 @@ public class MoviesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
+        if (mNowShowingMovieDetailsCalls != null) {
+            for (Call<Movie> movieCall : mNowShowingMovieDetailsCalls) {
+                if (movieCall != null) movieCall.cancel();
+            }
+        }
+        if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
+        if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
+        if (mUpcomingMovieDetailsCalls != null) {
+            for (Call<Movie> movieCall : mUpcomingMovieDetailsCalls) {
+                if (movieCall != null) movieCall.cancel();
+            }
+        }
+        if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
+    }
+
     private void loadNowShowingMovies() {
         final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<NowShowingMoviesResponse> call = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<NowShowingMoviesResponse>() {
+        mNowShowingMoviesCall = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        mNowShowingMoviesCall.enqueue(new Callback<NowShowingMoviesResponse>() {
             @Override
             public void onResponse(Call<NowShowingMoviesResponse> call, Response<NowShowingMoviesResponse> response) {
                 if (!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                    mNowShowingMoviesCall = call.clone();
+                    mNowShowingMoviesCall.enqueue(this);
                     return;
                 }
 
-                for (MovieBrief movie : response.body().getResults()) {
-                    Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
-                    call2.enqueue(new Callback<Movie>() {
+                mNowShowingMovieDetailsCalls = new ArrayList<>();
+                for (int i = 0; i < response.body().getResults().size(); i++) {
+                    final int index = i;
+                    mNowShowingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
+                    mNowShowingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
                             if (!response.isSuccessful()) {
-                                call.clone().enqueue(this);
+                                mNowShowingMovieDetailsCalls.set(index, call.clone());
+                                mNowShowingMovieDetailsCalls.get(index).enqueue(this);
                                 return;
                             }
 
@@ -194,12 +223,13 @@ public class MoviesFragment extends Fragment {
 
     private void loadPopularMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<PopularMoviesResponse> call = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<PopularMoviesResponse>() {
+        mPopularMoviesCall = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        mPopularMoviesCall.enqueue(new Callback<PopularMoviesResponse>() {
             @Override
             public void onResponse(Call<PopularMoviesResponse> call, Response<PopularMoviesResponse> response) {
                 if (!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                    mPopularMoviesCall = call.clone();
+                    mPopularMoviesCall.enqueue(this);
                     return;
                 }
 
@@ -220,22 +250,26 @@ public class MoviesFragment extends Fragment {
 
     private void loadUpcomingMovies() {
         final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<UpcomingMoviesResponse> call = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<UpcomingMoviesResponse>() {
+        mUpcomingMoviesCall = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        mUpcomingMoviesCall.enqueue(new Callback<UpcomingMoviesResponse>() {
             @Override
             public void onResponse(Call<UpcomingMoviesResponse> call, Response<UpcomingMoviesResponse> response) {
                 if (!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                    mUpcomingMoviesCall = call.clone();
+                    mUpcomingMoviesCall.enqueue(this);
                     return;
                 }
 
-                for (MovieBrief movie : response.body().getResults()) {
-                    Call<Movie> call2 = apiService.getMovieDetails(movie.getId(), getResources().getString(R.string.MOVIE_DB_API_KEY));
-                    call2.enqueue(new Callback<Movie>() {
+                mUpcomingMovieDetailsCalls = new ArrayList<>();
+                for (int i = 0; i < response.body().getResults().size(); i++) {
+                    final int index = i;
+                    mUpcomingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
+                    mUpcomingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
                         @Override
                         public void onResponse(Call<Movie> call, Response<Movie> response) {
                             if (!response.isSuccessful()) {
-                                call.clone().enqueue(this);
+                                mUpcomingMovieDetailsCalls.set(index, call.clone());
+                                mUpcomingMovieDetailsCalls.get(index).enqueue(this);
                                 return;
                             }
 
@@ -263,12 +297,13 @@ public class MoviesFragment extends Fragment {
 
     private void loadTopRatedMovies() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<TopRatedMoviesResponse> call = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
-        call.enqueue(new Callback<TopRatedMoviesResponse>() {
+        mTopRatedMoviesCall = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), 1, "US");
+        mTopRatedMoviesCall.enqueue(new Callback<TopRatedMoviesResponse>() {
             @Override
             public void onResponse(Call<TopRatedMoviesResponse> call, Response<TopRatedMoviesResponse> response) {
                 if (!response.isSuccessful()) {
-                    call.clone().enqueue(this);
+                    mTopRatedMoviesCall = call.clone();
+                    mTopRatedMoviesCall.enqueue(this);
                     return;
                 }
 
