@@ -170,6 +170,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mSimilarMoviesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (mMovieDetailsCall != null) mMovieDetailsCall.cancel();

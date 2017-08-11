@@ -54,7 +54,7 @@ public class FavouriteMoviesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // TODO
+        // TODO (feature or a bug? :P)
         // for now when coming back to this activity after removing from fav it shows border heart.
         mFavMoviesAdapter.notifyDataSetChanged();
     }
