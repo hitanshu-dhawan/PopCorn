@@ -137,8 +137,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        if (response.body() == null) return;
+                        if (response.body().getResults() == null) return;
+
                         mSmoothProgressBar.progressiveStop();
-                        mMovies.addAll(response.body().getResults());
+                        for (MovieBrief movieBrief : response.body().getResults()) {
+                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                                mMovies.add(movieBrief);
+                        }
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
@@ -163,8 +169,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        if (response.body() == null) return;
+                        if (response.body().getResults() == null) return;
+
                         mSmoothProgressBar.progressiveStop();
-                        mMovies.addAll(response.body().getResults());
+                        for (MovieBrief movieBrief : response.body().getResults()) {
+                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                                mMovies.add(movieBrief);
+                        }
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
@@ -189,8 +201,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        if (response.body() == null) return;
+                        if (response.body().getResults() == null) return;
+
                         mSmoothProgressBar.progressiveStop();
-                        mMovies.addAll(response.body().getResults());
+                        for (MovieBrief movieBrief : response.body().getResults()) {
+                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                                mMovies.add(movieBrief);
+                        }
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;
@@ -215,8 +233,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                             return;
                         }
 
+                        if (response.body() == null) return;
+                        if (response.body().getResults() == null) return;
+
                         mSmoothProgressBar.progressiveStop();
-                        mMovies.addAll(response.body().getResults());
+                        for (MovieBrief movieBrief : response.body().getResults()) {
+                            if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                                mMovies.add(movieBrief);
+                        }
                         mMoviesAdapter.notifyDataSetChanged();
                         if (response.body().getPage() == response.body().getTotalPages())
                             pagesOver = true;

@@ -78,6 +78,10 @@ public class FavouriteMoviesFragment extends Fragment {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         mProgressBar.setVisibility(View.VISIBLE);
         List<Integer> favMovieIds = Favourite.getFavMovieIds(getContext());
+        if (favMovieIds.isEmpty()) {
+            mProgressBar.setVisibility(View.GONE);
+            return;
+        }
         mMovieDetailsCalls = new ArrayList<>();
         for (int i = 0; i < favMovieIds.size(); i++) {
             final int index = i;
@@ -91,11 +95,11 @@ public class FavouriteMoviesFragment extends Fragment {
                         return;
                     }
 
+                    if (response.body() == null) return;
+
                     mProgressBar.setVisibility(View.GONE);
-                    if (response.body().getPosterPath() != null) {
-                        mFavMovies.add(response.body());
-                        mFavMoviesAdapter.notifyDataSetChanged();
-                    }
+                    mFavMovies.add(response.body());
+                    mFavMoviesAdapter.notifyDataSetChanged();
                 }
 
                 @Override

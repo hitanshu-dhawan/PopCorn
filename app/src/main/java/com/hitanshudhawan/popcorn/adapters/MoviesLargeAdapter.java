@@ -50,14 +50,21 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
-        holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
-        if (mMovies.get(position).getVoteAverage() > 0) {
+
+        if (mMovies.get(position).getTitle() != null)
+            holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
+        else
+            holder.movieTitleTextView.setText("");
+
+        if (mMovies.get(position).getVoteAverage() != null && mMovies.get(position).getVoteAverage() > 0) {
             holder.movieRatingTextView.setVisibility(View.VISIBLE);
             holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
         } else {
             holder.movieRatingTextView.setVisibility(View.GONE);
         }
+
         setGenres(holder, mMovies.get(position));
+
         if (Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
             holder.movieFavImageButton.setEnabled(false);
@@ -75,6 +82,7 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
     private void setGenres(MovieViewHolder holder, Movie movie) {
         String genreString = "";
         for (int i = 0; i < movie.getGenres().size(); i++) {
+            if (movie.getGenres().get(i) == null) continue;
             if (i == movie.getGenres().size() - 1)
                 genreString += movie.getGenres().get(i).getGenreName();
             else

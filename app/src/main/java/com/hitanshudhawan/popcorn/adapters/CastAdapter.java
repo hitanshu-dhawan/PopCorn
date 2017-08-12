@@ -46,8 +46,15 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.castImageView);
 
-        holder.nameTextView.setText(mCasts.get(position).getName());
-        holder.characterTextView.setText(mCasts.get(position).getCharacter());
+        if (mCasts.get(position).getName() != null)
+            holder.nameTextView.setText(mCasts.get(position).getName());
+        else
+            holder.nameTextView.setText("");
+
+        if (mCasts.get(position).getCharacter() != null)
+            holder.characterTextView.setText(mCasts.get(position).getCharacter());
+        else
+            holder.characterTextView.setText("");
 
     }
 

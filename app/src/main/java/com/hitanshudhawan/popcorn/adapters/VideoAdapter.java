@@ -47,7 +47,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.videoImageView);
 
-        holder.videoTextView.setText(mVideos.get(position).getName());
+        if (mVideos.get(position).getName() != null)
+            holder.videoTextView.setText(mVideos.get(position).getName());
+        else
+            holder.videoTextView.setText("");
     }
 
     @Override

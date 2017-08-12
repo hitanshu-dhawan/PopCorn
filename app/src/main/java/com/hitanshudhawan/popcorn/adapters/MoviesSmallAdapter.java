@@ -49,7 +49,12 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
-        holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
+
+        if (mMovies.get(position).getTitle() != null)
+            holder.movieTitleTextView.setText(mMovies.get(position).getTitle());
+        else
+            holder.movieTitleTextView.setText("");
+
         if (Favourite.isMovieFav(mContext, mMovies.get(position).getId())) {
             holder.movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
             holder.movieFavImageButton.setEnabled(false);

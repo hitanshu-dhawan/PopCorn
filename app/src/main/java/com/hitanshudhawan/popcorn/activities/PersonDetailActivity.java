@@ -79,6 +79,8 @@ public class PersonDetailActivity extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         mPersonId = receivedIntent.getIntExtra(Constant.PERSON_ID, -1);
 
+        if (mPersonId == -1) finish();
+
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
@@ -129,15 +131,22 @@ public class PersonDetailActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (response.body() == null) return;
+
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                        if (appBarLayout.getTotalScrollRange() + verticalOffset == 0)
-                            mCollapsingToolbarLayout.setTitle(response.body().getName());
-                        else
+                        if (appBarLayout.getTotalScrollRange() + verticalOffset == 0) {
+                            if (response.body().getName() != null)
+                                mCollapsingToolbarLayout.setTitle(response.body().getName());
+                            else
+                                mCollapsingToolbarLayout.setTitle("");
+                        } else {
                             mCollapsingToolbarLayout.setTitle("");
+                        }
                     }
                 });
+
                 Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getProfilePath())
                         .asBitmap()
                         .centerCrop()
@@ -156,12 +165,18 @@ public class PersonDetailActivity extends AppCompatActivity {
                             }
                         })
                         .into(mCastImageView);
-                mCastNameTextView.setText(response.body().getName());
+
+                if (response.body().getName() != null)
+                    mCastNameTextView.setText(response.body().getName());
+                else
+                    mCastNameTextView.setText("");
+
                 setAge(response.body().getDateOfBirth());
-                if (response.body().getPlaceOfBirth() != null)
+
+                if (response.body().getPlaceOfBirth() != null && !response.body().getPlaceOfBirth().trim().toString().isEmpty())
                     mCastBirthPlaceTextView.setText(response.body().getPlaceOfBirth());
 
-                if (response.body().getBiography() != null && !response.body().getBiography().trim().equals("")) {
+                if (response.body().getBiography() != null && !response.body().getBiography().trim().isEmpty()) {
                     mCastBioHeaderTextView.setVisibility(View.VISIBLE);
                     mCastReadMoreBioTextView.setVisibility(View.VISIBLE);
                     mCastBioTextView.setText(response.body().getBiography());
@@ -185,7 +200,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     }
 
     private void setAge(String dateOfBirthString) {
-        if (dateOfBirthString != null) {
+        if (dateOfBirthString != null && !dateOfBirthString.trim().toString().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
@@ -209,10 +224,15 @@ public class PersonDetailActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (response.body() == null) return;
+                if (response.body().getCasts() == null) return;
+
                 mMovieCastTextView.setVisibility(View.VISIBLE);
-                for (MovieCastOfPerson movieCastOfPerson : response.body().getCasts())
-                    if (movieCastOfPerson.getPosterPath() != null)
+                for (MovieCastOfPerson movieCastOfPerson : response.body().getCasts()) {
+                    if (movieCastOfPerson == null) return;
+                    if (movieCastOfPerson.getTitle() != null && movieCastOfPerson.getPosterPath() != null)
                         mMovieCastOfPersons.add(movieCastOfPerson);
+                }
                 mMovieCastsOfPersonAdapter.notifyDataSetChanged();
             }
 

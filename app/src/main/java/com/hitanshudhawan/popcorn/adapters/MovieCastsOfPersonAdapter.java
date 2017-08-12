@@ -46,9 +46,16 @@ public class MovieCastsOfPersonAdapter extends RecyclerView.Adapter<MovieCastsOf
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.moviePosterImageView);
-        holder.movieTitleTextView.setText(mMovieCasts.get(position).getTitle());
+
+        if (mMovieCasts.get(position).getTitle() != null)
+            holder.movieTitleTextView.setText(mMovieCasts.get(position).getTitle());
+        else
+            holder.movieTitleTextView.setText("");
+
         if (mMovieCasts.get(position).getCharacter() != null && !mMovieCasts.get(position).getCharacter().trim().isEmpty())
             holder.castCharacterTextView.setText("as " + mMovieCasts.get(position).getCharacter());
+        else
+            holder.castCharacterTextView.setText("");
     }
 
     @Override

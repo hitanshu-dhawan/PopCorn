@@ -209,6 +209,9 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
+
                 mNowShowingMovieDetailsCalls = new ArrayList<>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
                     final int index = i;
@@ -258,10 +261,13 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
+
                 mPopularSectionLoaded = true;
                 checkAllDataLoaded();
                 for (MovieBrief movieBrief : response.body().getResults()) {
-                    if (movieBrief.getPosterPath() != null)
+                    if (movieBrief != null && movieBrief.getPosterPath() != null)
                         mPopularMovies.add(movieBrief);
                 }
                 mPopularAdapter.notifyDataSetChanged();
@@ -286,6 +292,9 @@ public class MoviesFragment extends Fragment {
                     mUpcomingMoviesCall.enqueue(this);
                     return;
                 }
+
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
 
                 mUpcomingMovieDetailsCalls = new ArrayList<>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
@@ -336,10 +345,13 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
 
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
+
                 mTopRatedSectionLoaded = true;
                 checkAllDataLoaded();
                 for (MovieBrief movieBrief : response.body().getResults()) {
-                    if (movieBrief.getPosterPath() != null)
+                    if (movieBrief != null && movieBrief.getPosterPath() != null)
                         mTopRatedMovies.add(movieBrief);
                 }
                 mTopRatedAdapter.notifyDataSetChanged();

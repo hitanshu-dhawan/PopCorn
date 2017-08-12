@@ -17,6 +17,7 @@ import java.util.List;
 public class Favourite {
 
     public static void addMovieToFav(Context context, Integer movieId) {
+        if (movieId == null) return;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
@@ -29,6 +30,7 @@ public class Favourite {
     }
 
     public static void removeMovieFromFav(Context context, Integer movieId) {
+        if (movieId == null) return;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         if (isMovieFav(context, movieId)) {
@@ -38,6 +40,7 @@ public class Favourite {
     }
 
     public static boolean isMovieFav(Context context, Integer movieId) {
+        if (movieId == null) return false;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
 

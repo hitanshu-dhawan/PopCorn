@@ -111,6 +111,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         mMovieId = receivedIntent.getIntExtra(Constant.MOVIE_ID, -1);
 
+        if (mMovieId == -1) finish();
+
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
@@ -196,11 +198,16 @@ public class MovieDetailActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (response.body() == null) return;
+
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                         if (appBarLayout.getTotalScrollRange() + verticalOffset == 0) {
-                            mCollapsingToolbarLayout.setTitle(response.body().getTitle());
+                            if (response.body().getTitle() != null)
+                                mCollapsingToolbarLayout.setTitle(response.body().getTitle());
+                            else
+                                mCollapsingToolbarLayout.setTitle("");
                             mToolbar.setVisibility(View.VISIBLE);
                         } else {
                             mCollapsingToolbarLayout.setTitle("");
@@ -247,7 +254,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                         })
                         .into(mBackdropImageView);
 
-                mTitleTextView.setText(response.body().getTitle());
+                if (response.body().getTitle() != null)
+                    mTitleTextView.setText(response.body().getTitle());
+                else
+                    mTitleTextView.setText("");
 
                 setGenres(response.body().getGenres());
 
@@ -257,7 +267,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mShareImageButton.setVisibility(View.VISIBLE);
                 setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId());
 
-                mOverviewTextView.setText(response.body().getOverview());
+                if (response.body().getOverview() != null)
+                    mOverviewTextView.setText(response.body().getOverview());
+                else
+                    mOverviewTextView.setText("");
 
                 mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
                 setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
@@ -281,18 +294,21 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setGenres(List<Genre> genresList) {
         String genres = "";
-        for (int i = 0; i < genresList.size(); i++) {
-            if (i == genresList.size() - 1) {
-                genres = genres.concat(genresList.get(i).getGenreName());
-            } else {
-                genres = genres.concat(genresList.get(i).getGenreName() + ", ");
+        if (genresList != null) {
+            for (int i = 0; i < genresList.size(); i++) {
+                if (genresList.get(i) == null) continue;
+                if (i == genresList.size() - 1) {
+                    genres = genres.concat(genresList.get(i).getGenreName());
+                } else {
+                    genres = genres.concat(genresList.get(i).getGenreName() + ", ");
+                }
             }
         }
         mGenreTextView.setText(genres);
     }
 
     private void setYear(String releaseDateString) {
-        if (releaseDateString != null) {
+        if (releaseDateString != null && !releaseDateString.trim().toString().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
@@ -301,10 +317,13 @@ public class MovieDetailActivity extends AppCompatActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        } else {
+            mYearTextView.setText("");
         }
     }
 
     private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId) {
+        if (movieId == null) return;
         if (Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
@@ -317,11 +336,11 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 if ((int) mFavImageButton.getTag() == Constant.TAG_FAV) {
-                    Favourite.removeMovieFromFav(MovieDetailActivity.this, mMovieId);
+                    Favourite.removeMovieFromFav(MovieDetailActivity.this, movieId);
                     mFavImageButton.setTag(Constant.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
-                    Favourite.addMovieToFav(MovieDetailActivity.this, mMovieId);
+                    Favourite.addMovieToFav(MovieDetailActivity.this, movieId);
                     mFavImageButton.setTag(Constant.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }
@@ -334,9 +353,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                     Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
                     movieShareIntent.setType("text/plain");
-                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, movieTitle + "\n"
-                            + movieTagline + "\n"
-                            + "http://www.imdb.com/title/" + imdbId);
+                    String extraText = "";
+                    if (movieTitle != null) extraText += movieTitle + "\n";
+                    if (movieTagline != null) extraText += movieTagline + "\n";
+                    if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId;
+                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
                     startActivity(movieShareIntent);
                 }
             }
@@ -345,7 +366,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setReleaseAndRuntime(String releaseString, Integer runtime) {
         String releaseAndRuntimeString = "";
-        if (releaseString != null) {
+        if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
             try {
@@ -357,7 +378,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         } else {
             releaseAndRuntimeString = "-\n";
         }
-        if (runtime != 0) {
+        if (runtime != null && runtime != 0) {
             if (runtime < 60) {
                 releaseAndRuntimeString += runtime + " min(s)";
             } else {
@@ -381,8 +402,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (response.body() == null) return;
+                if (response.body().getVideos() == null) return;
+
                 for (Video video : response.body().getVideos()) {
-                    if (video.getSite().equals("YouTube") && video.getType().equals("Trailer"))
+                    if (video != null && video.getSite() != null && video.getSite().equals("YouTube") && video.getType() != null && video.getType().equals("Trailer"))
                         mTrailers.add(video);
                 }
                 if (!mTrailers.isEmpty())
@@ -409,7 +433,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                     return;
                 }
 
-                mCasts.addAll(response.body().getCasts());
+                if (response.body() == null) return;
+                if (response.body().getCasts() == null) return;
+
+                for (CastBrief castBrief : response.body().getCasts()) {
+                    if (castBrief != null && castBrief.getName() != null)
+                        mCasts.add(castBrief);
+                }
+
                 if (!mCasts.isEmpty())
                     mCastTextView.setVisibility(View.VISIBLE);
                 mCastAdapter.notifyDataSetChanged();
@@ -434,7 +465,14 @@ public class MovieDetailActivity extends AppCompatActivity {
                     return;
                 }
 
-                mSimilarMovies.addAll(response.body().getResults());
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
+
+                for (MovieBrief movieBrief : response.body().getResults()) {
+                    if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                        mSimilarMovies.add(movieBrief);
+                }
+
                 if (!mSimilarMovies.isEmpty())
                     mSimilarMoviesTextView.setVisibility(View.VISIBLE);
                 mSimilarMoviesAdapter.notifyDataSetChanged();
