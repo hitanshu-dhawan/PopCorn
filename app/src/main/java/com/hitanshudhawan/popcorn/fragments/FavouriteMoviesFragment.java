@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.hitanshudhawan.popcorn.R;
@@ -36,6 +38,8 @@ public class FavouriteMoviesFragment extends Fragment {
     private List<Movie> mFavMovies;
     private MoviesSmallAdapter mFavMoviesAdapter;
 
+    private LinearLayout mEmptyLayout;
+
     private List<Call<Movie>> mMovieDetailsCalls;
 
     @Nullable
@@ -50,6 +54,8 @@ public class FavouriteMoviesFragment extends Fragment {
         mFavMoviesAdapter = new MoviesSmallAdapter(getContext(), mFavMovies);
         mFavMoviesRecyclerView.setAdapter(mFavMoviesAdapter);
         mFavMoviesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+
+        mEmptyLayout = (LinearLayout) view.findViewById(R.id.layout_recycler_view_fav_movies_empty);
 
         loadFavMovies();
 
@@ -80,6 +86,7 @@ public class FavouriteMoviesFragment extends Fragment {
         List<Integer> favMovieIds = Favourite.getFavMovieIds(getContext());
         if (favMovieIds.isEmpty()) {
             mProgressBar.setVisibility(View.GONE);
+            mEmptyLayout.setVisibility(View.VISIBLE);
             return;
         }
         mMovieDetailsCalls = new ArrayList<>();

@@ -15,4 +15,28 @@
         android:visibility="gone"
         android:layout_gravity="center"/>
 
+    <LinearLayout
+        android:id="@+id/layout_recycler_view_fav_movies_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@android:color/darker_gray"
+            android:src="@mipmap/ic_favorite_black_48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textAlignment="center"
+            android:text="No Favourite Movies"/>
+
+    </LinearLayout>
+
 </FrameLayout>
