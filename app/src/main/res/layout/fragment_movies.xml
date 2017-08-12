@@ -49,8 +49,8 @@
                 android:id="@+id/recycler_view_now_showing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             <FrameLayout
                 android:id="@+id/layout_popular"
@@ -87,8 +87,8 @@
                 android:id="@+id/recycler_view_popular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             <FrameLayout
                 android:id="@+id/layout_upcoming"
@@ -125,8 +125,8 @@
                 android:id="@+id/recycler_view_upcoming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
             <FrameLayout
                 android:id="@+id/layout_top_rated"
@@ -163,8 +163,8 @@
                 android:id="@+id/recycler_view_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
@@ -174,7 +174,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </FrameLayout>
