@@ -215,6 +215,7 @@ public class MoviesFragment extends Fragment {
                 mNowShowingMovieDetailsCalls = new ArrayList<>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
                     final int index = i;
+                    if (response.body().getResults().get(index).getId() == null) continue;
                     mNowShowingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
                     mNowShowingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
                         @Override
@@ -299,6 +300,7 @@ public class MoviesFragment extends Fragment {
                 mUpcomingMovieDetailsCalls = new ArrayList<>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
                     final int index = i;
+                    if (response.body().getResults().get(index).getId() == null) continue;
                     mUpcomingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
                     mUpcomingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
                         @Override
