@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/layout_popular"
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/layout_upcoming"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/layout_top_rated"
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:visibility="gone"></android.support.v7.widget.RecyclerView>
+                android:visibility="gone" />
 
         </LinearLayout>
 

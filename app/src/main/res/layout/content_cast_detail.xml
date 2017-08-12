@@ -59,7 +59,7 @@
             android:id="@+id/recycler_view_movie_cast_cast_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false" />
 
         <!--<TextView-->
         <!--android:text="TV Cast"-->
