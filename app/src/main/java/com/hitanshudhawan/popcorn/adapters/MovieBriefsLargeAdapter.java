@@ -17,9 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
-import com.hitanshudhawan.popcorn.network.movies.Movie;
+import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
+import com.hitanshudhawan.popcorn.utils.MovieGenres;
 
 import java.util.List;
 
@@ -27,12 +28,12 @@ import java.util.List;
  * Created by hitanshu on 30/7/17.
  */
 
-public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.MovieViewHolder> {
+public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLargeAdapter.MovieViewHolder> {
 
     private Context mContext;
-    private List<Movie> mMovies;
+    private List<MovieBrief> mMovies;
 
-    public MoviesLargeAdapter(Context context, List<Movie> movies) {
+    public MovieBriefsLargeAdapter(Context context, List<MovieBrief> movies) {
         mContext = context;
         mMovies = movies;
     }
@@ -79,14 +80,14 @@ public class MoviesLargeAdapter extends RecyclerView.Adapter<MoviesLargeAdapter.
         return mMovies.size();
     }
 
-    private void setGenres(MovieViewHolder holder, Movie movie) {
+    private void setGenres(MovieViewHolder holder, MovieBrief movie) {
         String genreString = "";
-        for (int i = 0; i < movie.getGenres().size(); i++) {
-            if (movie.getGenres().get(i) == null) continue;
-            if (i == movie.getGenres().size() - 1)
-                genreString += movie.getGenres().get(i).getGenreName();
+        for (int i = 0; i < movie.getGenreIds().size(); i++) {
+            if (movie.getGenreIds().get(i) == null) continue;
+            if (i == movie.getGenreIds().size() - 1)
+                genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i));
             else
-                genreString += movie.getGenres().get(i).getGenreName() + ", ";
+                genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i)) + ", ";
         }
         holder.movieGenreTextView.setText(genreString);
     }

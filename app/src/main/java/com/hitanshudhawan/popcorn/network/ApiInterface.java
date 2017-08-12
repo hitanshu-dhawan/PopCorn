@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.network;
 
 import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
+import com.hitanshudhawan.popcorn.network.movies.GenresList;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
@@ -45,6 +46,9 @@ public interface ApiInterface {
 
     @GET("movie/{id}/similar")
     Call<SimilarMoviesResponse> getSimilarMovies(@Path("id") Integer movieId, @Query("api_key") String apiKey, @Query("page") Integer page);
+
+    @GET("genre/movie/list")
+    Call<GenresList> getMovieGenresList(@Query("api_key") String apiKey);
 
     @GET("person/{id}")
     Call<Person> getPersonDetails(@Path("id") Integer personId, @Query("api_key") String apiKey);

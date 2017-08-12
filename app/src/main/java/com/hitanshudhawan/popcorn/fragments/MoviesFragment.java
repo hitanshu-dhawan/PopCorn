@@ -16,10 +16,11 @@ import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllMoviesActivity;
+import com.hitanshudhawan.popcorn.adapters.MovieBriefsLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
-import com.hitanshudhawan.popcorn.adapters.MoviesLargeAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
+import com.hitanshudhawan.popcorn.network.movies.GenresList;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
@@ -27,6 +28,7 @@ import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.MovieGenres;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +52,8 @@ public class MoviesFragment extends Fragment {
     private FrameLayout mNowShowingLayout;
     private TextView mNowShowingViewAllTextView;
     private RecyclerView mNowShowingRecyclerView;
-    private List<Movie> mNowShowingMovies;
-    private MoviesLargeAdapter mNowShowingAdapter;
+    private List<MovieBrief> mNowShowingMovies;
+    private MovieBriefsLargeAdapter mNowShowingAdapter;
 
     private FrameLayout mPopularLayout;
     private TextView mPopularViewAllTextView;
@@ -62,8 +64,8 @@ public class MoviesFragment extends Fragment {
     private FrameLayout mUpcomingLayout;
     private TextView mUpcomingViewAllTextView;
     private RecyclerView mUpcomingRecyclerView;
-    private List<Movie> mUpcomingMovies;
-    private MoviesLargeAdapter mUpcomingAdapter;
+    private List<MovieBrief> mUpcomingMovies;
+    private MovieBriefsLargeAdapter mUpcomingAdapter;
 
     private FrameLayout mTopRatedLayout;
     private TextView mTopRatedViewAllTextView;
@@ -71,11 +73,10 @@ public class MoviesFragment extends Fragment {
     private List<MovieBrief> mTopRatedMovies;
     private MovieBriefsSmallAdapter mTopRatedAdapter;
 
+    private Call<GenresList> mGenresListCall;
     private Call<NowShowingMoviesResponse> mNowShowingMoviesCall;
-    private List<Call<Movie>> mNowShowingMovieDetailsCalls;
     private Call<PopularMoviesResponse> mPopularMoviesCall;
     private Call<UpcomingMoviesResponse> mUpcomingMoviesCall;
-    private List<Call<Movie>> mUpcomingMovieDetailsCalls;
     private Call<TopRatedMoviesResponse> mTopRatedMoviesCall;
 
     @Nullable
@@ -111,26 +112,22 @@ public class MoviesFragment extends Fragment {
         mUpcomingMovies = new ArrayList<>();
         mTopRatedMovies = new ArrayList<>();
 
-        mNowShowingAdapter = new MoviesLargeAdapter(getContext(), mNowShowingMovies);
+        mNowShowingAdapter = new MovieBriefsLargeAdapter(getContext(), mNowShowingMovies);
         mPopularAdapter = new MovieBriefsSmallAdapter(getContext(), mPopularMovies);
-        mUpcomingAdapter = new MoviesLargeAdapter(getContext(), mUpcomingMovies);
+        mUpcomingAdapter = new MovieBriefsLargeAdapter(getContext(), mUpcomingMovies);
         mTopRatedAdapter = new MovieBriefsSmallAdapter(getContext(), mTopRatedMovies);
 
         mNowShowingRecyclerView.setAdapter(mNowShowingAdapter);
         mNowShowingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        loadNowShowingMovies();
 
         mPopularRecyclerView.setAdapter(mPopularAdapter);
         mPopularRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        loadPopularMovies();
 
         mUpcomingRecyclerView.setAdapter(mUpcomingAdapter);
         mUpcomingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        loadUpcomingMovies();
 
         mTopRatedRecyclerView.setAdapter(mTopRatedAdapter);
         mTopRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        loadTopRatedMovies();
 
         mNowShowingViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +162,42 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        if (MovieGenres.isGenresListLoaded()) {
+            loadNowShowingMovies();
+            loadPopularMovies();
+            loadUpcomingMovies();
+            loadTopRatedMovies();
+        }
+        else {
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            mProgressBar.setVisibility(View.VISIBLE);
+            mGenresListCall = apiService.getMovieGenresList(getResources().getString(R.string.MOVIE_DB_API_KEY));
+            mGenresListCall.enqueue(new Callback<GenresList>() {
+                @Override
+                public void onResponse(Call<GenresList> call, Response<GenresList> response) {
+                    if (!response.isSuccessful()) {
+                        mGenresListCall = call.clone();
+                        mGenresListCall.enqueue(this);
+                        return;
+                    }
+
+                    if (response.body() == null) return;
+                    if (response.body().getGenres() == null) return;
+
+                    MovieGenres.loadGenresList(response.body().getGenres());
+                    loadNowShowingMovies();
+                    loadPopularMovies();
+                    loadUpcomingMovies();
+                    loadTopRatedMovies();
+                }
+
+                @Override
+                public void onFailure(Call<GenresList> call, Throwable t) {
+
+                }
+            });
+        }
+
         return view;
     }
 
@@ -181,18 +214,8 @@ public class MoviesFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
-        if (mNowShowingMovieDetailsCalls != null) {
-            for (Call<Movie> movieCall : mNowShowingMovieDetailsCalls) {
-                if (movieCall != null) movieCall.cancel();
-            }
-        }
         if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
         if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
-        if (mUpcomingMovieDetailsCalls != null) {
-            for (Call<Movie> movieCall : mUpcomingMovieDetailsCalls) {
-                if (movieCall != null) movieCall.cancel();
-            }
-        }
         if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
     }
 
@@ -212,34 +235,13 @@ public class MoviesFragment extends Fragment {
                 if (response.body() == null) return;
                 if (response.body().getResults() == null) return;
 
-                mNowShowingMovieDetailsCalls = new ArrayList<>();
-                for (int i = 0; i < response.body().getResults().size(); i++) {
-                    final int index = i;
-                    if (response.body().getResults().get(index).getId() == null) continue;
-                    mNowShowingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
-                    mNowShowingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
-                        @Override
-                        public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if (!response.isSuccessful()) {
-                                mNowShowingMovieDetailsCalls.set(index, call.clone());
-                                mNowShowingMovieDetailsCalls.get(index).enqueue(this);
-                                return;
-                            }
-
-                            if (response.body().getBackdropPath() != null) {
-                                mNowShowingMovies.add(response.body());
-                                mNowShowingAdapter.notifyDataSetChanged();
-                                mNowShowingSectionLoaded = true;
-                                checkAllDataLoaded();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Movie> call, Throwable t) {
-
-                        }
-                    });
+                mNowShowingSectionLoaded = true;
+                checkAllDataLoaded();
+                for (MovieBrief movieBrief : response.body().getResults()) {
+                    if (movieBrief != null && movieBrief.getBackdropPath() != null)
+                        mNowShowingMovies.add(movieBrief);
                 }
+                mNowShowingAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -297,34 +299,13 @@ public class MoviesFragment extends Fragment {
                 if (response.body() == null) return;
                 if (response.body().getResults() == null) return;
 
-                mUpcomingMovieDetailsCalls = new ArrayList<>();
-                for (int i = 0; i < response.body().getResults().size(); i++) {
-                    final int index = i;
-                    if (response.body().getResults().get(index).getId() == null) continue;
-                    mUpcomingMovieDetailsCalls.add(apiService.getMovieDetails(response.body().getResults().get(index).getId(), getResources().getString(R.string.MOVIE_DB_API_KEY)));
-                    mUpcomingMovieDetailsCalls.get(index).enqueue(new Callback<Movie>() {
-                        @Override
-                        public void onResponse(Call<Movie> call, Response<Movie> response) {
-                            if (!response.isSuccessful()) {
-                                mUpcomingMovieDetailsCalls.set(index, call.clone());
-                                mUpcomingMovieDetailsCalls.get(index).enqueue(this);
-                                return;
-                            }
-
-                            if (response.body().getBackdropPath() != null) {
-                                mUpcomingMovies.add(response.body());
-                                mUpcomingAdapter.notifyDataSetChanged();
-                                mUpcomingSectionLoaded = true;
-                                checkAllDataLoaded();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Movie> call, Throwable t) {
-
-                        }
-                    });
+                mUpcomingSectionLoaded = true;
+                checkAllDataLoaded();
+                for (MovieBrief movieBrief : response.body().getResults()) {
+                    if (movieBrief != null && movieBrief.getBackdropPath() != null)
+                        mUpcomingMovies.add(movieBrief);
                 }
+                mUpcomingAdapter.notifyDataSetChanged();
             }
 
             @Override
