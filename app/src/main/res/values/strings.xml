@@ -6,9 +6,7 @@
 
     <string name="movies">Movies</string>
     <string name="tv_shows">TV Shows</string>
-    <string name="popular_people">Popular People</string>
     <string name="favorites">Favorites</string>
-    <string name="offline">Offline</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
