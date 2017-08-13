@@ -34,6 +34,8 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
     private List<MovieBrief> mMovies;
     private MovieBriefsSmallAdapter mMoviesAdapter;
 
+    private int mMovieType;
+
     private boolean pagesOver = false;
     private int presentPage = 1;
     private boolean loading = true;
@@ -53,9 +55,11 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent receivedIntent = getIntent();
-        final int movieType = receivedIntent.getIntExtra(Constant.VIEW_ALL_MOVIES_TYPE, -1);
+        mMovieType = receivedIntent.getIntExtra(Constant.VIEW_ALL_MOVIES_TYPE, -1);
 
-        switch (movieType) {
+        if (mMovieType == -1) finish();
+
+        switch (mMovieType) {
             case Constant.NOW_SHOWING_MOVIES_TYPE:
                 setTitle("Now Showing Movies");
                 break;
@@ -93,14 +97,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                     }
                 }
                 if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    loadMovies(movieType);
+                    loadMovies(mMovieType);
                     loading = true;
                 }
 
             }
         });
 
-        loadMovies(movieType);
+        loadMovies(mMovieType);
 
     }
 
@@ -142,7 +146,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
                         mSmoothProgressBar.progressiveStop();
                         for (MovieBrief movieBrief : response.body().getResults()) {
-                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                            if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
                                 mMovies.add(movieBrief);
                         }
                         mMoviesAdapter.notifyDataSetChanged();
@@ -174,7 +178,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
                         mSmoothProgressBar.progressiveStop();
                         for (MovieBrief movieBrief : response.body().getResults()) {
-                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                            if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
                                 mMovies.add(movieBrief);
                         }
                         mMoviesAdapter.notifyDataSetChanged();
@@ -206,7 +210,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
                         mSmoothProgressBar.progressiveStop();
                         for (MovieBrief movieBrief : response.body().getResults()) {
-                            if (movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
+                            if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
                                 mMovies.add(movieBrief);
                         }
                         mMoviesAdapter.notifyDataSetChanged();

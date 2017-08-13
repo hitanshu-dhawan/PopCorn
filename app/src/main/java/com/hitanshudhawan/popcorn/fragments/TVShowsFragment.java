@@ -1,5 +1,6 @@
 package com.hitanshudhawan.popcorn.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.activities.ViewAllTVShowsActivity;
 import com.hitanshudhawan.popcorn.adapters.TVShowBriefsLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.TVShowBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
@@ -24,6 +26,7 @@ import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
+import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.TVShowGenres;
 
 import java.util.ArrayList;
@@ -128,33 +131,33 @@ public class TVShowsFragment extends Fragment {
         mAiringTodayViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-//                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.NOW_SHOWING_MOVIES_TYPE);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.AIRING_TODAY_TV_SHOWS_TYPE);
+                startActivity(intent);
             }
         });
         mOnTheAirViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-//                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.POPULAR_MOVIES_TYPE);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.ON_THE_AIR_TV_SHOWS_TYPE);
+                startActivity(intent);
             }
         });
         mPopularViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-//                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.UPCOMING_MOVIES_TYPE);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.POPULAR_TV_SHOWS_TYPE);
+                startActivity(intent);
             }
         });
         mTopRatedViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-//                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.TOP_RATED_MOVIES_TYPE);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
+                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.TOP_RATED_TV_SHOWS_TYPE);
+                startActivity(intent);
             }
         });
 

@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle(R.string.favorites);
                 setFragment(new FavouritesFragment());
                 return true;
-            case R.id.nav_settings:
-                return false;
             case R.id.nav_about:
                 return false;
         }
