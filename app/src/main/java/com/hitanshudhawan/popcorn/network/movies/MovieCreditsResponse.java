@@ -8,16 +8,16 @@ import java.util.List;
  * Created by hitanshu on 2/8/17.
  */
 
-public class CreditsResponse {
+public class MovieCreditsResponse {
 
     @SerializedName("id")
     private Integer id;
     @SerializedName("cast")
-    private List<CastBrief> casts;
+    private List<MovieCastBrief> casts;
     @SerializedName("crew")
-    private List<CrewBrief> crews;
+    private List<MovieCrewBrief> crews;
 
-    public CreditsResponse(Integer id, List<CastBrief> casts, List<CrewBrief> crews) {
+    public MovieCreditsResponse(Integer id, List<MovieCastBrief> casts, List<MovieCrewBrief> crews) {
         this.id = id;
         this.casts = casts;
         this.crews = crews;
@@ -31,19 +31,19 @@ public class CreditsResponse {
         this.id = id;
     }
 
-    public List<CastBrief> getCasts() {
+    public List<MovieCastBrief> getCasts() {
         return casts;
     }
 
-    public void setCasts(List<CastBrief> casts) {
+    public void setCasts(List<MovieCastBrief> casts) {
         this.casts = casts;
     }
 
-    public List<CrewBrief> getCrews() {
+    public List<MovieCrewBrief> getCrews() {
         return crews;
     }
 
-    public void setCrews(List<CrewBrief> crews) {
+    public void setCrews(List<MovieCrewBrief> crews) {
         this.crews = crews;
     }
 

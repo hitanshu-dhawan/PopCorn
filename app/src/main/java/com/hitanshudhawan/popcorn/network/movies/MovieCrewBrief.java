@@ -6,51 +6,32 @@ import com.google.gson.annotations.SerializedName;
  * Created by hitanshu on 2/8/17.
  */
 
-public class CastBrief {
+public class MovieCrewBrief {
 
-    @SerializedName("cast_id")
-    private Integer castId;
-    @SerializedName("character")
-    private String character;
     @SerializedName("credit_id")
     private String creditId;
+    @SerializedName("department")
+    private String department;
     @SerializedName("gender")
     private Integer gender;
     @SerializedName("id")
     private Integer id;
+    @SerializedName("job")
+    private String job;
     @SerializedName("name")
     private String name;
-    @SerializedName("order")
-    private Integer order;
     @SerializedName("profile_path")
     private String profilePath;
 
-    public CastBrief(Integer castId, String character, String creditId, Integer gender,
-                     Integer id, String name, Integer order, String profilePath) {
-        this.castId = castId;
-        this.character = character;
+    public MovieCrewBrief(String creditId, String department, Integer gender, Integer id,
+                     String job, String name, String profilePath) {
         this.creditId = creditId;
+        this.department = department;
         this.gender = gender;
         this.id = id;
+        this.job = job;
         this.name = name;
-        this.order = order;
         this.profilePath = profilePath;
-    }
-
-    public Integer getCastId() {
-        return castId;
-    }
-
-    public void setCastId(Integer castId) {
-        this.castId = castId;
-    }
-
-    public String getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(String character) {
-        this.character = character;
     }
 
     public String getCreditId() {
@@ -59,6 +40,14 @@ public class CastBrief {
 
     public void setCreditId(String creditId) {
         this.creditId = creditId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public Integer getGender() {
@@ -77,20 +66,20 @@ public class CastBrief {
         this.id = id;
     }
 
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 
     public String getProfilePath() {

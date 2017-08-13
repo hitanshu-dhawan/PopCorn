@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.hitanshudhawan.popcorn.activities.PersonDetailActivity"
-    tools:showIn="@layout/activity_cast_detail">
+    tools:showIn="@layout/activity_person_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view_bio_header_cast_detail"
+            android:id="@+id/text_view_bio_header_person_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -24,7 +24,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/text_view_bio_cast_detail"
+            android:id="@+id/text_view_bio_person_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -33,7 +33,7 @@
             android:maxLines="5" />
 
         <TextView
-            android:id="@+id/text_view_read_more_cast_detail"
+            android:id="@+id/text_view_read_more_person_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -43,7 +43,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/text_view_movie_cast_cast_detail"
+            android:id="@+id/text_view_movie_cast_person_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -56,23 +56,29 @@
             android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_movie_cast_cast_detail"
+            android:id="@+id/recycler_view_movie_cast_person_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-        <!--<TextView-->
-        <!--android:text="TV Cast"-->
-        <!--android:textColor="@android:color/black"-->
-        <!--android:textSize="20sp"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
-        <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recycler_view_tv_cast_cast_detail"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--</android.support.v7.widget.RecyclerView>-->
+        <TextView
+            android:id="@+id/text_view_tv_cast_person_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="TV Cast"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_tv_cast_person_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
 

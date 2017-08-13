@@ -1,4 +1,4 @@
-package com.hitanshudhawan.popcorn.network.movies;
+package com.hitanshudhawan.popcorn.network.videos;
 
 import com.google.gson.annotations.SerializedName;
 

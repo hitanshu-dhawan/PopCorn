@@ -139,6 +139,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_cast_detail" />
+    <include layout="@layout/content_person_detail" />
 
 </android.support.design.widget.CoordinatorLayout>

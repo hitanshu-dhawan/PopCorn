@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.PersonDetailActivity;
-import com.hitanshudhawan.popcorn.network.movies.CastBrief;
+import com.hitanshudhawan.popcorn.network.movies.MovieCastBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;
@@ -25,9 +25,9 @@ import java.util.List;
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
 
     private Context mContext;
-    private List<CastBrief> mCasts;
+    private List<MovieCastBrief> mCasts;
 
-    public CastAdapter(Context mContext, List<CastBrief> mCasts) {
+    public CastAdapter(Context mContext, List<MovieCastBrief> mCasts) {
         this.mContext = mContext;
         this.mCasts = mCasts;
     }

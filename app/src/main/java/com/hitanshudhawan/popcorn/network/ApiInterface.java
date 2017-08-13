@@ -1,18 +1,19 @@
 package com.hitanshudhawan.popcorn.network;
 
-import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
+import com.hitanshudhawan.popcorn.network.movies.MovieCreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
-import com.hitanshudhawan.popcorn.network.movies.Person;
+import com.hitanshudhawan.popcorn.network.people.Person;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
-import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
+import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.AiringTodayTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.TVCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
 
@@ -48,7 +49,7 @@ public interface ApiInterface {
     Call<VideosResponse> getMovieVideos(@Path("id") Integer movieId, @Query("api_key") String apiKey);
 
     @GET("movie/{id}/credits")
-    Call<CreditsResponse> getMovieCredits(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+    Call<MovieCreditsResponse> getMovieCredits(@Path("id") Integer movieId, @Query("api_key") String apiKey);
 
     @GET("movie/{id}/similar")
     Call<SimilarMoviesResponse> getSimilarMovies(@Path("id") Integer movieId, @Query("api_key") String apiKey, @Query("page") Integer page);
@@ -83,4 +84,8 @@ public interface ApiInterface {
 
     @GET("person/{id}/movie_credits")
     Call<MovieCastsOfPersonResponse> getMovieCastsOfPerson(@Path("id") Integer personId, @Query("api_key") String apiKey);
+
+    @GET("person/{id}/tv_credits")
+    Call<TVCastsOfPersonResponse> getTVCastsOfPerson(@Path("id") Integer personId, @Query("api_key") String apiKey);
+
 }

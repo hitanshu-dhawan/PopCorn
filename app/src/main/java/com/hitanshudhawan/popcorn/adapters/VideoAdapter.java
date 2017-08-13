@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.network.movies.Video;
+import com.hitanshudhawan.popcorn.network.videos.Video;
 import com.hitanshudhawan.popcorn.utils.Constant;
 
 import java.util.List;

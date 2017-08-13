@@ -21,11 +21,14 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.MovieCastsOfPersonAdapter;
+import com.hitanshudhawan.popcorn.adapters.TVCastsOfPersonAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastOfPerson;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
-import com.hitanshudhawan.popcorn.network.movies.Person;
+import com.hitanshudhawan.popcorn.network.people.Person;
+import com.hitanshudhawan.popcorn.network.tvshows.TVCastOfPerson;
+import com.hitanshudhawan.popcorn.network.tvshows.TVCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -64,13 +67,19 @@ public class PersonDetailActivity extends AppCompatActivity {
     private List<MovieCastOfPerson> mMovieCastOfPersons;
     private MovieCastsOfPersonAdapter mMovieCastsOfPersonAdapter;
 
+    private TextView mTVCastTextView;
+    private RecyclerView mTVCastRecyclerView;
+    private List<TVCastOfPerson> mTVCastOfPersons;
+    private TVCastsOfPersonAdapter mTVCastsOfPersonAdapter;
+
     private Call<Person> mPersonDetailsCall;
     private Call<MovieCastsOfPersonResponse> mMovieCastsOfPersonsCall;
+    private Call<TVCastsOfPersonResponse> mTVCastsOfPersonsCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cast_detail);
+        setContentView(R.layout.activity_person_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,16 +106,23 @@ public class PersonDetailActivity extends AppCompatActivity {
         mCastAgeTextView = (TextView) findViewById(R.id.text_view_age_cast_detail);
         mCastBirthPlaceTextView = (TextView) findViewById(R.id.text_view_birthplace_cast_detail);
 
-        mCastBioHeaderTextView = (TextView) findViewById(R.id.text_view_bio_header_cast_detail);
-        mCastBioTextView = (TextView) findViewById(R.id.text_view_bio_cast_detail);
-        mCastReadMoreBioTextView = (TextView) findViewById(R.id.text_view_read_more_cast_detail);
+        mCastBioHeaderTextView = (TextView) findViewById(R.id.text_view_bio_header_person_detail);
+        mCastBioTextView = (TextView) findViewById(R.id.text_view_bio_person_detail);
+        mCastReadMoreBioTextView = (TextView) findViewById(R.id.text_view_read_more_person_detail);
 
-        mMovieCastTextView = (TextView) findViewById(R.id.text_view_movie_cast_cast_detail);
-        mMovieCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movie_cast_cast_detail);
+        mMovieCastTextView = (TextView) findViewById(R.id.text_view_movie_cast_person_detail);
+        mMovieCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movie_cast_person_detail);
         mMovieCastOfPersons = new ArrayList<>();
         mMovieCastsOfPersonAdapter = new MovieCastsOfPersonAdapter(PersonDetailActivity.this, mMovieCastOfPersons);
         mMovieCastRecyclerView.setAdapter(mMovieCastsOfPersonAdapter);
         mMovieCastRecyclerView.setLayoutManager(new LinearLayoutManager(PersonDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        mTVCastTextView = (TextView) findViewById(R.id.text_view_tv_cast_person_detail);
+        mTVCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_tv_cast_person_detail);
+        mTVCastOfPersons = new ArrayList<>();
+        mTVCastsOfPersonAdapter = new TVCastsOfPersonAdapter(PersonDetailActivity.this, mTVCastOfPersons);
+        mTVCastRecyclerView.setAdapter(mTVCastsOfPersonAdapter);
+        mTVCastRecyclerView.setLayoutManager(new LinearLayoutManager(PersonDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         loadActivity();
 
@@ -117,6 +133,7 @@ public class PersonDetailActivity extends AppCompatActivity {
         super.onDestroy();
         if (mPersonDetailsCall != null) mPersonDetailsCall.cancel();
         if (mMovieCastsOfPersonsCall != null) mMovieCastsOfPersonsCall.cancel();
+        if (mTVCastsOfPersonsCall != null) mTVCastsOfPersonsCall.cancel();
     }
 
     private void loadActivity() {
@@ -190,6 +207,8 @@ public class PersonDetailActivity extends AppCompatActivity {
                 }
 
                 setMovieCast(response.body().getId());
+
+                setTVShowCast(response.body().getId());
             }
 
             @Override
@@ -238,6 +257,37 @@ public class PersonDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieCastsOfPersonResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void setTVShowCast(Integer personId) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mTVCastsOfPersonsCall = apiService.getTVCastsOfPerson(personId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mTVCastsOfPersonsCall.enqueue(new Callback<TVCastsOfPersonResponse>() {
+            @Override
+            public void onResponse(Call<TVCastsOfPersonResponse> call, Response<TVCastsOfPersonResponse> response) {
+                if (!response.isSuccessful()) {
+                    mTVCastsOfPersonsCall = call.clone();
+                    mTVCastsOfPersonsCall.enqueue(this);
+                    return;
+                }
+
+                if (response.body() == null) return;
+                if (response.body().getCasts() == null) return;
+
+                mTVCastTextView.setVisibility(View.VISIBLE);
+                for (TVCastOfPerson tvCastOfPerson : response.body().getCasts()) {
+                    if (tvCastOfPerson == null) return;
+                    if (tvCastOfPerson.getName() != null && tvCastOfPerson.getPosterPath() != null)
+                        mTVCastOfPersons.add(tvCastOfPerson);
+                }
+                mTVCastsOfPersonAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<TVCastsOfPersonResponse> call, Throwable t) {
 
             }
         });

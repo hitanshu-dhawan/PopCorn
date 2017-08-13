@@ -28,14 +28,14 @@ import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.CastBrief;
-import com.hitanshudhawan.popcorn.network.movies.CreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
 import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.network.movies.MovieCastBrief;
+import com.hitanshudhawan.popcorn.network.movies.MovieCreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
-import com.hitanshudhawan.popcorn.network.movies.Video;
-import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
+import com.hitanshudhawan.popcorn.network.videos.Video;
+import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -86,7 +86,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private TextView mCastTextView;
     private RecyclerView mCastRecyclerView;
-    private List<CastBrief> mCasts;
+    private List<MovieCastBrief> mCasts;
     private CastAdapter mCastAdapter;
 
     private TextView mSimilarMoviesTextView;
@@ -96,7 +96,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private Call<Movie> mMovieDetailsCall;
     private Call<VideosResponse> mMovieTrailersCall;
-    private Call<CreditsResponse> mMovieCreditsCall;
+    private Call<MovieCreditsResponse> mMovieCreditsCall;
     private Call<SimilarMoviesResponse> mSimilarMoviesCall;
 
     @Override
@@ -424,9 +424,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void setCasts() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         mMovieCreditsCall = apiService.getMovieCredits(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        mMovieCreditsCall.enqueue(new Callback<CreditsResponse>() {
+        mMovieCreditsCall.enqueue(new Callback<MovieCreditsResponse>() {
             @Override
-            public void onResponse(Call<CreditsResponse> call, Response<CreditsResponse> response) {
+            public void onResponse(Call<MovieCreditsResponse> call, Response<MovieCreditsResponse> response) {
                 if (!response.isSuccessful()) {
                     mMovieCreditsCall = call.clone();
                     mMovieCreditsCall.enqueue(this);
@@ -436,7 +436,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 if (response.body() == null) return;
                 if (response.body().getCasts() == null) return;
 
-                for (CastBrief castBrief : response.body().getCasts()) {
+                for (MovieCastBrief castBrief : response.body().getCasts()) {
                     if (castBrief != null && castBrief.getName() != null)
                         mCasts.add(castBrief);
                 }
@@ -447,7 +447,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CreditsResponse> call, Throwable t) {
+            public void onFailure(Call<MovieCreditsResponse> call, Throwable t) {
 
             }
         });
