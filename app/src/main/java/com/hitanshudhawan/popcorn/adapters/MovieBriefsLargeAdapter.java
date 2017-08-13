@@ -40,7 +40,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_large, parent, false));
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_show_large, parent, false));
     }
 
     @Override
@@ -84,12 +84,10 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
         String genreString = "";
         for (int i = 0; i < movie.getGenreIds().size(); i++) {
             if (movie.getGenreIds().get(i) == null) continue;
-            if (i == movie.getGenreIds().size() - 1)
-                genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i));
-            else
-                genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i)) + ", ";
+            if (MovieGenres.getGenreName(movie.getGenreIds().get(i)) == null) continue;
+            genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i)) + ", ";
         }
-        holder.movieGenreTextView.setText(genreString);
+        holder.movieGenreTextView.setText(genreString.substring(0,genreString.length()-2));
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -105,13 +103,13 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
 
         public MovieViewHolder(View itemView) {
             super(itemView);
-            movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_card);
-            imageLayout = (RelativeLayout) itemView.findViewById(R.id.image_layout_movie_card);
-            moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_card);
-            movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_movie_card);
-            movieRatingTextView = (TextView) itemView.findViewById(R.id.text_view_rating_movie_card);
-            movieGenreTextView = (TextView) itemView.findViewById(R.id.text_view_genre_movie_card);
-            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
+            movieCard = (CardView) itemView.findViewById(R.id.card_view_show_card);
+            imageLayout = (RelativeLayout) itemView.findViewById(R.id.image_layout_show_card);
+            moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_show_card);
+            movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_show_card);
+            movieRatingTextView = (TextView) itemView.findViewById(R.id.text_view_rating_show_card);
+            movieGenreTextView = (TextView) itemView.findViewById(R.id.text_view_genre_show_card);
+            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_show_card);
 
             imageLayout.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.9);
             imageLayout.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.9) / 1.77);

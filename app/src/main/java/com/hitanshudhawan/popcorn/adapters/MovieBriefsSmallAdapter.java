@@ -38,7 +38,7 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_movie_small, parent, false));
+        return new MovieViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_show_small, parent, false));
     }
 
     @Override
@@ -79,10 +79,10 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
 
         public MovieViewHolder(View itemView) {
             super(itemView);
-            movieCard = (CardView) itemView.findViewById(R.id.card_view_movie_card);
-            moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_movie_card);
-            movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_movie_card);
-            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_movie_card);
+            movieCard = (CardView) itemView.findViewById(R.id.card_view_show_card);
+            moviePosterImageView = (ImageView) itemView.findViewById(R.id.image_view_show_card);
+            movieTitleTextView = (TextView) itemView.findViewById(R.id.text_view_title_show_card);
+            movieFavImageButton = (ImageButton) itemView.findViewById(R.id.image_button_fav_show_card);
 
             moviePosterImageView.getLayoutParams().width = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.31);
             moviePosterImageView.getLayoutParams().height = (int) ((mContext.getResources().getDisplayMetrics().widthPixels * 0.31) / 0.66);

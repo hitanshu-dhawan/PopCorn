@@ -16,11 +16,10 @@ import android.view.MenuItem;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
+import com.hitanshudhawan.popcorn.fragments.TVShowsFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    MoviesFragment mMoviesFragment;
-    FavouritesFragment mFavouritesFragment;
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
 
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
+                setFragment(new TVShowsFragment());
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);
