@@ -39,7 +39,11 @@
         <activity
             android:name=".activities.ViewAllTVShowsActivity"
             android:label="@string/title_activity_view_all_tvshows"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.TVShowDetailActivity"
+            android:label="@string/title_activity_tvshow_detail"
+            android:theme="@style/AppTheme.NoActionBar.DetailScreen"></activity>
     </application>
 
 </manifest>

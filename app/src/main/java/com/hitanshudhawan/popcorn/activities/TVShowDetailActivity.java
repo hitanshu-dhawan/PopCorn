@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -23,17 +25,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
-import com.hitanshudhawan.popcorn.adapters.MovieCastsAdapter;
+import com.hitanshudhawan.popcorn.adapters.TVShowBriefsSmallAdapter;
+import com.hitanshudhawan.popcorn.adapters.TVShowCastAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.movies.Genre;
-import com.hitanshudhawan.popcorn.network.movies.Movie;
-import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.network.movies.MovieCastBrief;
-import com.hitanshudhawan.popcorn.network.movies.MovieCreditsResponse;
-import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.Genre;
+import com.hitanshudhawan.popcorn.network.tvshows.SimilarTVShowsResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowCastBrief;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowCreditsResponse;
 import com.hitanshudhawan.popcorn.network.videos.Video;
 import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
@@ -50,15 +52,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class TVShowDetailActivity extends AppCompatActivity {
 
-    private int mMovieId;
+    private int mTVShowId;
 
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private AppBarLayout mAppBarLayout;
     private Toolbar mToolbar;
 
-    private ConstraintLayout mMovieTabLayout;
+    private ConstraintLayout mTVShowTabLayout;
     private ImageView mPosterImageView;
     private int mPosterHeight;
     private int mPosterWidth;
@@ -74,44 +76,44 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
-    private LinearLayout mReleaseAndRuntimeTextLayout;
-    private TextView mReleaseAndRuntimeTextView;
+    //private LinearLayout mReleaseAndRuntimeTextLayout; //todo
+    //private TextView mReleaseAndRuntimeTextView; //todo
 
-    private TextView mTrailerTextView;
-    private RecyclerView mTrailerRecyclerView;
-    private List<Video> mTrailers;
-    private VideoAdapter mTrailerAdapter;
+    private TextView mVideosTextView;
+    private RecyclerView mVideosRecyclerView;
+    private List<Video> mVideos;
+    private VideoAdapter mVideosAdapter;
 
     private View mHorizontalLine;
 
     private TextView mCastTextView;
     private RecyclerView mCastRecyclerView;
-    private List<MovieCastBrief> mCasts;
-    private MovieCastsAdapter mCastAdapter;
+    private List<TVShowCastBrief> mCasts;
+    private TVShowCastAdapter mCastAdapter;
 
-    private TextView mSimilarMoviesTextView;
-    private RecyclerView mSimilarMoviesRecyclerView;
-    private List<MovieBrief> mSimilarMovies;
-    private MovieBriefsSmallAdapter mSimilarMoviesAdapter;
+    private TextView mSimilarTVShowsTextView;
+    private RecyclerView mSimilarTVShowsRecyclerView;
+    private List<TVShowBrief> mSimilarTVShows;
+    private TVShowBriefsSmallAdapter mSimilarTVShowsAdapter;
 
-    private Call<Movie> mMovieDetailsCall;
-    private Call<VideosResponse> mMovieTrailersCall;
-    private Call<MovieCreditsResponse> mMovieCreditsCall;
-    private Call<SimilarMoviesResponse> mSimilarMoviesCall;
+    private Call<TVShow> mTVShowDetailsCall;
+    private Call<VideosResponse> mVideosCall;
+    private Call<TVShowCreditsResponse> mTVShowCreditsCall;
+    private Call<SimilarTVShowsResponse> mSimilarTVShowsCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+        setContentView(R.layout.activity_tvshow_detail);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mMovieId = receivedIntent.getIntExtra(Constant.MOVIE_ID, -1);
+        mTVShowId = receivedIntent.getIntExtra(Constant.TV_SHOW_ID, -1);
 
-        if (mMovieId == -1) finish();
+        if (mTVShowId == -1) finish();
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
@@ -121,8 +123,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBackdropWidth = getResources().getDisplayMetrics().widthPixels;
         mBackdropHeight = (int) (mBackdropWidth / 1.77);
 
-        mMovieTabLayout = (ConstraintLayout) findViewById(R.id.layout_toolbar_movie);
-        mMovieTabLayout.getLayoutParams().height = mBackdropHeight + (int) (mPosterHeight * 0.9);
+        mTVShowTabLayout = (ConstraintLayout) findViewById(R.id.layout_toolbar_tv_show);
+        mTVShowTabLayout.getLayoutParams().height = mBackdropHeight + (int) (mPosterHeight * 0.9);
 
         mPosterImageView = (ImageView) findViewById(R.id.image_view_poster);
         mPosterImageView.getLayoutParams().width = mPosterWidth;
@@ -133,40 +135,40 @@ public class MovieDetailActivity extends AppCompatActivity {
         mBackdropImageView.getLayoutParams().height = mBackdropHeight;
         mBackdropProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_backdrop);
 
-        mTitleTextView = (TextView) findViewById(R.id.text_view_title_movie_detail);
-        mGenreTextView = (TextView) findViewById(R.id.text_view_genre_movie_detail);
-        mYearTextView = (TextView) findViewById(R.id.text_view_year_movie_detail);
+        mTitleTextView = (TextView) findViewById(R.id.text_view_title_tv_show_detail);
+        mGenreTextView = (TextView) findViewById(R.id.text_view_genre_tv_show_detail);
+        mYearTextView = (TextView) findViewById(R.id.text_view_year_tv_show_detail);
 
-        mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_movie_detail);
-        mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
+        mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_tv_show_detail);
+        mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_tv_show_detail);
 
-        mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
-        mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_movie_detail);
-        mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.text_view_release_and_runtime_movie_detail);
+        mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_tv_show_detail);
+        //mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_tv_show_detail);
+        //mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.text_view_release_and_runtime_tv_show_detail);
 
-        mTrailerTextView = (TextView) findViewById(R.id.text_view_trailer_movie_detail);
-        mTrailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_movie_detail);
-        (new LinearSnapHelper()).attachToRecyclerView(mTrailerRecyclerView);
-        mTrailers = new ArrayList<>();
-        mTrailerAdapter = new VideoAdapter(MovieDetailActivity.this, mTrailers);
-        mTrailerRecyclerView.setAdapter(mTrailerAdapter);
-        mTrailerRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        mVideosTextView = (TextView) findViewById(R.id.text_view_trailer_tv_show_detail);
+        mVideosRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_tv_show_detail);
+        (new LinearSnapHelper()).attachToRecyclerView(mVideosRecyclerView);
+        mVideos = new ArrayList<>();
+        mVideosAdapter = new VideoAdapter(TVShowDetailActivity.this, mVideos);
+        mVideosRecyclerView.setAdapter(mVideosAdapter);
+        mVideosRecyclerView.setLayoutManager(new LinearLayoutManager(TVShowDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         mHorizontalLine = (View) findViewById(R.id.view_horizontal_line);
 
-        mCastTextView = (TextView) findViewById(R.id.text_view_cast_movie_detail);
-        mCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_cast_movie_detail);
+        mCastTextView = (TextView) findViewById(R.id.text_view_cast_tv_show_detail);
+        mCastRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_cast_tv_show_detail);
         mCasts = new ArrayList<>();
-        mCastAdapter = new MovieCastsAdapter(MovieDetailActivity.this, mCasts);
+        mCastAdapter = new TVShowCastAdapter(TVShowDetailActivity.this, mCasts);
         mCastRecyclerView.setAdapter(mCastAdapter);
-        mCastRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        mCastRecyclerView.setLayoutManager(new LinearLayoutManager(TVShowDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
-        mSimilarMoviesTextView = (TextView) findViewById(R.id.text_view_similar_movie_detail);
-        mSimilarMoviesRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_similar_movie_detail);
-        mSimilarMovies = new ArrayList<>();
-        mSimilarMoviesAdapter = new MovieBriefsSmallAdapter(MovieDetailActivity.this, mSimilarMovies);
-        mSimilarMoviesRecyclerView.setAdapter(mSimilarMoviesAdapter);
-        mSimilarMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        mSimilarTVShowsTextView = (TextView) findViewById(R.id.text_view_similar_tv_show_detail);
+        mSimilarTVShowsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_similar_tv_show_detail);
+        mSimilarTVShows = new ArrayList<>();
+        mSimilarTVShowsAdapter = new TVShowBriefsSmallAdapter(TVShowDetailActivity.this, mSimilarTVShows);
+        mSimilarTVShowsRecyclerView.setAdapter(mSimilarTVShowsAdapter);
+        mSimilarTVShowsRecyclerView.setLayoutManager(new LinearLayoutManager(TVShowDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         loadActivity();
     }
@@ -174,27 +176,27 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mSimilarMoviesAdapter.notifyDataSetChanged();
+        mSimilarTVShowsAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mMovieDetailsCall != null) mMovieDetailsCall.cancel();
-        if (mMovieTrailersCall != null) mMovieTrailersCall.cancel();
-        if (mMovieCreditsCall != null) mMovieCreditsCall.cancel();
-        if (mSimilarMoviesCall != null) mSimilarMoviesCall.cancel();
+        if (mTVShowDetailsCall != null) mTVShowDetailsCall.cancel();
+        if (mVideosCall != null) mVideosCall.cancel();
+        if (mTVShowCreditsCall != null) mTVShowCreditsCall.cancel();
+        if (mSimilarTVShowsCall != null) mSimilarTVShowsCall.cancel();
     }
 
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mMovieDetailsCall = apiService.getMovieDetails(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        mMovieDetailsCall.enqueue(new Callback<Movie>() {
+        mTVShowDetailsCall = apiService.getTVShowDetails(mTVShowId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mTVShowDetailsCall.enqueue(new Callback<TVShow>() {
             @Override
-            public void onResponse(Call<Movie> call, final Response<Movie> response) {
+            public void onResponse(Call<TVShow> call, final Response<TVShow> response) {
                 if (!response.isSuccessful()) {
-                    mMovieDetailsCall = call.clone();
-                    mMovieDetailsCall.enqueue(this);
+                    mTVShowDetailsCall = call.clone();
+                    mTVShowDetailsCall.enqueue(this);
                     return;
                 }
 
@@ -204,8 +206,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                         if (appBarLayout.getTotalScrollRange() + verticalOffset == 0) {
-                            if (response.body().getTitle() != null)
-                                mCollapsingToolbarLayout.setTitle(response.body().getTitle());
+                            if (response.body().getName() != null)
+                                mCollapsingToolbarLayout.setTitle(response.body().getName());
                             else
                                 mCollapsingToolbarLayout.setTitle("");
                             mToolbar.setVisibility(View.VISIBLE);
@@ -254,39 +256,40 @@ public class MovieDetailActivity extends AppCompatActivity {
                         })
                         .into(mBackdropImageView);
 
-                if (response.body().getTitle() != null)
-                    mTitleTextView.setText(response.body().getTitle());
+                if (response.body().getName() != null)
+                    mTitleTextView.setText(response.body().getName());
                 else
                     mTitleTextView.setText("");
 
                 setGenres(response.body().getGenres());
 
-                setYear(response.body().getReleaseDate());
+                setYear(response.body().getFirstAirDate());
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId());
+                //todo
+                setImageButtons(response.body().getId());
 
                 if (response.body().getOverview() != null)
                     mOverviewTextView.setText(response.body().getOverview());
                 else
                     mOverviewTextView.setText("");
 
-                mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
-                setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
+                //mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
+                //todo
+                //setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
 
-                setTrailers();
+                setVideos();
 
                 mHorizontalLine.setVisibility(View.VISIBLE);
 
                 setCasts();
 
-                setSimilarMovies();
-
+                setSimilarTVShows();
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(Call<TVShow> call, Throwable t) {
 
             }
         });
@@ -307,13 +310,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         mGenreTextView.setText(genres);
     }
 
-    private void setYear(String releaseDateString) {
-        if (releaseDateString != null && !releaseDateString.trim().toString().isEmpty()) {
+    private void setYear(String firstAirDateString) {
+        if (firstAirDateString != null && !firstAirDateString.trim().toString().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
-                Date releaseDate = sdf1.parse(releaseDateString);
-                mYearTextView.setText(sdf2.format(releaseDate));
+                Date firstAirDate = sdf1.parse(firstAirDateString);
+                mYearTextView.setText(sdf2.format(firstAirDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -322,9 +325,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId) {
-        if (movieId == null) return;
-        if (Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
+    private void setImageButtons(final Integer tvShowId) {
+        if (tvShowId == null) return;
+        if (Favourite.isTVShowFav(TVShowDetailActivity.this, tvShowId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
         } else {
@@ -336,69 +339,70 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 if ((int) mFavImageButton.getTag() == Constant.TAG_FAV) {
-                    Favourite.removeMovieFromFav(MovieDetailActivity.this, movieId);
+                    Favourite.removeTVShowFromFav(TVShowDetailActivity.this, tvShowId);
                     mFavImageButton.setTag(Constant.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
-                    Favourite.addMovieToFav(MovieDetailActivity.this, movieId);
+                    Favourite.addTVShowToFav(TVShowDetailActivity.this, tvShowId);
                     mFavImageButton.setTag(Constant.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }
             }
         });
-        mShareImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imdbId != null) {
-                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
-                    movieShareIntent.setType("text/plain");
-                    String extraText = "";
-                    if (movieTitle != null) extraText += movieTitle + "\n";
-                    if (movieTagline != null) extraText += movieTagline + "\n";
-                    if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId;
-                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-                    startActivity(movieShareIntent);
-                }
-            }
-        });
+        //todo
+//        mShareImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (imdbId != null) {
+//                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+//                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
+//                    movieShareIntent.setType("text/plain");
+//                    String extraText = "";
+//                    if (movieTitle != null) extraText += movieTitle + "\n";
+//                    if (movieTagline != null) extraText += movieTagline + "\n";
+//                    if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId;
+//                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+//                    startActivity(movieShareIntent);
+//                }
+//            }
+//        });
     }
 
-    private void setReleaseAndRuntime(String releaseString, Integer runtime) {
-        String releaseAndRuntimeString = "";
-        if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
-            try {
-                Date releaseDate = sdf1.parse(releaseString);
-                releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        } else {
-            releaseAndRuntimeString = "-\n";
-        }
-        if (runtime != null && runtime != 0) {
-            if (runtime < 60) {
-                releaseAndRuntimeString += runtime + " min(s)";
-            } else {
-                releaseAndRuntimeString += runtime / 60 + " hr " + runtime % 60 + " mins";
-            }
-        } else {
-            releaseAndRuntimeString += "-";
-        }
-        mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
-    }
+//    private void setReleaseAndRuntime(String releaseString, Integer runtime) {
+//        String releaseAndRuntimeString = "";
+//        if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
+//            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+//            try {
+//                Date releaseDate = sdf1.parse(releaseString);
+//                releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            releaseAndRuntimeString = "-\n";
+//        }
+//        if (runtime != null && runtime != 0) {
+//            if (runtime < 60) {
+//                releaseAndRuntimeString += runtime + " min(s)";
+//            } else {
+//                releaseAndRuntimeString += runtime / 60 + " hr " + runtime % 60 + " mins";
+//            }
+//        } else {
+//            releaseAndRuntimeString += "-";
+//        }
+//        mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
+//    }
 
-    private void setTrailers() {
+    private void setVideos() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mMovieTrailersCall = apiService.getMovieVideos(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        mMovieTrailersCall.enqueue(new Callback<VideosResponse>() {
+        mVideosCall = apiService.getTVShowVideos(mTVShowId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mVideosCall.enqueue(new Callback<VideosResponse>() {
             @Override
             public void onResponse(Call<VideosResponse> call, Response<VideosResponse> response) {
                 if (!response.isSuccessful()) {
-                    mMovieTrailersCall = call.clone();
-                    mMovieTrailersCall.enqueue(this);
+                    mVideosCall = call.clone();
+                    mVideosCall.enqueue(this);
                     return;
                 }
 
@@ -407,11 +411,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 for (Video video : response.body().getVideos()) {
                     if (video != null && video.getSite() != null && video.getSite().equals("YouTube") && video.getType() != null && video.getType().equals("Trailer"))
-                        mTrailers.add(video);
+                        mVideos.add(video);
                 }
-                if (!mTrailers.isEmpty())
-                    mTrailerTextView.setVisibility(View.VISIBLE);
-                mTrailerAdapter.notifyDataSetChanged();
+                if (!mVideos.isEmpty())
+                    mVideosTextView.setVisibility(View.VISIBLE);
+                mVideosAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -423,20 +427,20 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setCasts() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mMovieCreditsCall = apiService.getMovieCredits(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
-        mMovieCreditsCall.enqueue(new Callback<MovieCreditsResponse>() {
+        mTVShowCreditsCall = apiService.getTVShowCredits(mTVShowId, getResources().getString(R.string.MOVIE_DB_API_KEY));
+        mTVShowCreditsCall.enqueue(new Callback<TVShowCreditsResponse>() {
             @Override
-            public void onResponse(Call<MovieCreditsResponse> call, Response<MovieCreditsResponse> response) {
+            public void onResponse(Call<TVShowCreditsResponse> call, Response<TVShowCreditsResponse> response) {
                 if (!response.isSuccessful()) {
-                    mMovieCreditsCall = call.clone();
-                    mMovieCreditsCall.enqueue(this);
+                    mTVShowCreditsCall = call.clone();
+                    mTVShowCreditsCall.enqueue(this);
                     return;
                 }
 
                 if (response.body() == null) return;
                 if (response.body().getCasts() == null) return;
 
-                for (MovieCastBrief castBrief : response.body().getCasts()) {
+                for (TVShowCastBrief castBrief : response.body().getCasts()) {
                     if (castBrief != null && castBrief.getName() != null)
                         mCasts.add(castBrief);
                 }
@@ -447,39 +451,39 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieCreditsResponse> call, Throwable t) {
+            public void onFailure(Call<TVShowCreditsResponse> call, Throwable t) {
 
             }
         });
     }
 
-    private void setSimilarMovies() {
+    private void setSimilarTVShows() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mSimilarMoviesCall = apiService.getSimilarMovies(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY), 1);
-        mSimilarMoviesCall.enqueue(new Callback<SimilarMoviesResponse>() {
+        mSimilarTVShowsCall = apiService.getSimilarTVShows(mTVShowId, getResources().getString(R.string.MOVIE_DB_API_KEY), 1);
+        mSimilarTVShowsCall.enqueue(new Callback<SimilarTVShowsResponse>() {
             @Override
-            public void onResponse(Call<SimilarMoviesResponse> call, Response<SimilarMoviesResponse> response) {
+            public void onResponse(Call<SimilarTVShowsResponse> call, Response<SimilarTVShowsResponse> response) {
                 if (!response.isSuccessful()) {
-                    mSimilarMoviesCall = call.clone();
-                    mSimilarMoviesCall.enqueue(this);
+                    mSimilarTVShowsCall = call.clone();
+                    mSimilarTVShowsCall.enqueue(this);
                     return;
                 }
 
                 if (response.body() == null) return;
                 if (response.body().getResults() == null) return;
 
-                for (MovieBrief movieBrief : response.body().getResults()) {
-                    if (movieBrief != null && movieBrief.getTitle() != null && movieBrief.getPosterPath() != null)
-                        mSimilarMovies.add(movieBrief);
+                for (TVShowBrief tvShowBrief : response.body().getResults()) {
+                    if (tvShowBrief != null && tvShowBrief.getName() != null && tvShowBrief.getPosterPath() != null)
+                        mSimilarTVShows.add(tvShowBrief);
                 }
 
-                if (!mSimilarMovies.isEmpty())
-                    mSimilarMoviesTextView.setVisibility(View.VISIBLE);
-                mSimilarMoviesAdapter.notifyDataSetChanged();
+                if (!mSimilarTVShows.isEmpty())
+                    mSimilarTVShowsTextView.setVisibility(View.VISIBLE);
+                mSimilarTVShowsAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<SimilarMoviesResponse> call, Throwable t) {
+            public void onFailure(Call<SimilarTVShowsResponse> call, Throwable t) {
 
             }
         });

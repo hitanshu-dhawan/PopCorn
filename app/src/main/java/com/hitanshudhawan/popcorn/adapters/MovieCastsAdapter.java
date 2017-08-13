@@ -22,19 +22,19 @@ import java.util.List;
  * Created by hitanshu on 2/8/17.
  */
 
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.CastViewHolder> {
+public class MovieCastsAdapter extends RecyclerView.Adapter<MovieCastsAdapter.CastViewHolder> {
 
     private Context mContext;
     private List<MovieCastBrief> mCasts;
 
-    public CastAdapter(Context mContext, List<MovieCastBrief> mCasts) {
+    public MovieCastsAdapter(Context mContext, List<MovieCastBrief> mCasts) {
         this.mContext = mContext;
         this.mCasts = mCasts;
     }
 
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cast_of_movie, parent, false));
+        return new CastViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_cast, parent, false));
     }
 
     @Override

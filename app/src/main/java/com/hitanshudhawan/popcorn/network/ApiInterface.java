@@ -9,6 +9,8 @@ import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.SimilarTVShowsResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowCreditsResponse;
 import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.AiringTodayTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
@@ -73,6 +75,15 @@ public interface ApiInterface {
 
     @GET("tv/{id}")
     Call<TVShow> getTVShowDetails(@Path("id") Integer tvShowId, @Query("api_key") String apiKey);
+
+    @GET("tv/{id}/videos")
+    Call<VideosResponse> getTVShowVideos(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
+    @GET("tv/{id}/credits")
+    Call<TVShowCreditsResponse> getTVShowCredits(@Path("id") Integer movieId, @Query("api_key") String apiKey);
+
+    @GET("tv/{id}/similar")
+    Call<SimilarTVShowsResponse> getSimilarTVShows(@Path("id") Integer movieId, @Query("api_key") String apiKey, @Query("page") Integer page);
 
     @GET("genre/tv/list")
     Call<com.hitanshudhawan.popcorn.network.tvshows.GenresList> getTVShowGenresList(@Query("api_key") String apiKey);
