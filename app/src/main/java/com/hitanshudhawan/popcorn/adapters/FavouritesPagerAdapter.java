@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouriteMoviesFragment;
+import com.hitanshudhawan.popcorn.fragments.FavouriteTVShowsFragment;
 
 /**
  * Created by hitanshu on 10/8/17.
@@ -27,7 +28,7 @@ public class FavouritesPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new FavouriteMoviesFragment();
             case 1:
-                return new FavouriteMoviesFragment(); //todo
+                return new FavouriteTVShowsFragment();
         }
         return null;
     }

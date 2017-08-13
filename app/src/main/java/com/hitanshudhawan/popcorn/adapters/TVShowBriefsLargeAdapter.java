@@ -3,6 +3,7 @@ package com.hitanshudhawan.popcorn.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.hitanshudhawan.popcorn.utils.TVShowGenres;
 
 import java.util.List;
@@ -62,13 +64,13 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
 
         setGenres(holder, mTVShows.get(position));
 
-//        if (Favourite.isMovieFav(mContext, mTVShows.get(position).getId())) {
-//            holder.tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
-//            holder.tvShowFavImageButton.setEnabled(false);
-//        } else {
-//            holder.tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
-//            holder.tvShowFavImageButton.setEnabled(true);
-//        }
+        if (Favourite.isTVShowFav(mContext, mTVShows.get(position).getId())) {
+            holder.tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
+            holder.tvShowFavImageButton.setEnabled(false);
+        } else {
+            holder.tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_border_black_18dp);
+            holder.tvShowFavImageButton.setEnabled(true);
+        }
     }
 
     @Override
@@ -122,10 +124,10 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
             tvShowFavImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId());
-//                    movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
-//                    movieFavImageButton.setEnabled(false);
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    Favourite.addTVShowToFav(mContext, mTVShows.get(getAdapterPosition()).getId());
+                    tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
+                    tvShowFavImageButton.setEnabled(false);
                 }
             });
         }

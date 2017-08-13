@@ -13,6 +13,7 @@ import com.hitanshudhawan.popcorn.network.movies.VideosResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.AiringTodayTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
 
 import retrofit2.Call;
@@ -68,6 +69,9 @@ public interface ApiInterface {
 
     @GET("tv/top_rated")
     Call<TopRatedTVShowsResponse> getTopRatedTVShows(@Query("api_key") String apiKey, @Query("page") Integer page);
+
+    @GET("tv/{id}")
+    Call<TVShow> getTVShowDetails(@Path("id") Integer tvShowId, @Query("api_key") String apiKey);
 
     @GET("genre/tv/list")
     Call<com.hitanshudhawan.popcorn.network.tvshows.GenresList> getTVShowGenresList(@Query("api_key") String apiKey);

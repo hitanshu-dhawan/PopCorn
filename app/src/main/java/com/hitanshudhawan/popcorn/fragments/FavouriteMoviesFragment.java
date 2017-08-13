@@ -116,5 +116,4 @@ public class FavouriteMoviesFragment extends Fragment {
         }
     }
 
-
 }

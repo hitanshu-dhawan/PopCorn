@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
@@ -24,12 +24,12 @@ import java.util.List;
  * Created by hitanshu on 13/8/17.
  */
 
-public class TVShowBriefsSmallAdapter extends RecyclerView.Adapter<TVShowBriefsSmallAdapter.TVShowViewHolder> {
+public class TVShowsSmallAdapter extends RecyclerView.Adapter<TVShowsSmallAdapter.TVShowViewHolder> {
 
     private Context mContext;
-    private List<TVShowBrief> mTVShows;
+    private List<TVShow> mTVShows;
 
-    public TVShowBriefsSmallAdapter(Context context, List<TVShowBrief> tvShows) {
+    public TVShowsSmallAdapter(Context context, List<TVShow> tvShows) {
         mContext = context;
         mTVShows = tvShows;
     }

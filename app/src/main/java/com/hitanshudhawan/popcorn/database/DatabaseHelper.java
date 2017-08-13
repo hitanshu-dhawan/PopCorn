@@ -14,6 +14,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String FAV_MOVIES_TABLE_NAME = "FavouriteMoviesTable";
     public static final String MOVIE_ID = "id";
+    public static final String FAV_TV_SHOWS_TABLE_NAME = "FavouriteTVShowsTable";
+    public static final String TV_SHOW_ID = "id";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -21,9 +23,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String query = "CREATE TABLE " + FAV_MOVIES_TABLE_NAME + " ( "
+        String queryCreateMovieTable = "CREATE TABLE " + FAV_MOVIES_TABLE_NAME + " ( "
                 + MOVIE_ID + " INTEGER NOT NULL PRIMARY KEY )";
-        sqLiteDatabase.execSQL(query);
+        String queryCreateTVShowTable = "CREATE TABLE " + FAV_TV_SHOWS_TABLE_NAME + " ( "
+                + TV_SHOW_ID + " INTEGER NOT NULL PRIMARY KEY )";
+        sqLiteDatabase.execSQL(queryCreateMovieTable);
+        sqLiteDatabase.execSQL(queryCreateTVShowTable);
     }
 
     @Override
