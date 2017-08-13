@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.GenresList;
-import com.hitanshudhawan.popcorn.network.movies.Movie;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
 import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
@@ -168,8 +166,7 @@ public class MoviesFragment extends Fragment {
             loadPopularMovies();
             loadUpcomingMovies();
             loadTopRatedMovies();
-        }
-        else {
+        } else {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
             mProgressBar.setVisibility(View.VISIBLE);
             mGenresListCall = apiService.getMovieGenresList(getResources().getString(R.string.MOVIE_DB_API_KEY));
@@ -214,6 +211,7 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mGenresListCall != null) mGenresListCall.cancel();
         if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
         if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
         if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();

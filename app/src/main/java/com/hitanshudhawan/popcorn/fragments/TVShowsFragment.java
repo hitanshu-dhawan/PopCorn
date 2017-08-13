@@ -209,6 +209,7 @@ public class TVShowsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mGenresListCall != null) mGenresListCall.cancel();
         if (mAiringTodayTVShowsCall != null) mAiringTodayTVShowsCall.cancel();
         if (mOnTheAirTVShowsCall != null) mOnTheAirTVShowsCall.cancel();
         if (mPopularTVShowsCall != null) mPopularTVShowsCall.cancel();
