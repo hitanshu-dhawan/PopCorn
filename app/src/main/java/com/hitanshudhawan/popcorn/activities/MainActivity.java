@@ -1,5 +1,6 @@
 package com.hitanshudhawan.popcorn.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setFragment(new FavouritesFragment());
                 return true;
             case R.id.nav_about:
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
                 return false;
         }
 

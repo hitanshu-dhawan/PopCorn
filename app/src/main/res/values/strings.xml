@@ -15,5 +15,6 @@
     <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>
     <string name="title_activity_view_all_tvshows">ViewAllTVShowsActivity</string>
     <string name="title_activity_tvshow_detail">TVShowDetailActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 </resources>

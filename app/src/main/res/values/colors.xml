@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorAccent">#009688</color>
 
-    <color name="navigationHeaderBackground">#212121</color>
-    <color name="navigationDrawerBackgroud">#E0E0E0</color>
+    <color name="colorNavigationHeaderBackground">#212121</color>
+    <color name="colorNavigationDrawerBackgroud">#E0E0E0</color>
+
+    <color name="colorAboutSectionIcons">#757575</color>
 </resources>
