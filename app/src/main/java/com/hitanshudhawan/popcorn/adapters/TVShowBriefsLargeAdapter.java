@@ -59,7 +59,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
 
         if (mTVShows.get(position).getVoteAverage() != null && mTVShows.get(position).getVoteAverage() > 0) {
             holder.tvShowRatingTextView.setVisibility(View.VISIBLE);
-            holder.tvShowRatingTextView.setText(String.format("%.1f",mTVShows.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
+            holder.tvShowRatingTextView.setText(String.format("%.1f", mTVShows.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
         } else {
             holder.tvShowRatingTextView.setVisibility(View.GONE);
         }
@@ -88,7 +88,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
             genreString += TVShowGenres.getGenreName(tvShow.getGenreIds().get(i)) + ", ";
         }
         if (!genreString.isEmpty())
-            holder.tvShowGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+            holder.tvShowGenreTextView.setText(genreString.substring(0, genreString.length() - 2));
         else
             holder.tvShowGenreTextView.setText("");
     }

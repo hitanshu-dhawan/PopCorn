@@ -59,7 +59,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
 
         if (mMovies.get(position).getVoteAverage() != null && mMovies.get(position).getVoteAverage() > 0) {
             holder.movieRatingTextView.setVisibility(View.VISIBLE);
-            holder.movieRatingTextView.setText(String.format("%.1f",mMovies.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
+            holder.movieRatingTextView.setText(String.format("%.1f", mMovies.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
         } else {
             holder.movieRatingTextView.setVisibility(View.GONE);
         }
@@ -88,7 +88,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
             genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i)) + ", ";
         }
         if (!genreString.isEmpty())
-            holder.movieGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+            holder.movieGenreTextView.setText(genreString.substring(0, genreString.length() - 2));
         else
             holder.movieGenreTextView.setText("");
     }

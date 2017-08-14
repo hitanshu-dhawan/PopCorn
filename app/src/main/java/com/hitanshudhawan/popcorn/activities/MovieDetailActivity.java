@@ -74,6 +74,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
+    private TextView mOverviewReadMoreTextView;
     private LinearLayout mDetailsLayout;
     private TextView mDetailsTextView;
 
@@ -141,6 +142,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
+        mOverviewReadMoreTextView = (TextView) findViewById(R.id.text_view_read_more_movie_detail);
         mDetailsLayout = (LinearLayout) findViewById(R.id.layout_details_movie_detail);
         mDetailsTextView = (TextView) findViewById(R.id.text_view_details_movie_detail);
 
@@ -267,10 +269,19 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mShareImageButton.setVisibility(View.VISIBLE);
                 setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
 
-                if (response.body().getOverview() != null)
+                if (response.body().getOverview() != null) {
+                    mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
                     mOverviewTextView.setText(response.body().getOverview());
-                else
+                    mOverviewReadMoreTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mOverviewTextView.setMaxLines(Integer.MAX_VALUE);
+                            mOverviewReadMoreTextView.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
                     mOverviewTextView.setText("");
+                }
 
                 mDetailsLayout.setVisibility(View.VISIBLE);
                 setDetails(response.body().getReleaseDate(), response.body().getRuntime());

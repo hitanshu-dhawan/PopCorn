@@ -24,7 +24,7 @@ public class MovieCrewBrief {
     private String profilePath;
 
     public MovieCrewBrief(String creditId, String department, Integer gender, Integer id,
-                     String job, String name, String profilePath) {
+                          String job, String name, String profilePath) {
         this.creditId = creditId;
         this.department = department;
         this.gender = gender;

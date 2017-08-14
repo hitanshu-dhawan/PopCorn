@@ -26,7 +26,7 @@ public class MovieCastBrief {
     private String profilePath;
 
     public MovieCastBrief(Integer castId, String character, String creditId, Integer gender,
-                     Integer id, String name, Integer order, String profilePath) {
+                          Integer id, String name, Integer order, String profilePath) {
         this.castId = castId;
         this.character = character;
         this.creditId = creditId;

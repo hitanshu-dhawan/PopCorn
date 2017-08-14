@@ -1,6 +1,7 @@
 package com.hitanshudhawan.popcorn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.activities.TVShowDetailActivity;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastOfPerson;
 import com.hitanshudhawan.popcorn.utils.Constant;
 
@@ -81,9 +83,9 @@ public class TVCastsOfPersonAdapter extends RecyclerView.Adapter<TVCastsOfPerson
             tvShowCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-//                    intent.putExtra(Constant.MOVIE_ID, mMovieCasts.get(getAdapterPosition()).getId());
-//                    mContext.startActivity(intent);
+                    Intent intent = new Intent(mContext, TVShowDetailActivity.class);
+                    intent.putExtra(Constant.TV_SHOW_ID, mTVCasts.get(getAdapterPosition()).getId());
+                    mContext.startActivity(intent);
                 }
             });
         }

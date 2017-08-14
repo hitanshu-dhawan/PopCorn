@@ -166,8 +166,7 @@ public class TVShowsFragment extends Fragment {
             loadOnTheAirTVShows();
             loadPopularTVShows();
             loadTopRatedTVShows();
-        }
-        else {
+        } else {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
             mProgressBar.setVisibility(View.VISIBLE);
             mGenresListCall = apiService.getTVShowGenresList(getResources().getString(R.string.MOVIE_DB_API_KEY));

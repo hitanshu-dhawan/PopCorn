@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -77,6 +75,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
+    private TextView mOverviewReadMoreTextView;
     private LinearLayout mDetailsLayout;
     private TextView mDetailsTextView;
 
@@ -144,6 +143,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_tv_show_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_tv_show_detail);
+        mOverviewReadMoreTextView = (TextView) findViewById(R.id.text_view_read_more_tv_show_detail);
         mDetailsLayout = (LinearLayout) findViewById(R.id.layout_details_tv_show_detail);
         mDetailsTextView = (TextView) findViewById(R.id.text_view_details_tv_show_detail);
 
@@ -268,15 +268,24 @@ public class TVShowDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(),response.body().getName(),response.body().getHomepage());
+                setImageButtons(response.body().getId(), response.body().getName(), response.body().getHomepage());
 
-                if (response.body().getOverview() != null)
+                if (response.body().getOverview() != null) {
+                    mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
                     mOverviewTextView.setText(response.body().getOverview());
-                else
+                    mOverviewReadMoreTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mOverviewTextView.setMaxLines(Integer.MAX_VALUE);
+                            mOverviewReadMoreTextView.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
                     mOverviewTextView.setText("");
+                }
 
                 mDetailsLayout.setVisibility(View.VISIBLE);
-                setDetails(response.body().getFirstAirDate(),response.body().getEpisodeRunTime(),response.body().getStatus(),response.body().getOriginCountries(),response.body().getNetworks());
+                setDetails(response.body().getFirstAirDate(), response.body().getEpisodeRunTime(), response.body().getStatus(), response.body().getOriginCountries(), response.body().getNetworks());
 
                 setVideos();
 
@@ -324,7 +333,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer tvShowId, final String tvShowName,final String homepage) {
+    private void setImageButtons(final Integer tvShowId, final String tvShowName, final String homepage) {
         if (tvShowId == null) return;
         if (Favourite.isTVShowFav(TVShowDetailActivity.this, tvShowId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
@@ -352,14 +361,14 @@ public class TVShowDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
-                    movieShareIntent.setType("text/plain");
-                    String extraText = "";
-                    if (tvShowName != null) extraText += tvShowName + "\n";
-                    if (homepage != null) extraText += homepage;
-                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-                    startActivity(movieShareIntent);
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
+                movieShareIntent.setType("text/plain");
+                String extraText = "";
+                if (tvShowName != null) extraText += tvShowName + "\n";
+                if (homepage != null) extraText += homepage;
+                movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+                startActivity(movieShareIntent);
 
             }
         });
@@ -393,8 +402,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
 
         if (status != null && !status.trim().isEmpty()) {
             detailsString += status + "\n";
-        }
-        else {
+        } else {
             detailsString += "-\n";
         }
 
@@ -405,26 +413,25 @@ public class TVShowDetailActivity extends AppCompatActivity {
                 originCountriesString += country + ", ";
             }
             if (!originCountriesString.isEmpty())
-                detailsString += originCountriesString.substring(0,originCountriesString.length()-2) + "\n";
+                detailsString += originCountriesString.substring(0, originCountriesString.length() - 2) + "\n";
             else
                 detailsString += "-\n";
-        }
-        else {
+        } else {
             detailsString += "-\n";
         }
 
         String networksString = "";
         if (networks != null && !networks.isEmpty()) {
             for (Network network : networks) {
-                if (network == null || network.getName() == null || network.getName().isEmpty()) continue;
+                if (network == null || network.getName() == null || network.getName().isEmpty())
+                    continue;
                 networksString += network.getName() + ", ";
             }
             if (!networksString.isEmpty())
-                detailsString += networksString.substring(0,networksString.length()-2);
+                detailsString += networksString.substring(0, networksString.length() - 2);
             else
                 detailsString += "-\n";
-        }
-        else {
+        } else {
             detailsString += "-\n";
         }
 
