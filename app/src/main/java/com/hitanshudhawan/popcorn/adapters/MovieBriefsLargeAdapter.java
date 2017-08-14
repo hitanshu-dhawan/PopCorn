@@ -59,7 +59,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
 
         if (mMovies.get(position).getVoteAverage() != null && mMovies.get(position).getVoteAverage() > 0) {
             holder.movieRatingTextView.setVisibility(View.VISIBLE);
-            holder.movieRatingTextView.setText(mMovies.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
+            holder.movieRatingTextView.setText(String.format("%.1f",mMovies.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
         } else {
             holder.movieRatingTextView.setVisibility(View.GONE);
         }

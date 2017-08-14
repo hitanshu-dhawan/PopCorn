@@ -59,7 +59,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
 
         if (mTVShows.get(position).getVoteAverage() != null && mTVShows.get(position).getVoteAverage() > 0) {
             holder.tvShowRatingTextView.setVisibility(View.VISIBLE);
-            holder.tvShowRatingTextView.setText(mTVShows.get(position).getVoteAverage() + Constant.RATING_SYMBOL);
+            holder.tvShowRatingTextView.setText(String.format("%.1f",mTVShows.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
         } else {
             holder.tvShowRatingTextView.setVisibility(View.GONE);
         }
