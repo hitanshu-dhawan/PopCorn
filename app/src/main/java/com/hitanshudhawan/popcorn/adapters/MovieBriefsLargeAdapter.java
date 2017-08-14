@@ -87,7 +87,10 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
             if (MovieGenres.getGenreName(movie.getGenreIds().get(i)) == null) continue;
             genreString += MovieGenres.getGenreName(movie.getGenreIds().get(i)) + ", ";
         }
-        holder.movieGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+        if (!genreString.isEmpty())
+            holder.movieGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+        else
+            holder.movieGenreTextView.setText("");
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {

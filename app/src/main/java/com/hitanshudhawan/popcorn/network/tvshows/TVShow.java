@@ -31,7 +31,8 @@ public class TVShow {
     private String lastAirDate;
     @SerializedName("name")
     private String name;
-    //networks missing
+    @SerializedName("networks")
+    private List<Network> networks;
     @SerializedName("number_of_episodes")
     private Integer numberOfEpisodes;
     @SerializedName("number_of_seasons")
@@ -59,7 +60,7 @@ public class TVShow {
     @SerializedName("vote_count")
     private Integer voteCount;
 
-    public TVShow(String backdropPath, List<Integer> episodeRunTime, String firstAirDate, List<Genre> genres, String homepage, Integer id, Boolean inProduction, List<String> languages, String lastAirDate, String name, Integer numberOfEpisodes, Integer numberOfSeasons, List<String> originCountries, String originalLanguage, String originalName, String overview, Double popularity, String posterPath, String status, String type, Double voteAverage, Integer voteCount) {
+    public TVShow(String backdropPath, List<Integer> episodeRunTime, String firstAirDate, List<Genre> genres, String homepage, Integer id, Boolean inProduction, List<String> languages, String lastAirDate, String name, List<Network> networks, Integer numberOfEpisodes, Integer numberOfSeasons, List<String> originCountries, String originalLanguage, String originalName, String overview, Double popularity, String posterPath, String status, String type, Double voteAverage, Integer voteCount) {
         this.backdropPath = backdropPath;
         this.episodeRunTime = episodeRunTime;
         this.firstAirDate = firstAirDate;
@@ -70,6 +71,7 @@ public class TVShow {
         this.languages = languages;
         this.lastAirDate = lastAirDate;
         this.name = name;
+        this.networks = networks;
         this.numberOfEpisodes = numberOfEpisodes;
         this.numberOfSeasons = numberOfSeasons;
         this.originCountries = originCountries;
@@ -162,6 +164,14 @@ public class TVShow {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Network> getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(List<Network> networks) {
+        this.networks = networks;
     }
 
     public Integer getNumberOfEpisodes() {

@@ -31,6 +31,7 @@ import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.tvshows.Genre;
+import com.hitanshudhawan.popcorn.network.tvshows.Network;
 import com.hitanshudhawan.popcorn.network.tvshows.SimilarTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
@@ -76,8 +77,8 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
-    //private LinearLayout mReleaseAndRuntimeTextLayout; //todo
-    //private TextView mReleaseAndRuntimeTextView; //todo
+    private LinearLayout mDetailsLayout;
+    private TextView mDetailsTextView;
 
     private TextView mVideosTextView;
     private RecyclerView mVideosRecyclerView;
@@ -143,8 +144,8 @@ public class TVShowDetailActivity extends AppCompatActivity {
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_tv_show_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_tv_show_detail);
-        //mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_tv_show_detail);
-        //mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.text_view_release_and_runtime_tv_show_detail);
+        mDetailsLayout = (LinearLayout) findViewById(R.id.layout_details_tv_show_detail);
+        mDetailsTextView = (TextView) findViewById(R.id.text_view_details_tv_show_detail);
 
         mVideosTextView = (TextView) findViewById(R.id.text_view_trailer_tv_show_detail);
         mVideosRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_tv_show_detail);
@@ -267,17 +268,15 @@ public class TVShowDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                //todo
-                setImageButtons(response.body().getId());
+                setImageButtons(response.body().getId(),response.body().getName(),response.body().getHomepage());
 
                 if (response.body().getOverview() != null)
                     mOverviewTextView.setText(response.body().getOverview());
                 else
                     mOverviewTextView.setText("");
 
-                //mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
-                //todo
-                //setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
+                mDetailsLayout.setVisibility(View.VISIBLE);
+                setDetails(response.body().getFirstAirDate(),response.body().getEpisodeRunTime(),response.body().getStatus(),response.body().getOriginCountries(),response.body().getNetworks());
 
                 setVideos();
 
@@ -325,7 +324,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer tvShowId) {
+    private void setImageButtons(final Integer tvShowId, final String tvShowName,final String homepage) {
         if (tvShowId == null) return;
         if (Favourite.isTVShowFav(TVShowDetailActivity.this, tvShowId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
@@ -349,50 +348,88 @@ public class TVShowDetailActivity extends AppCompatActivity {
                 }
             }
         });
-        //todo
-//        mShareImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (imdbId != null) {
-//                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-//                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
-//                    movieShareIntent.setType("text/plain");
-//                    String extraText = "";
-//                    if (movieTitle != null) extraText += movieTitle + "\n";
-//                    if (movieTagline != null) extraText += movieTagline + "\n";
-//                    if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId;
-//                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-//                    startActivity(movieShareIntent);
-//                }
-//            }
-//        });
+        mShareImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
+                    movieShareIntent.setType("text/plain");
+                    String extraText = "";
+                    if (tvShowName != null) extraText += tvShowName + "\n";
+                    if (homepage != null) extraText += homepage;
+                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+                    startActivity(movieShareIntent);
+
+            }
+        });
     }
 
-//    private void setReleaseAndRuntime(String releaseString, Integer runtime) {
-//        String releaseAndRuntimeString = "";
-//        if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
-//            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-//            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
-//            try {
-//                Date releaseDate = sdf1.parse(releaseString);
-//                releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            releaseAndRuntimeString = "-\n";
-//        }
-//        if (runtime != null && runtime != 0) {
-//            if (runtime < 60) {
-//                releaseAndRuntimeString += runtime + " min(s)";
-//            } else {
-//                releaseAndRuntimeString += runtime / 60 + " hr " + runtime % 60 + " mins";
-//            }
-//        } else {
-//            releaseAndRuntimeString += "-";
-//        }
-//        mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
-//    }
+    private void setDetails(String firstAirDateString, List<Integer> runtime, String status, List<String> originCountries, List<Network> networks) {
+        String detailsString = "";
+
+        if (firstAirDateString != null && !firstAirDateString.trim().toString().isEmpty()) {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
+            try {
+                Date releaseDate = sdf1.parse(firstAirDateString);
+                detailsString += sdf2.format(releaseDate) + "\n";
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            detailsString = "-\n";
+        }
+
+        if (runtime != null && !runtime.isEmpty() && runtime.get(0) != 0) {
+            if (runtime.get(0) < 60) {
+                detailsString += runtime.get(0) + " min(s)" + "\n";
+            } else {
+                detailsString += runtime.get(0) / 60 + " hr " + runtime.get(0) % 60 + " mins" + "\n";
+            }
+        } else {
+            detailsString += "-\n";
+        }
+
+        if (status != null && !status.trim().isEmpty()) {
+            detailsString += status + "\n";
+        }
+        else {
+            detailsString += "-\n";
+        }
+
+        String originCountriesString = "";
+        if (originCountries != null && !originCountries.isEmpty()) {
+            for (String country : originCountries) {
+                if (country == null || country.trim().isEmpty()) continue;
+                originCountriesString += country + ", ";
+            }
+            if (!originCountriesString.isEmpty())
+                detailsString += originCountriesString.substring(0,originCountriesString.length()-2) + "\n";
+            else
+                detailsString += "-\n";
+        }
+        else {
+            detailsString += "-\n";
+        }
+
+        String networksString = "";
+        if (networks != null && !networks.isEmpty()) {
+            for (Network network : networks) {
+                if (network == null || network.getName() == null || network.getName().isEmpty()) continue;
+                networksString += network.getName() + ", ";
+            }
+            if (!networksString.isEmpty())
+                detailsString += networksString.substring(0,networksString.length()-2);
+            else
+                detailsString += "-\n";
+        }
+        else {
+            detailsString += "-\n";
+        }
+
+        mDetailsTextView.setText(detailsString);
+    }
 
     private void setVideos() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);

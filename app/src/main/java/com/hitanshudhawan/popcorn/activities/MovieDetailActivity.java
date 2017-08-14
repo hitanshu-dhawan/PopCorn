@@ -74,8 +74,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageButton mShareImageButton;
 
     private TextView mOverviewTextView;
-    private LinearLayout mReleaseAndRuntimeTextLayout;
-    private TextView mReleaseAndRuntimeTextView;
+    private LinearLayout mDetailsLayout;
+    private TextView mDetailsTextView;
 
     private TextView mTrailerTextView;
     private RecyclerView mTrailerRecyclerView;
@@ -141,8 +141,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
-        mReleaseAndRuntimeTextLayout = (LinearLayout) findViewById(R.id.layout_release_and_runtime_movie_detail);
-        mReleaseAndRuntimeTextView = (TextView) findViewById(R.id.text_view_release_and_runtime_movie_detail);
+        mDetailsLayout = (LinearLayout) findViewById(R.id.layout_details_movie_detail);
+        mDetailsTextView = (TextView) findViewById(R.id.text_view_details_movie_detail);
 
         mTrailerTextView = (TextView) findViewById(R.id.text_view_trailer_movie_detail);
         mTrailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers_movie_detail);
@@ -265,15 +265,15 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId());
+                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
 
                 if (response.body().getOverview() != null)
                     mOverviewTextView.setText(response.body().getOverview());
                 else
                     mOverviewTextView.setText("");
 
-                mReleaseAndRuntimeTextLayout.setVisibility(View.VISIBLE);
-                setReleaseAndRuntime(response.body().getReleaseDate(), response.body().getRuntime());
+                mDetailsLayout.setVisibility(View.VISIBLE);
+                setDetails(response.body().getReleaseDate(), response.body().getRuntime());
 
                 setTrailers();
 
@@ -322,7 +322,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId) {
+    private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId, final String homepage) {
         if (movieId == null) return;
         if (Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
@@ -349,45 +349,48 @@ public class MovieDetailActivity extends AppCompatActivity {
         mShareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imdbId != null) {
-                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
-                    movieShareIntent.setType("text/plain");
-                    String extraText = "";
-                    if (movieTitle != null) extraText += movieTitle + "\n";
-                    if (movieTagline != null) extraText += movieTagline + "\n";
-                    if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId;
-                    movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-                    startActivity(movieShareIntent);
-                }
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                Intent movieShareIntent = new Intent(Intent.ACTION_SEND);
+                movieShareIntent.setType("text/plain");
+                String extraText = "";
+                if (movieTitle != null) extraText += movieTitle + "\n";
+                if (movieTagline != null) extraText += movieTagline + "\n";
+                if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId + "\n";
+                if (homepage != null) extraText += homepage;
+                movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+                startActivity(movieShareIntent);
+
             }
         });
     }
 
-    private void setReleaseAndRuntime(String releaseString, Integer runtime) {
-        String releaseAndRuntimeString = "";
+    private void setDetails(String releaseString, Integer runtime) {
+        String detailsString = "";
+
         if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
             try {
                 Date releaseDate = sdf1.parse(releaseString);
-                releaseAndRuntimeString += sdf2.format(releaseDate) + "\n";
+                detailsString += sdf2.format(releaseDate) + "\n";
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         } else {
-            releaseAndRuntimeString = "-\n";
+            detailsString = "-\n";
         }
+
         if (runtime != null && runtime != 0) {
             if (runtime < 60) {
-                releaseAndRuntimeString += runtime + " min(s)";
+                detailsString += runtime + " min(s)";
             } else {
-                releaseAndRuntimeString += runtime / 60 + " hr " + runtime % 60 + " mins";
+                detailsString += runtime / 60 + " hr " + runtime % 60 + " mins";
             }
         } else {
-            releaseAndRuntimeString += "-";
+            detailsString += "-";
         }
-        mReleaseAndRuntimeTextView.setText(releaseAndRuntimeString);
+
+        mDetailsTextView.setText(detailsString);
     }
 
     private void setTrailers() {

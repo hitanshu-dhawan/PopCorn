@@ -87,7 +87,10 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
             if (TVShowGenres.getGenreName(tvShow.getGenreIds().get(i)) == null) continue;
             genreString += TVShowGenres.getGenreName(tvShow.getGenreIds().get(i)) + ", ";
         }
-        holder.tvShowGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+        if (!genreString.isEmpty())
+            holder.tvShowGenreTextView.setText(genreString.substring(0,genreString.length()-2));
+        else
+            holder.tvShowGenreTextView.setText("");
     }
 
     public class TVShowViewHolder extends RecyclerView.ViewHolder {

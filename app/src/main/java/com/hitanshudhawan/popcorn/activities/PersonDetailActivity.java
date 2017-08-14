@@ -246,11 +246,12 @@ public class PersonDetailActivity extends AppCompatActivity {
                 if (response.body() == null) return;
                 if (response.body().getCasts() == null) return;
 
-                mMovieCastTextView.setVisibility(View.VISIBLE);
                 for (MovieCastOfPerson movieCastOfPerson : response.body().getCasts()) {
                     if (movieCastOfPerson == null) return;
-                    if (movieCastOfPerson.getTitle() != null && movieCastOfPerson.getPosterPath() != null)
+                    if (movieCastOfPerson.getTitle() != null && movieCastOfPerson.getPosterPath() != null) {
+                        mMovieCastTextView.setVisibility(View.VISIBLE);
                         mMovieCastOfPersons.add(movieCastOfPerson);
+                    }
                 }
                 mMovieCastsOfPersonAdapter.notifyDataSetChanged();
             }
@@ -277,11 +278,12 @@ public class PersonDetailActivity extends AppCompatActivity {
                 if (response.body() == null) return;
                 if (response.body().getCasts() == null) return;
 
-                mTVCastTextView.setVisibility(View.VISIBLE);
                 for (TVCastOfPerson tvCastOfPerson : response.body().getCasts()) {
                     if (tvCastOfPerson == null) return;
-                    if (tvCastOfPerson.getName() != null && tvCastOfPerson.getPosterPath() != null)
+                    if (tvCastOfPerson.getName() != null && tvCastOfPerson.getPosterPath() != null) {
+                        mTVCastTextView.setVisibility(View.VISIBLE);
                         mTVCastOfPersons.add(tvCastOfPerson);
+                    }
                 }
                 mTVCastsOfPersonAdapter.notifyDataSetChanged();
             }
