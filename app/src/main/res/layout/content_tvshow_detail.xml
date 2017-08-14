@@ -33,13 +33,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="First Air Date  \nRuntime  \nStatus  \nOrigin Country  \nNetworks  "
+                android:lineSpacingExtra="5sp"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/text_view_details_tv_show_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-\n-" />
+                android:lineSpacingExtra="5sp"/>
 
         </LinearLayout>
 

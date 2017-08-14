@@ -33,12 +33,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Release Date  \nRuntime  "
+                android:lineSpacingExtra="5sp"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/text_view_details_movie_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="5sp"
                 android:text="-\n-" />
 
         </LinearLayout>
