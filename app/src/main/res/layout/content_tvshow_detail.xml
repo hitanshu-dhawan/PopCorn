@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Read More"
+            android:text="@string/read_more"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:visibility="gone" />
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5sp"
-                android:text="First Air Date  \nRuntime  \nStatus  \nOrigin Country  \nNetworks  "
+                android:text="@string/tv_show_details"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -63,7 +63,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Videos"
+            android:text="@string/videos"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -89,7 +89,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Cast"
+            android:text="@string/cast"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -107,7 +107,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Similar TV Shows"
+            android:text="@string/similar_tv_shows"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +40,7 @@ public class AboutActivity extends AppCompatActivity {
 
         featureGraphicImageView = (ImageView) findViewById(R.id.image_view_feature_graphic_about);
         featureGraphicImageView.getLayoutParams().width = getResources().getDisplayMetrics().widthPixels;
-        featureGraphicImageView.getLayoutParams().height = (int)((double)getResources().getDisplayMetrics().widthPixels * (500.0/1024.0));
+        featureGraphicImageView.getLayoutParams().height = (int) ((double) getResources().getDisplayMetrics().widthPixels * (500.0 / 1024.0));
 
         shareImageButton = (ImageButton) findViewById(R.id.image_button_share_about);
         rateUsImageButton = (ImageButton) findViewById(R.id.image_button_rate_us_about);
@@ -90,8 +88,8 @@ public class AboutActivity extends AppCompatActivity {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 Intent feedbackIntent = new Intent(Intent.ACTION_SENDTO);
                 feedbackIntent.setData(Uri.parse("mailto:"));
-                feedbackIntent.putExtra(Intent.EXTRA_EMAIL,new String[] {"hitanshudhawan1996@gmail.com"});
-                feedbackIntent.putExtra(Intent.EXTRA_SUBJECT,"Feedback: " + getResources().getString(R.string.app_name));
+                feedbackIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"hitanshudhawan1996@gmail.com"});
+                feedbackIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: " + getResources().getString(R.string.app_name));
                 startActivity(feedbackIntent);
             }
         });

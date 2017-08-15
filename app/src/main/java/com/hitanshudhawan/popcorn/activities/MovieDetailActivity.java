@@ -319,7 +319,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void setYear(String releaseDateString) {
-        if (releaseDateString != null && !releaseDateString.trim().toString().isEmpty()) {
+        if (releaseDateString != null && !releaseDateString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
@@ -366,7 +366,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 String extraText = "";
                 if (movieTitle != null) extraText += movieTitle + "\n";
                 if (movieTagline != null) extraText += movieTagline + "\n";
-                if (imdbId != null) extraText += "http://www.imdb.com/title/" + imdbId + "\n";
+                if (imdbId != null) extraText += Constant.IMDB_BASE_URL + imdbId + "\n";
                 if (homepage != null) extraText += homepage;
                 movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
                 startActivity(movieShareIntent);
@@ -378,7 +378,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void setDetails(String releaseString, Integer runtime) {
         String detailsString = "";
 
-        if (releaseString != null && !releaseString.trim().toString().isEmpty()) {
+        if (releaseString != null && !releaseString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
             try {

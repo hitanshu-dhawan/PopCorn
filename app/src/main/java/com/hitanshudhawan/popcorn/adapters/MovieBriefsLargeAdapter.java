@@ -46,7 +46,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_780 + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

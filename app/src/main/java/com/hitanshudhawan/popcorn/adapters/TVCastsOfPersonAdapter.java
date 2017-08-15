@@ -41,7 +41,7 @@ public class TVCastsOfPersonAdapter extends RecyclerView.Adapter<TVCastsOfPerson
     @Override
     public void onBindViewHolder(TVShowViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mTVCasts.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mTVCasts.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

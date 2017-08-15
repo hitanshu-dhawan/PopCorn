@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Read More"
+            android:text="@string/read_more"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:visibility="gone" />
@@ -43,15 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5sp"
-                android:text="Release Date  \nRuntime  "
+                android:text="@string/movie_details"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/text_view_details_movie_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5sp"
-                android:text="-\n-" />
+                android:lineSpacingExtra="5sp" />
 
         </LinearLayout>
 
@@ -62,7 +61,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Trailers"
+            android:text="@string/trailers"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -88,7 +87,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Cast"
+            android:text="@string/cast"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -97,7 +96,7 @@
             android:id="@+id/recycler_view_cast_movie_detail"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:id="@+id/text_view_similar_movie_detail"
@@ -106,7 +105,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="Similar Movies"
+            android:text="@string/similar_movies"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />

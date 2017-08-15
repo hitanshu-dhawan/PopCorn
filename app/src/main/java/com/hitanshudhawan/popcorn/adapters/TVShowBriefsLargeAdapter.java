@@ -46,7 +46,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
     @Override
     public void onBindViewHolder(TVShowViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mTVShows.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_780 + mTVShows.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

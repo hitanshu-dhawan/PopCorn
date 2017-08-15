@@ -61,16 +61,16 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
 
         switch (mTVShowType) {
             case Constant.AIRING_TODAY_TV_SHOWS_TYPE:
-                setTitle("Airing Today TV Shows");
+                setTitle(R.string.airing_today_tv_shows);
                 break;
             case Constant.ON_THE_AIR_TV_SHOWS_TYPE:
-                setTitle("On The Air TV Shows");
+                setTitle(R.string.on_the_air_tv_shows);
                 break;
             case Constant.POPULAR_TV_SHOWS_TYPE:
-                setTitle("Popular TV Shows");
+                setTitle(R.string.popular_tv_shows);
                 break;
             case Constant.TOP_RATED_TV_SHOWS_TYPE:
-                setTitle("Top Rated TV Shows");
+                setTitle(R.string.top_rated_tv_shows);
                 break;
         }
 

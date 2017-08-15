@@ -10,6 +10,46 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
+    <string name="now_showing">Now Showing</string>
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="airing_today">Airing Today</string>
+    <string name="on_the_air">On The Air</string>
+    <string name="view_all">View All</string>
+
+    <string name="now_showing_movies">Now Showing Movies</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="upcoming_movies">Upcoming Movies</string>
+    <string name="top_rated_movies">Top Rated Movies</string>
+
+    <string name="airing_today_tv_shows">Airing Today TV Shows</string>
+    <string name="on_the_air_tv_shows">On The Air TV Shows</string>
+    <string name="popular_tv_shows">Popular TV Shows</string>
+    <string name="top_rated_tv_shows">Top Rated TV Shows</string>
+
+    <string name="share">Share</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="feedback">Feedback</string>
+    <string name="source_code_on_github">Source code on GitHub</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
+    <string name="version">Version</string>
+
+    <string name="read_more">Read More</string>
+    <string name="movie_details">Release Date  \nRuntime  </string>
+    <string name="trailers">Trailers</string>
+    <string name="cast">Cast</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="biography">Biography</string>
+    <string name="movie_cast">Movie Cast</string>
+    <string name="tv_cast">TV Cast</string>
+    <string name="tv_show_details">First Air Date  \nRuntime  \nStatus  \nOrigin Country  \nNetworks  </string>
+    <string name="videos">Videos</string>
+    <string name="similar_tv_shows">Similar TV Shows</string>
+
+    <string name="no_fav_movies">No Favourite Movies</string>
+    <string name="no_fav_tv_shows">No Favourite TV Shows</string>
+
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="title_activity_cast_detail">CastDetailActivity</string>
     <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>

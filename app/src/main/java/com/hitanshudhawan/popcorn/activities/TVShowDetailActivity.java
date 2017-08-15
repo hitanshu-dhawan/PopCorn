@@ -319,7 +319,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
     }
 
     private void setYear(String firstAirDateString) {
-        if (firstAirDateString != null && !firstAirDateString.trim().toString().isEmpty()) {
+        if (firstAirDateString != null && !firstAirDateString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
@@ -377,7 +377,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private void setDetails(String firstAirDateString, List<Integer> runtime, String status, List<String> originCountries, List<Network> networks) {
         String detailsString = "";
 
-        if (firstAirDateString != null && !firstAirDateString.trim().toString().isEmpty()) {
+        if (firstAirDateString != null && !firstAirDateString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d, yyyy");
             try {

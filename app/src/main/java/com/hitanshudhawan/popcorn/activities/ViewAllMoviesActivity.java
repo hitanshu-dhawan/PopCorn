@@ -61,16 +61,16 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
 
         switch (mMovieType) {
             case Constant.NOW_SHOWING_MOVIES_TYPE:
-                setTitle("Now Showing Movies");
+                setTitle(R.string.now_showing_movies);
                 break;
             case Constant.POPULAR_MOVIES_TYPE:
-                setTitle("Popular Movies");
+                setTitle(R.string.popular_movies);
                 break;
             case Constant.UPCOMING_MOVIES_TYPE:
-                setTitle("Upcoming Movies");
+                setTitle(R.string.upcoming_movies);
                 break;
             case Constant.TOP_RATED_MOVIES_TYPE:
-                setTitle("Top Rated Movies");
+                setTitle(R.string.top_rated_movies);
                 break;
         }
 

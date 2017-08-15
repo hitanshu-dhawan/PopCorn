@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Biography"
+            android:text="@string/biography"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Read More"
+            android:text="@string/read_more"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:visibility="gone" />
@@ -50,7 +50,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:text="Movie Cast"
+            android:text="@string/movie_cast"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -69,7 +69,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:text="TV Cast"
+            android:text="@string/tv_cast"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:visibility="gone" />

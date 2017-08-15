@@ -44,7 +44,7 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + mMovies.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mMovies.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

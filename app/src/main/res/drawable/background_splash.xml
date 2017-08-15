@@ -6,8 +6,7 @@
         android:width="100dp"
         android:height="100dp"
         android:gravity="center">
-        <bitmap
-            android:src="@drawable/ic_launcher_large" />
+        <bitmap android:src="@drawable/ic_launcher_large" />
     </item>
 
 </layer-list>

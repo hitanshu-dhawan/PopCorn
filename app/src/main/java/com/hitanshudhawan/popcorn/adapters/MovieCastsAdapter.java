@@ -40,7 +40,7 @@ public class MovieCastsAdapter extends RecyclerView.Adapter<MovieCastsAdapter.Ca
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_185 + mCasts.get(position).getProfilePath())
+        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mCasts.get(position).getProfilePath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

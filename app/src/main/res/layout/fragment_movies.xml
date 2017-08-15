@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <FrameLayout
@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Now Showing"
+                    android:text="@string/now_showing"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Popular"
+                    android:text="@string/popular"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
@@ -105,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Upcoming"
+                    android:text="@string/upcoming"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
@@ -143,7 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Top Rated"
+                    android:text="@string/top_rated"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:clickable="true"
-                    android:text="View All"
+                    android:text="@string/view_all"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 

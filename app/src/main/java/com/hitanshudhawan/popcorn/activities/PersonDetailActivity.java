@@ -190,7 +190,7 @@ public class PersonDetailActivity extends AppCompatActivity {
 
                 setAge(response.body().getDateOfBirth());
 
-                if (response.body().getPlaceOfBirth() != null && !response.body().getPlaceOfBirth().trim().toString().isEmpty())
+                if (response.body().getPlaceOfBirth() != null && !response.body().getPlaceOfBirth().trim().isEmpty())
                     mCastBirthPlaceTextView.setText(response.body().getPlaceOfBirth());
 
                 if (response.body().getBiography() != null && !response.body().getBiography().trim().isEmpty()) {
@@ -219,7 +219,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     }
 
     private void setAge(String dateOfBirthString) {
-        if (dateOfBirthString != null && !dateOfBirthString.trim().toString().isEmpty()) {
+        if (dateOfBirthString != null && !dateOfBirthString.trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy");
             try {
