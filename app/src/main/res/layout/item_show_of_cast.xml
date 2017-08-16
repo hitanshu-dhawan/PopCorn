@@ -9,7 +9,6 @@
     android:elevation="100dp"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:orientation="vertical"
     app:cardCornerRadius="4dp">
 
     <LinearLayout

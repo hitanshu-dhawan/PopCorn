@@ -19,6 +19,7 @@ public class Constant {
     public static final int POPULAR_TV_SHOWS_TYPE = 3;
     public static final int TOP_RATED_TV_SHOWS_TYPE = 4;
     public static final String PERSON_ID = "person_id";
+    public static final String QUERY = "query";
     public static final String RATING_SYMBOL = "\u2605";
     public static final String IMAGE_LOADING_BASE_URL_1000 = "https://image.tmdb.org/t/p/w1000/";
     public static final String IMAGE_LOADING_BASE_URL_342 = "https://image.tmdb.org/t/p/w342/";

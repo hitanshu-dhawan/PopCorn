@@ -50,11 +50,18 @@
     <string name="no_fav_movies">No Favourite Movies</string>
     <string name="no_fav_tv_shows">No Favourite TV Shows</string>
 
+    <string name="search_movies_tv_shows_people">Search Movies, TV Shows, People</string>
+    <string name="search">Search</string>
+    <string name="movie">Movie</string>
+    <string name="tv_show">TV Show</string>
+    <string name="person">Person</string>
+
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="title_activity_cast_detail">CastDetailActivity</string>
     <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>
     <string name="title_activity_view_all_tvshows">ViewAllTVShowsActivity</string>
     <string name="title_activity_tvshow_detail">TVShowDetailActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>
