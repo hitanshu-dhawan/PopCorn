@@ -267,7 +267,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getPosterPath(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
+                setImageButtons(response.body().getId(), response.body().getPosterPath(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
 
                 if (response.body().getOverview() != null) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
