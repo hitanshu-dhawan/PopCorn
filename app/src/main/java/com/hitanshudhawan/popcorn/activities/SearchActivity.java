@@ -21,17 +21,20 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class SearchActivity extends AppCompatActivity {
 
-    SearchAsyncTask mSearchAsyncTask;
     private String mQuery;
+
     private SmoothProgressBar mSmoothProgressBar;
     private RecyclerView mSearchResultsRecyclerView;
     private List<SearchResult> mSearchResults;
     private SearchResultsAdapter mSearchResultsAdapter;
+
     private boolean pagesOver = false;
     private int presentPage = 1;
     private boolean loading = true;
     private int previousTotal = 0;
     private int visibleThreshold = 5;
+
+    private SearchAsyncTask mSearchAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

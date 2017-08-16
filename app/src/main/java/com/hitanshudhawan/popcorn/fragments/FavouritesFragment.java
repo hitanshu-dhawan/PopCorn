@@ -18,8 +18,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class FavouritesFragment extends Fragment {
 
-    SmartTabLayout mSmartTabLayout;
-    ViewPager mViewPager;
+    private SmartTabLayout mSmartTabLayout;
+    private ViewPager mViewPager;
 
     @Nullable
     @Override
