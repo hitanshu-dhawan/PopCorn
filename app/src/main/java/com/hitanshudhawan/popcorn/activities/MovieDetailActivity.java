@@ -267,7 +267,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
+                setImageButtons(response.body().getId(), response.body().getTitle(), response.body().getPosterPath(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
 
                 if (response.body().getOverview() != null) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
@@ -333,7 +333,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer movieId, final String movieTitle, final String movieTagline, final String imdbId, final String homepage) {
+    private void setImageButtons(final Integer movieId, final String posterPath, final String movieTitle, final String movieTagline, final String imdbId, final String homepage) {
         if (movieId == null) return;
         if (Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
@@ -351,7 +351,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     mFavImageButton.setTag(Constant.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
-                    Favourite.addMovieToFav(MovieDetailActivity.this, movieId);
+                    Favourite.addMovieToFav(MovieDetailActivity.this, movieId, posterPath, movieTitle);
                     mFavImageButton.setTag(Constant.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }

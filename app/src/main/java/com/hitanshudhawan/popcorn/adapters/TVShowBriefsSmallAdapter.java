@@ -100,7 +100,7 @@ public class TVShowBriefsSmallAdapter extends RecyclerView.Adapter<TVShowBriefsS
                 @Override
                 public void onClick(View view) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Favourite.addTVShowToFav(mContext, mTVShows.get(getAdapterPosition()).getId());
+                    Favourite.addTVShowToFav(mContext, mTVShows.get(getAdapterPosition()).getId(), mTVShows.get(getAdapterPosition()).getPosterPath(), mTVShows.get(getAdapterPosition()).getName());
                     tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
                     tvShowFavImageButton.setEnabled(false);
                 }

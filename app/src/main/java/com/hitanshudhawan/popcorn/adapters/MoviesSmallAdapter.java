@@ -26,6 +26,7 @@ import java.util.List;
  * Created by hitanshu on 10/8/17.
  */
 
+// THIS ADAPTER IS NOT USED ANYWHERE YET.
 public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.MovieViewHolder> {
 
     private Context mContext;
@@ -100,7 +101,7 @@ public class MoviesSmallAdapter extends RecyclerView.Adapter<MoviesSmallAdapter.
                 @Override
                 public void onClick(View view) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId());
+                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId(), mMovies.get(getAdapterPosition()).getPosterPath(), mMovies.get(getAdapterPosition()).getTitle());
                     movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
                     movieFavImageButton.setEnabled(false);
                 }

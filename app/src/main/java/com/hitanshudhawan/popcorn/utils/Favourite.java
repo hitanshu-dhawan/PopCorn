@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.hitanshudhawan.popcorn.database.DatabaseHelper;
+import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Favourite {
 
     //MOVIES
 
-    public static void addMovieToFav(Context context, Integer movieId) {
+    public static void addMovieToFav(Context context, Integer movieId, String posterPath, String name) {
         if (movieId == null) return;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -26,6 +28,8 @@ public class Favourite {
         if (!isMovieFav(context, movieId)) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(DatabaseHelper.MOVIE_ID, movieId);
+            contentValues.put(DatabaseHelper.POSTER_PATH, posterPath);
+            contentValues.put(DatabaseHelper.NAME, name);
             database.insert(DatabaseHelper.FAV_MOVIES_TABLE_NAME, null, contentValues);
         }
         database.close();
@@ -58,23 +62,26 @@ public class Favourite {
         return isMovieFav;
     }
 
-    public static List<Integer> getFavMovieIds(Context context) {
+    public static List<MovieBrief> getFavMovieBriefs(Context context) {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
 
-        List<Integer> favMovieIds = new ArrayList<>();
-        Cursor cursor = database.query(DatabaseHelper.FAV_MOVIES_TABLE_NAME, null, null, null, null, null, null);
+        List<MovieBrief> favMovies = new ArrayList<>();
+        Cursor cursor = database.query(DatabaseHelper.FAV_MOVIES_TABLE_NAME, null, null, null, null, null, DatabaseHelper.ID + " DESC");
         while (cursor.moveToNext()) {
-            favMovieIds.add(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MOVIE_ID)));
+            int movieId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MOVIE_ID));
+            String posterPath = cursor.getString(cursor.getColumnIndex(DatabaseHelper.POSTER_PATH));
+            String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
+            favMovies.add(new MovieBrief(null, movieId, null, null, name, null, posterPath, null, null, null, null, null, null, null));
         }
         cursor.close();
         database.close();
-        return favMovieIds;
+        return favMovies;
     }
 
     //TV SHOWS
 
-    public static void addTVShowToFav(Context context, Integer tvShowId) {
+    public static void addTVShowToFav(Context context, Integer tvShowId, String posterPath, String name) {
         if (tvShowId == null) return;
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
@@ -82,6 +89,8 @@ public class Favourite {
         if (!isTVShowFav(context, tvShowId)) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(DatabaseHelper.TV_SHOW_ID, tvShowId);
+            contentValues.put(DatabaseHelper.POSTER_PATH, posterPath);
+            contentValues.put(DatabaseHelper.NAME, name);
             database.insert(DatabaseHelper.FAV_TV_SHOWS_TABLE_NAME, null, contentValues);
         }
         database.close();
@@ -114,18 +123,21 @@ public class Favourite {
         return isTVShowFav;
     }
 
-    public static List<Integer> getFavTVShowIds(Context context) {
+    public static List<TVShowBrief> getFavTVShowBriefs(Context context) {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
 
-        List<Integer> favTVShowIds = new ArrayList<>();
-        Cursor cursor = database.query(DatabaseHelper.FAV_TV_SHOWS_TABLE_NAME, null, null, null, null, null, null);
+        List<TVShowBrief> favTVShows = new ArrayList<>();
+        Cursor cursor = database.query(DatabaseHelper.FAV_TV_SHOWS_TABLE_NAME, null, null, null, null, null, DatabaseHelper.ID + " DESC");
         while (cursor.moveToNext()) {
-            favTVShowIds.add(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.TV_SHOW_ID)));
+            int tvShowId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.TV_SHOW_ID));
+            String posterPath = cursor.getString(cursor.getColumnIndex(DatabaseHelper.POSTER_PATH));
+            String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
+            favTVShows.add(new TVShowBrief(null, tvShowId, name, null, null, posterPath, null, null, null, null, null, null, null));
         }
         cursor.close();
         database.close();
-        return favTVShowIds;
+        return favTVShows;
     }
 
 }

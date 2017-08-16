@@ -130,7 +130,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
                 @Override
                 public void onClick(View view) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId());
+                    Favourite.addMovieToFav(mContext, mMovies.get(getAdapterPosition()).getId(), mMovies.get(getAdapterPosition()).getPosterPath(), mMovies.get(getAdapterPosition()).getTitle());
                     movieFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
                     movieFavImageButton.setEnabled(false);
                 }

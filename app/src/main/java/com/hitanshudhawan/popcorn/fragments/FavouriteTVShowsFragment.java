@@ -9,21 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.hitanshudhawan.popcorn.R;
-import com.hitanshudhawan.popcorn.adapters.TVShowsSmallAdapter;
-import com.hitanshudhawan.popcorn.network.ApiClient;
-import com.hitanshudhawan.popcorn.network.ApiInterface;
-import com.hitanshudhawan.popcorn.network.tvshows.TVShow;
+import com.hitanshudhawan.popcorn.adapters.TVShowBriefsSmallAdapter;
+import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by hitanshu on 13/8/17.
@@ -31,26 +24,20 @@ import retrofit2.Response;
 
 public class FavouriteTVShowsFragment extends Fragment {
 
-    private ProgressBar mProgressBar;
-
     private RecyclerView mFavTVShowsRecyclerView;
-    private List<TVShow> mFavTVShows;
-    private TVShowsSmallAdapter mFavTVShowsAdapter;
+    private List<TVShowBrief> mFavTVShows;
+    private TVShowBriefsSmallAdapter mFavTVShowsAdapter;
 
     private LinearLayout mEmptyLayout;
-
-    private List<Call<TVShow>> mTVShowDetailsCalls;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourite_tv_shows, container, false);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
         mFavTVShowsRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_fav_tv_shows);
         mFavTVShows = new ArrayList<>();
-        mFavTVShowsAdapter = new TVShowsSmallAdapter(getContext(), mFavTVShows);
+        mFavTVShowsAdapter = new TVShowBriefsSmallAdapter(getContext(), mFavTVShows);
         mFavTVShowsRecyclerView.setAdapter(mFavTVShowsAdapter);
         mFavTVShowsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -69,51 +56,17 @@ public class FavouriteTVShowsFragment extends Fragment {
         mFavTVShowsAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mTVShowDetailsCalls != null) {
-            for (Call<TVShow> tvShowCall : mTVShowDetailsCalls) {
-                if (tvShowCall != null) tvShowCall.cancel();
-            }
-        }
-    }
-
     private void loadFavTVShows() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mProgressBar.setVisibility(View.VISIBLE);
-        List<Integer> favTVShowIds = Favourite.getFavTVShowIds(getContext());
-        if (favTVShowIds.isEmpty()) {
-            mProgressBar.setVisibility(View.GONE);
+        List<TVShowBrief> favTVShowBriefs = Favourite.getFavTVShowBriefs(getContext());
+        if (favTVShowBriefs.isEmpty()) {
             mEmptyLayout.setVisibility(View.VISIBLE);
             return;
         }
-        mTVShowDetailsCalls = new ArrayList<>();
-        for (int i = 0; i < favTVShowIds.size(); i++) {
-            final int index = i;
-            mTVShowDetailsCalls.add(apiService.getTVShowDetails(favTVShowIds.get(index), getResources().getString(R.string.MOVIE_DB_API_KEY)));
-            mTVShowDetailsCalls.get(index).enqueue(new Callback<TVShow>() {
-                @Override
-                public void onResponse(Call<TVShow> call, Response<TVShow> response) {
-                    if (!response.isSuccessful()) {
-                        mTVShowDetailsCalls.set(index, call.clone());
-                        mTVShowDetailsCalls.get(index).enqueue(this);
-                        return;
-                    }
 
-                    if (response.body() == null) return;
-
-                    mProgressBar.setVisibility(View.GONE);
-                    mFavTVShows.add(response.body());
-                    mFavTVShowsAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<TVShow> call, Throwable t) {
-
-                }
-            });
+        for (TVShowBrief tvShowBrief : favTVShowBriefs) {
+            mFavTVShows.add(tvShowBrief);
         }
+        mFavTVShowsAdapter.notifyDataSetChanged();
     }
 
 }

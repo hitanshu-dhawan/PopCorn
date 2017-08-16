@@ -26,6 +26,7 @@ import java.util.List;
  * Created by hitanshu on 13/8/17.
  */
 
+// THIS ADAPTER IS NOT USED ANYWHERE YET.
 public class TVShowsSmallAdapter extends RecyclerView.Adapter<TVShowsSmallAdapter.TVShowViewHolder> {
 
     private Context mContext;
@@ -100,7 +101,7 @@ public class TVShowsSmallAdapter extends RecyclerView.Adapter<TVShowsSmallAdapte
                 @Override
                 public void onClick(View view) {
                     view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    Favourite.addTVShowToFav(mContext, mTVShows.get(getAdapterPosition()).getId());
+                    Favourite.addTVShowToFav(mContext, mTVShows.get(getAdapterPosition()).getId(), mTVShows.get(getAdapterPosition()).getPosterPath(), mTVShows.get(getAdapterPosition()).getName());
                     tvShowFavImageButton.setImageResource(R.mipmap.ic_favorite_black_18dp);
                     tvShowFavImageButton.setEnabled(false);
                 }

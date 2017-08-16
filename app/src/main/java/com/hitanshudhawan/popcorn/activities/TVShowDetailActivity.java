@@ -268,7 +268,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
 
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
-                setImageButtons(response.body().getId(), response.body().getName(), response.body().getHomepage());
+                setImageButtons(response.body().getId(), response.body().getPosterPath(), response.body().getName(), response.body().getHomepage());
 
                 if (response.body().getOverview() != null) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
@@ -333,7 +333,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void setImageButtons(final Integer tvShowId, final String tvShowName, final String homepage) {
+    private void setImageButtons(final Integer tvShowId, final String posterPath, final String tvShowName, final String homepage) {
         if (tvShowId == null) return;
         if (Favourite.isTVShowFav(TVShowDetailActivity.this, tvShowId)) {
             mFavImageButton.setTag(Constant.TAG_FAV);
@@ -351,7 +351,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
                     mFavImageButton.setTag(Constant.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
-                    Favourite.addTVShowToFav(TVShowDetailActivity.this, tvShowId);
+                    Favourite.addTVShowToFav(TVShowDetailActivity.this, tvShowId, posterPath, tvShowName);
                     mFavImageButton.setTag(Constant.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }
