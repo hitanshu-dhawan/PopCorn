@@ -72,15 +72,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             holder.overviewTextView.setText(mSearchResults.get(position).getOverview());
         else
             holder.overviewTextView.setText("");
-        ViewTreeObserver observer = holder.overviewTextView.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int maxLines = (int) holder.overviewTextView.getHeight() / holder.overviewTextView.getLineHeight();
-                holder.overviewTextView.setMaxLines(maxLines);
-                holder.overviewTextView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+//        holder.overviewTextView.setMaxLines(0);
+//        ViewTreeObserver observer = holder.overviewTextView.getViewTreeObserver();
+//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                int maxLines = (int) holder.overviewTextView.getHeight() / holder.overviewTextView.getLineHeight();
+//                holder.overviewTextView.setMaxLines(maxLines);
+//                holder.overviewTextView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//            }
+//        });
 
 
         if (mSearchResults.get(position).getReleaseDate() != null && !mSearchResults.get(position).getReleaseDate().trim().isEmpty()) {
@@ -126,7 +127,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                     if (mSearchResults.get(getAdapterPosition()).getMediaType().equals("movie")) {
                         Intent intent = new Intent(mContext, MovieDetailActivity.class);
                         intent.putExtra(Constant.MOVIE_ID, mSearchResults.get(getAdapterPosition()).getId());
@@ -140,6 +140,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
                         intent.putExtra(Constant.PERSON_ID, mSearchResults.get(getAdapterPosition()).getId());
                         mContext.startActivity(intent);
                     }
+                }
+            });
+
+            ViewTreeObserver observer = overviewTextView.getViewTreeObserver();
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    int maxLines = (int) overviewTextView.getHeight() / overviewTextView.getLineHeight();
+                    overviewTextView.setMaxLines(maxLines);
+                    overviewTextView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
 

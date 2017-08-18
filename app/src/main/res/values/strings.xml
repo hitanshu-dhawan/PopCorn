@@ -52,6 +52,7 @@
 
     <string name="search_movies_tv_shows_people">Search Movies, TV Shows, People</string>
     <string name="search">Search</string>
+    <string name="no_results_found">No results found</string>
     <string name="movie">Movie</string>
     <string name="tv_show">TV Show</string>
     <string name="person">Person</string>

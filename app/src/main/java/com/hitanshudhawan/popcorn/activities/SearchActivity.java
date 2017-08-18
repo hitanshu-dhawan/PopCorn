@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.SearchResultsAdapter;
@@ -27,6 +29,8 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView mSearchResultsRecyclerView;
     private List<SearchResult> mSearchResults;
     private SearchResultsAdapter mSearchResultsAdapter;
+
+    private TextView mEmptyTextView;
 
     private boolean pagesOver = false;
     private int presentPage = 1;
@@ -51,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         setTitle(mQuery);
 
         mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
+        mEmptyTextView = (TextView) findViewById(R.id.text_view_empty_search);
 
         mSearchResultsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_search);
         mSearchResults = new ArrayList<>();
@@ -108,6 +113,7 @@ public class SearchActivity extends AppCompatActivity {
                         mSearchResults.add(searchResult);
                 }
                 mSearchResultsAdapter.notifyDataSetChanged();
+                if (mSearchResults.isEmpty()) mEmptyTextView.setVisibility(View.VISIBLE);
                 if (searchResponse.getPage() == searchResponse.getTotalPages())
                     pagesOver = true;
                 else
