@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,17 +70,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             holder.overviewTextView.setText(mSearchResults.get(position).getOverview());
         else
             holder.overviewTextView.setText("");
-//        holder.overviewTextView.setMaxLines(0);
-//        ViewTreeObserver observer = holder.overviewTextView.getViewTreeObserver();
-//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                int maxLines = (int) holder.overviewTextView.getHeight() / holder.overviewTextView.getLineHeight();
-//                holder.overviewTextView.setMaxLines(maxLines);
-//                holder.overviewTextView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//            }
-//        });
-
 
         if (mSearchResults.get(position).getReleaseDate() != null && !mSearchResults.get(position).getReleaseDate().trim().isEmpty()) {
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -140,16 +127,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
                         intent.putExtra(Constant.PERSON_ID, mSearchResults.get(getAdapterPosition()).getId());
                         mContext.startActivity(intent);
                     }
-                }
-            });
-
-            ViewTreeObserver observer = overviewTextView.getViewTreeObserver();
-            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    int maxLines = (int) overviewTextView.getHeight() / overviewTextView.getLineHeight();
-                    overviewTextView.setMaxLines(maxLines);
-                    overviewTextView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
 
