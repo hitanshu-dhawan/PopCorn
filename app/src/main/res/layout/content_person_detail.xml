@@ -30,7 +30,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:ellipsize="end"
-            android:maxLines="5" />
+            android:maxLines="7" />
 
         <TextView
             android:id="@+id/text_view_read_more_person_detail"
