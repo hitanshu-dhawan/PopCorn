@@ -57,6 +57,8 @@
     <string name="tv_show">TV Show</string>
     <string name="person">Person</string>
 
+    <string name="no_network">No internet connection</string>
+
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
     <string name="title_activity_cast_detail">CastDetailActivity</string>
     <string name="title_activity_view_all_movies">ViewAllMoviesActivity</string>

@@ -14,12 +14,15 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 import com.hitanshudhawan.popcorn.fragments.TVShowsFragment;
+import com.hitanshudhawan.popcorn.network.tvshows.Network;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -68,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if (!NetworkConnection.isConnected(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 intent.putExtra(Constant.QUERY, query);
                 startActivity(intent);

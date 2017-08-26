@@ -111,12 +111,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         mMoviesAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
         if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
         if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();

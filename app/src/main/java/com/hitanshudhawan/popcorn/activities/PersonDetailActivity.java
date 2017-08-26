@@ -1,10 +1,12 @@
 package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import com.bumptech.glide.request.target.Target;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.MovieCastsOfPersonAdapter;
 import com.hitanshudhawan.popcorn.adapters.TVCastsOfPersonAdapter;
+import com.hitanshudhawan.popcorn.broadcastreceivers.ConnectivityBroadcastReceiver;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.MovieCastOfPerson;
@@ -30,6 +33,7 @@ import com.hitanshudhawan.popcorn.network.people.Person;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastOfPerson;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -72,6 +76,9 @@ public class PersonDetailActivity extends AppCompatActivity {
     private List<TVCastOfPerson> mTVCastOfPersons;
     private TVCastsOfPersonAdapter mTVCastsOfPersonAdapter;
 
+    private Snackbar mConnectivitySnackbar;
+    private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
+    private boolean isBroadcastReceiverRegistered;
     private Call<Person> mPersonDetailsCall;
     private Call<MovieCastsOfPersonResponse> mMovieCastsOfPersonsCall;
     private Call<TVCastsOfPersonResponse> mTVCastsOfPersonsCall;
@@ -100,6 +107,7 @@ public class PersonDetailActivity extends AppCompatActivity {
         mCastImageCardView.setRadius(mCastImageSideSize / 2);
         mCastImageView = (ImageView) findViewById(R.id.image_view_cast_detail);
         mProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_cast_detail);
+        mProgressBar.setVisibility(View.GONE);
         mCastNameTextView = (TextView) findViewById(R.id.text_view_name_cast_detail);
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mCastNameTextView.getLayoutParams();
         params.setMargins(params.leftMargin, mCastImageSideSize / 3, params.rightMargin, params.bottomMargin);
@@ -124,13 +132,40 @@ public class PersonDetailActivity extends AppCompatActivity {
         mTVCastRecyclerView.setAdapter(mTVCastsOfPersonAdapter);
         mTVCastRecyclerView.setLayoutManager(new LinearLayoutManager(PersonDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
-        loadActivity();
+        if (NetworkConnection.isConnected(PersonDetailActivity.this)) {
+            loadActivity();
+        } else {
+            mConnectivitySnackbar = Snackbar.make(mCastNameTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    loadActivity();
+                    isBroadcastReceiverRegistered = false;
+                    unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (isBroadcastReceiverRegistered) {
+            isBroadcastReceiverRegistered = false;
+            unregisterReceiver(mConnectivityBroadcastReceiver);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (mPersonDetailsCall != null) mPersonDetailsCall.cancel();
         if (mMovieCastsOfPersonsCall != null) mMovieCastsOfPersonsCall.cancel();
         if (mTVCastsOfPersonsCall != null) mTVCastsOfPersonsCall.cancel();
@@ -138,6 +173,9 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+
         mPersonDetailsCall = apiService.getPersonDetails(mPersonId, getResources().getString(R.string.MOVIE_DB_API_KEY));
         mPersonDetailsCall.enqueue(new Callback<Person>() {
             @Override
@@ -171,13 +209,13 @@ public class PersonDetailActivity extends AppCompatActivity {
                         .listener(new RequestListener<String, Bitmap>() {
                             @Override
                             public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                                mProgressBar.hide();
+                                mProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                mProgressBar.hide();
+                                mProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
                         })

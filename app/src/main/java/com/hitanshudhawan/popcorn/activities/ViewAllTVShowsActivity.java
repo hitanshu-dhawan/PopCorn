@@ -111,12 +111,14 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         mTVShowsAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (mAiringTodayTVShowsCall != null) mAiringTodayTVShowsCall.cancel();
         if (mOnTheAirTVShowsCall != null) mOnTheAirTVShowsCall.cancel();
         if (mPopularTVShowsCall != null) mPopularTVShowsCall.cancel();

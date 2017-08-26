@@ -1,11 +1,13 @@
 package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -26,6 +28,7 @@ import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.adapters.MovieCastsAdapter;
 import com.hitanshudhawan.popcorn.adapters.VideoAdapter;
+import com.hitanshudhawan.popcorn.broadcastreceivers.ConnectivityBroadcastReceiver;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.Genre;
@@ -38,6 +41,7 @@ import com.hitanshudhawan.popcorn.network.videos.Video;
 import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.Favourite;
+import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.ParseException;
@@ -95,6 +99,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private List<MovieBrief> mSimilarMovies;
     private MovieBriefsSmallAdapter mSimilarMoviesAdapter;
 
+    private Snackbar mConnectivitySnackbar;
+    private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
+    private boolean isBroadcastReceiverRegistered;
     private Call<Movie> mMovieDetailsCall;
     private Call<VideosResponse> mMovieTrailersCall;
     private Call<MovieCreditsResponse> mMovieCreditsCall;
@@ -129,10 +136,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         mPosterImageView.getLayoutParams().width = mPosterWidth;
         mPosterImageView.getLayoutParams().height = mPosterHeight;
         mPosterProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_poster);
+        mPosterProgressBar.setVisibility(View.GONE);
 
         mBackdropImageView = (ImageView) findViewById(R.id.image_view_backdrop);
         mBackdropImageView.getLayoutParams().height = mBackdropHeight;
         mBackdropProgressBar = (AVLoadingIndicatorView) findViewById(R.id.progress_bar_backdrop);
+        mBackdropProgressBar.setVisibility(View.GONE);
 
         mTitleTextView = (TextView) findViewById(R.id.text_view_title_movie_detail);
         mGenreTextView = (TextView) findViewById(R.id.text_view_genre_movie_detail);
@@ -170,18 +179,47 @@ public class MovieDetailActivity extends AppCompatActivity {
         mSimilarMoviesRecyclerView.setAdapter(mSimilarMoviesAdapter);
         mSimilarMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
-        loadActivity();
+        if (NetworkConnection.isConnected(MovieDetailActivity.this)) {
+            loadActivity();
+        } else {
+            mConnectivitySnackbar = Snackbar.make(mTitleTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    loadActivity();
+                    isBroadcastReceiverRegistered = false;
+                    unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
         mSimilarMoviesAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (isBroadcastReceiverRegistered) {
+            isBroadcastReceiverRegistered = false;
+            unregisterReceiver(mConnectivityBroadcastReceiver);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         if (mMovieDetailsCall != null) mMovieDetailsCall.cancel();
         if (mMovieTrailersCall != null) mMovieTrailersCall.cancel();
         if (mMovieCreditsCall != null) mMovieCreditsCall.cancel();
@@ -190,6 +228,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void loadActivity() {
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        mPosterProgressBar.setVisibility(View.VISIBLE);
+        mBackdropProgressBar.setVisibility(View.VISIBLE);
+
         mMovieDetailsCall = apiService.getMovieDetails(mMovieId, getResources().getString(R.string.MOVIE_DB_API_KEY));
         mMovieDetailsCall.enqueue(new Callback<Movie>() {
             @Override
@@ -225,13 +267,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                         .listener(new RequestListener<String, Bitmap>() {
                             @Override
                             public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                                mPosterProgressBar.hide();
+                                mPosterProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                mPosterProgressBar.hide();
+                                mPosterProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
                         })
@@ -244,13 +286,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                         .listener(new RequestListener<String, Bitmap>() {
                             @Override
                             public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                                mBackdropProgressBar.hide();
+                                mBackdropProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
 
                             @Override
                             public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                mBackdropProgressBar.hide();
+                                mBackdropProgressBar.setVisibility(View.GONE);
                                 return false;
                             }
                         })

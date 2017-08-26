@@ -1,8 +1,10 @@
 package com.hitanshudhawan.popcorn.fragments;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -18,6 +20,7 @@ import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllMoviesActivity;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
+import com.hitanshudhawan.popcorn.broadcastreceivers.ConnectivityBroadcastReceiver;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.movies.GenresList;
@@ -28,6 +31,7 @@ import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
 import com.hitanshudhawan.popcorn.utils.MovieGenres;
+import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +76,9 @@ public class MoviesFragment extends Fragment {
     private List<MovieBrief> mTopRatedMovies;
     private MovieBriefsSmallAdapter mTopRatedAdapter;
 
+    private Snackbar mConnectivitySnackbar;
+    private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
+    private boolean isBroadcastReceiverRegistered;
     private Call<GenresList> mGenresListCall;
     private Call<NowShowingMoviesResponse> mNowShowingMoviesCall;
     private Call<PopularMoviesResponse> mPopularMoviesCall;
@@ -84,6 +91,7 @@ public class MoviesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
         mNowShowingSectionLoaded = false;
         mPopularSectionLoaded = false;
         mUpcomingSectionLoaded = false;
@@ -161,6 +169,62 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        if (NetworkConnection.isConnected(getContext())) {
+            loadFragment();
+        } else {
+            mConnectivitySnackbar = Snackbar.make(getActivity().findViewById(R.id.main_activity_fragment_container), R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    loadFragment();
+                    isBroadcastReceiverRegistered = false;
+                    getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            getActivity().registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mNowShowingAdapter.notifyDataSetChanged();
+        mPopularAdapter.notifyDataSetChanged();
+        mUpcomingAdapter.notifyDataSetChanged();
+        mTopRatedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (isBroadcastReceiverRegistered) {
+            mConnectivitySnackbar.dismiss();
+            isBroadcastReceiverRegistered = false;
+            getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (mGenresListCall != null) mGenresListCall.cancel();
+        if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
+        if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
+        if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
+        if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
+    }
+
+    private void loadFragment() {
+
         if (MovieGenres.isGenresListLoaded()) {
             loadNowShowingMovies();
             loadPopularMovies();
@@ -196,26 +260,6 @@ public class MoviesFragment extends Fragment {
             });
         }
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mNowShowingAdapter.notifyDataSetChanged();
-        mPopularAdapter.notifyDataSetChanged();
-        mUpcomingAdapter.notifyDataSetChanged();
-        mTopRatedAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mGenresListCall != null) mGenresListCall.cancel();
-        if (mNowShowingMoviesCall != null) mNowShowingMoviesCall.cancel();
-        if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
-        if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
-        if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
     }
 
     private void loadNowShowingMovies() {

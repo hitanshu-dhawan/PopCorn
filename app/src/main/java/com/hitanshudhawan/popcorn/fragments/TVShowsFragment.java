@@ -1,8 +1,10 @@
 package com.hitanshudhawan.popcorn.fragments;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -18,6 +20,7 @@ import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllTVShowsActivity;
 import com.hitanshudhawan.popcorn.adapters.TVShowBriefsLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.TVShowBriefsSmallAdapter;
+import com.hitanshudhawan.popcorn.broadcastreceivers.ConnectivityBroadcastReceiver;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
 import com.hitanshudhawan.popcorn.network.tvshows.AiringTodayTVShowsResponse;
@@ -27,6 +30,7 @@ import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
 import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.hitanshudhawan.popcorn.utils.TVShowGenres;
 
 import java.util.ArrayList;
@@ -72,6 +76,9 @@ public class TVShowsFragment extends Fragment {
     private List<TVShowBrief> mTopRatedTVShows;
     private TVShowBriefsSmallAdapter mTopRatedAdapter;
 
+    private Snackbar mConnectivitySnackbar;
+    private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
+    private boolean isBroadcastReceiverRegistered;
     private Call<GenresList> mGenresListCall;
     private Call<AiringTodayTVShowsResponse> mAiringTodayTVShowsCall;
     private Call<OnTheAirTVShowsResponse> mOnTheAirTVShowsCall;
@@ -84,6 +91,7 @@ public class TVShowsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
         mAiringTodaySectionLoaded = false;
         mOnTheAirSectionLoaded = false;
         mPopularSectionLoaded = false;
@@ -161,6 +169,62 @@ public class TVShowsFragment extends Fragment {
             }
         });
 
+        if (NetworkConnection.isConnected(getContext())) {
+            loadFragment();
+        }
+        else {
+            mConnectivitySnackbar = Snackbar.make(getActivity().findViewById(R.id.main_activity_fragment_container),R.string.no_network,Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    loadFragment();
+                    isBroadcastReceiverRegistered = false;
+                    getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            getActivity().registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAiringTodayAdapter.notifyDataSetChanged();
+        mOnTheAirAdapter.notifyDataSetChanged();
+        mPopularAdapter.notifyDataSetChanged();
+        mTopRatedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (isBroadcastReceiverRegistered) {
+            mConnectivitySnackbar.dismiss();
+            isBroadcastReceiverRegistered = false;
+            getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (mGenresListCall != null) mGenresListCall.cancel();
+        if (mAiringTodayTVShowsCall != null) mAiringTodayTVShowsCall.cancel();
+        if (mOnTheAirTVShowsCall != null) mOnTheAirTVShowsCall.cancel();
+        if (mPopularTVShowsCall != null) mPopularTVShowsCall.cancel();
+        if (mTopRatedTVShowsCall != null) mTopRatedTVShowsCall.cancel();
+    }
+
+    private void loadFragment() {
+
         if (TVShowGenres.isGenresListLoaded()) {
             loadAiringTodayTVShows();
             loadOnTheAirTVShows();
@@ -196,26 +260,6 @@ public class TVShowsFragment extends Fragment {
             });
         }
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAiringTodayAdapter.notifyDataSetChanged();
-        mOnTheAirAdapter.notifyDataSetChanged();
-        mPopularAdapter.notifyDataSetChanged();
-        mTopRatedAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mGenresListCall != null) mGenresListCall.cancel();
-        if (mAiringTodayTVShowsCall != null) mAiringTodayTVShowsCall.cancel();
-        if (mOnTheAirTVShowsCall != null) mOnTheAirTVShowsCall.cancel();
-        if (mPopularTVShowsCall != null) mPopularTVShowsCall.cancel();
-        if (mTopRatedTVShowsCall != null) mTopRatedTVShowsCall.cancel();
     }
 
     private void loadAiringTodayTVShows() {
