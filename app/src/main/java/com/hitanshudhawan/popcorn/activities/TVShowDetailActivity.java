@@ -333,6 +333,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             mOverviewTextView.setMaxLines(Integer.MAX_VALUE);
+                            mDetailsLayout.setVisibility(View.VISIBLE);
                             mOverviewReadMoreTextView.setVisibility(View.GONE);
                         }
                     });
@@ -340,7 +341,6 @@ public class TVShowDetailActivity extends AppCompatActivity {
                     mOverviewTextView.setText("");
                 }
 
-                mDetailsLayout.setVisibility(View.VISIBLE);
                 setDetails(response.body().getFirstAirDate(), response.body().getEpisodeRunTime(), response.body().getStatus(), response.body().getOriginCountries(), response.body().getNetworks());
 
                 setVideos();
