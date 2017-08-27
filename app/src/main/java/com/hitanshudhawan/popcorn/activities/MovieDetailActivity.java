@@ -102,6 +102,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Snackbar mConnectivitySnackbar;
     private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
     private boolean isBroadcastReceiverRegistered;
+    private boolean isActivityLoaded;
     private Call<Movie> mMovieDetailsCall;
     private Call<VideosResponse> mMovieTrailersCall;
     private Call<MovieCreditsResponse> mMovieCreditsCall;
@@ -180,23 +181,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         mSimilarMoviesRecyclerView.setLayoutManager(new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         if (NetworkConnection.isConnected(MovieDetailActivity.this)) {
+            isActivityLoaded = true;
             loadActivity();
-        } else {
-            mConnectivitySnackbar = Snackbar.make(mTitleTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
-            mConnectivitySnackbar.show();
-            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
-                @Override
-                public void onNetworkConnectionConnected() {
-                    mConnectivitySnackbar.dismiss();
-                    loadActivity();
-                    isBroadcastReceiverRegistered = false;
-                    unregisterReceiver(mConnectivityBroadcastReceiver);
-                }
-            });
-            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-            isBroadcastReceiverRegistered = true;
-            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
         }
+
     }
 
     @Override
@@ -207,8 +195,34 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+
+        if (!isActivityLoaded && !NetworkConnection.isConnected(MovieDetailActivity.this)) {
+            mConnectivitySnackbar = Snackbar.make(mTitleTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    isActivityLoaded = true;
+                    loadActivity();
+                    isBroadcastReceiverRegistered = false;
+                    unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        } else if (!isActivityLoaded && NetworkConnection.isConnected(MovieDetailActivity.this)) {
+            isActivityLoaded = true;
+            loadActivity();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
 
         if (isBroadcastReceiverRegistered) {
             isBroadcastReceiverRegistered = false;

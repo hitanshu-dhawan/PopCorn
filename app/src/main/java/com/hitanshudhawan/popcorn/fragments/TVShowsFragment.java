@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllTVShowsActivity;
@@ -79,6 +80,7 @@ public class TVShowsFragment extends Fragment {
     private Snackbar mConnectivitySnackbar;
     private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
     private boolean isBroadcastReceiverRegistered;
+    private boolean isFragmentLoaded;
     private Call<GenresList> mGenresListCall;
     private Call<AiringTodayTVShowsResponse> mAiringTodayTVShowsCall;
     private Call<OnTheAirTVShowsResponse> mOnTheAirTVShowsCall;
@@ -139,6 +141,10 @@ public class TVShowsFragment extends Fragment {
         mAiringTodayViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!NetworkConnection.isConnected(getContext())) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
                 intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.AIRING_TODAY_TV_SHOWS_TYPE);
                 startActivity(intent);
@@ -147,6 +153,10 @@ public class TVShowsFragment extends Fragment {
         mOnTheAirViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!NetworkConnection.isConnected(getContext())) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
                 intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.ON_THE_AIR_TV_SHOWS_TYPE);
                 startActivity(intent);
@@ -155,6 +165,10 @@ public class TVShowsFragment extends Fragment {
         mPopularViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!NetworkConnection.isConnected(getContext())) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
                 intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.POPULAR_TV_SHOWS_TYPE);
                 startActivity(intent);
@@ -163,6 +177,10 @@ public class TVShowsFragment extends Fragment {
         mTopRatedViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!NetworkConnection.isConnected(getContext())) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
                 intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.TOP_RATED_TV_SHOWS_TYPE);
                 startActivity(intent);
@@ -170,23 +188,8 @@ public class TVShowsFragment extends Fragment {
         });
 
         if (NetworkConnection.isConnected(getContext())) {
+            isFragmentLoaded = true;
             loadFragment();
-        }
-        else {
-            mConnectivitySnackbar = Snackbar.make(getActivity().findViewById(R.id.main_activity_fragment_container),R.string.no_network,Snackbar.LENGTH_INDEFINITE);
-            mConnectivitySnackbar.show();
-            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
-                @Override
-                public void onNetworkConnectionConnected() {
-                    mConnectivitySnackbar.dismiss();
-                    loadFragment();
-                    isBroadcastReceiverRegistered = false;
-                    getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
-                }
-            });
-            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-            isBroadcastReceiverRegistered = true;
-            getActivity().registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
         }
 
         return view;
@@ -195,6 +198,7 @@ public class TVShowsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         mAiringTodayAdapter.notifyDataSetChanged();
         mOnTheAirAdapter.notifyDataSetChanged();
         mPopularAdapter.notifyDataSetChanged();
@@ -202,8 +206,34 @@ public class TVShowsFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onResume() {
+        super.onResume();
+
+        if (!isFragmentLoaded && !NetworkConnection.isConnected(getContext())) {
+            mConnectivitySnackbar = Snackbar.make(getActivity().findViewById(R.id.main_activity_fragment_container), R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    isFragmentLoaded = true;
+                    loadFragment();
+                    isBroadcastReceiverRegistered = false;
+                    getActivity().unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            getActivity().registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        } else {
+            isFragmentLoaded = true;
+            loadFragment();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
 
         if (isBroadcastReceiverRegistered) {
             mConnectivitySnackbar.dismiss();

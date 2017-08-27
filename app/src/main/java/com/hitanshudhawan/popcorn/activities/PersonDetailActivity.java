@@ -79,6 +79,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     private Snackbar mConnectivitySnackbar;
     private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
     private boolean isBroadcastReceiverRegistered;
+    private boolean isActivityLoaded;
     private Call<Person> mPersonDetailsCall;
     private Call<MovieCastsOfPersonResponse> mMovieCastsOfPersonsCall;
     private Call<TVCastsOfPersonResponse> mTVCastsOfPersonsCall;
@@ -133,14 +134,24 @@ public class PersonDetailActivity extends AppCompatActivity {
         mTVCastRecyclerView.setLayoutManager(new LinearLayoutManager(PersonDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         if (NetworkConnection.isConnected(PersonDetailActivity.this)) {
+            isActivityLoaded = true;
             loadActivity();
-        } else {
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!isActivityLoaded && !NetworkConnection.isConnected(PersonDetailActivity.this)) {
             mConnectivitySnackbar = Snackbar.make(mCastNameTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
             mConnectivitySnackbar.show();
             mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
                 @Override
                 public void onNetworkConnectionConnected() {
                     mConnectivitySnackbar.dismiss();
+                    isActivityLoaded = true;
                     loadActivity();
                     isBroadcastReceiverRegistered = false;
                     unregisterReceiver(mConnectivityBroadcastReceiver);
@@ -149,12 +160,15 @@ public class PersonDetailActivity extends AppCompatActivity {
             IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
             isBroadcastReceiverRegistered = true;
             registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        } else if (!isActivityLoaded && NetworkConnection.isConnected(PersonDetailActivity.this)) {
+            isActivityLoaded = true;
+            loadActivity();
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if (isBroadcastReceiverRegistered) {
             isBroadcastReceiverRegistered = false;

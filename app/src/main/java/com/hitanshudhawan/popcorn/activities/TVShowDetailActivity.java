@@ -103,6 +103,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private Snackbar mConnectivitySnackbar;
     private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
     private boolean isBroadcastReceiverRegistered;
+    private boolean isActivityLoaded;
     private Call<TVShow> mTVShowDetailsCall;
     private Call<VideosResponse> mVideosCall;
     private Call<TVShowCreditsResponse> mTVShowCreditsCall;
@@ -181,23 +182,10 @@ public class TVShowDetailActivity extends AppCompatActivity {
         mSimilarTVShowsRecyclerView.setLayoutManager(new LinearLayoutManager(TVShowDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
         if (NetworkConnection.isConnected(TVShowDetailActivity.this)) {
+            isActivityLoaded = true;
             loadActivity();
-        } else {
-            mConnectivitySnackbar = Snackbar.make(mTitleTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
-            mConnectivitySnackbar.show();
-            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
-                @Override
-                public void onNetworkConnectionConnected() {
-                    mConnectivitySnackbar.dismiss();
-                    loadActivity();
-                    isBroadcastReceiverRegistered = false;
-                    unregisterReceiver(mConnectivityBroadcastReceiver);
-                }
-            });
-            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-            isBroadcastReceiverRegistered = true;
-            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
         }
+
     }
 
     @Override
@@ -208,8 +196,34 @@ public class TVShowDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onResume() {
+        super.onResume();
+
+        if (!isActivityLoaded && !NetworkConnection.isConnected(TVShowDetailActivity.this)) {
+            mConnectivitySnackbar = Snackbar.make(mTitleTextView, R.string.no_network, Snackbar.LENGTH_INDEFINITE);
+            mConnectivitySnackbar.show();
+            mConnectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(new ConnectivityBroadcastReceiver.ConnectivityReceiverListener() {
+                @Override
+                public void onNetworkConnectionConnected() {
+                    mConnectivitySnackbar.dismiss();
+                    isActivityLoaded = true;
+                    loadActivity();
+                    isBroadcastReceiverRegistered = false;
+                    unregisterReceiver(mConnectivityBroadcastReceiver);
+                }
+            });
+            IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+            isBroadcastReceiverRegistered = true;
+            registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
+        } else if (!isActivityLoaded && NetworkConnection.isConnected(TVShowDetailActivity.this)) {
+            isActivityLoaded = true;
+            loadActivity();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
 
         if (isBroadcastReceiverRegistered) {
             isBroadcastReceiverRegistered = false;
