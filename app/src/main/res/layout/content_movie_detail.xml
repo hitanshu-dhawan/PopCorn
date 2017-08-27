@@ -131,7 +131,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_cast_movie_detail"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="190dp"
             android:nestedScrollingEnabled="false" />
 
         <TextView
