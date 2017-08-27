@@ -225,7 +225,7 @@ public class TVShowsFragment extends Fragment {
             IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
             isBroadcastReceiverRegistered = true;
             getActivity().registerReceiver(mConnectivityBroadcastReceiver, intentFilter);
-        } else {
+        } else if (!isFragmentLoaded && NetworkConnection.isConnected(getContext())) {
             isFragmentLoaded = true;
             loadFragment();
         }

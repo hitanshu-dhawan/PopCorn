@@ -336,7 +336,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     mRatingTextView.setText(String.format("%.1f", response.body().getVoteAverage()));
                 }
 
-                if (response.body().getOverview() != null) {
+                if (response.body().getOverview() != null && !response.body().getOverview().trim().isEmpty()) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
                     mOverviewTextView.setText(response.body().getOverview());
                     mOverviewReadMoreTextView.setOnClickListener(new View.OnClickListener() {

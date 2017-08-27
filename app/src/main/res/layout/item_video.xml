@@ -29,6 +29,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:maxLines="2"
         android:textAlignment="center" />
 
 </LinearLayout>

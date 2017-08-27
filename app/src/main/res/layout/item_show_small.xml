@@ -43,7 +43,6 @@
             android:src="@mipmap/ic_favorite_border_black_18dp"
             android:tint="@android:color/darker_gray" />
 
-
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
