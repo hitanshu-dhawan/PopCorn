@@ -38,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:padding="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
             android:src="@mipmap/ic_favorite_border_black_18dp"
             android:tint="@android:color/darker_gray" />
 
