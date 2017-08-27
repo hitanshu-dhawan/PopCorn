@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageButton;
@@ -76,6 +77,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mYearTextView;
     private ImageButton mFavImageButton;
     private ImageButton mShareImageButton;
+
+    private LinearLayout mRatingLayout;
+    private TextView mRatingTextView;
 
     private TextView mOverviewTextView;
     private TextView mOverviewReadMoreTextView;
@@ -150,6 +154,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_movie_detail);
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
+
+        mRatingLayout = (LinearLayout) findViewById(R.id.layout_rating_movie_detail);
+        mRatingTextView = (TextView) findViewById(R.id.text_view_rating_movie_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_movie_detail);
         mOverviewReadMoreTextView = (TextView) findViewById(R.id.text_view_read_more_movie_detail);
@@ -324,6 +331,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
                 setImageButtons(response.body().getId(), response.body().getPosterPath(), response.body().getTitle(), response.body().getTagline(), response.body().getImdbId(), response.body().getHomepage());
+
+                if (response.body().getVoteAverage() != null && response.body().getVoteAverage() != 0) {
+                    mRatingLayout.setVisibility(View.VISIBLE);
+                    mRatingTextView.setText(String.format("%.1f", response.body().getVoteAverage()));
+                }
 
                 if (response.body().getOverview() != null) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);

@@ -78,6 +78,9 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private ImageButton mFavImageButton;
     private ImageButton mShareImageButton;
 
+    private LinearLayout mRatingLayout;
+    private TextView mRatingTextView;
+
     private TextView mOverviewTextView;
     private TextView mOverviewReadMoreTextView;
     private LinearLayout mDetailsLayout;
@@ -151,6 +154,9 @@ public class TVShowDetailActivity extends AppCompatActivity {
 
         mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_tv_show_detail);
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_tv_show_detail);
+
+        mRatingLayout = (LinearLayout) findViewById(R.id.layout_rating_tv_show_detail);
+        mRatingTextView = (TextView) findViewById(R.id.text_view_rating_tv_show_detail);
 
         mOverviewTextView = (TextView) findViewById(R.id.text_view_overview_tv_show_detail);
         mOverviewReadMoreTextView = (TextView) findViewById(R.id.text_view_read_more_tv_show_detail);
@@ -325,6 +331,11 @@ public class TVShowDetailActivity extends AppCompatActivity {
                 mFavImageButton.setVisibility(View.VISIBLE);
                 mShareImageButton.setVisibility(View.VISIBLE);
                 setImageButtons(response.body().getId(), response.body().getPosterPath(), response.body().getName(), response.body().getHomepage());
+
+                if (response.body().getVoteAverage() != null && response.body().getVoteAverage() != 0) {
+                    mRatingLayout.setVisibility(View.VISIBLE);
+                    mRatingTextView.setText(String.format("%.1f", response.body().getVoteAverage()));
+                }
 
                 if (response.body().getOverview() != null) {
                     mOverviewReadMoreTextView.setVisibility(View.VISIBLE);
