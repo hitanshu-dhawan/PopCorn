@@ -1,7 +1,7 @@
 package com.hitanshudhawan.popcorn.network.search;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.hitanshudhawan.popcorn.R;
 
@@ -19,35 +19,37 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by hitanshu on 15/8/17.
+ * Created by hitanshu on 10/9/17.
  */
 
-public class SearchAsyncTask extends AsyncTask<String, Void, SearchResponse> {
+public class SearchAsyncTaskLoader extends AsyncTaskLoader<SearchResponse> {
 
     private Context mContext;
-    private OnSearchDoneListener mOnSearchDoneListener;
 
-    public SearchAsyncTask(Context mContext, OnSearchDoneListener listener) {
-        this.mContext = mContext;
-        mOnSearchDoneListener = listener;
+    private String mQuery;
+    private String mPage;
+
+    public SearchAsyncTaskLoader(Context context, String query, String page) {
+        super(context);
+        this.mContext = context;
+        this.mQuery = query;
+        this.mPage = page;
     }
 
     @Override
-    protected SearchResponse doInBackground(String... params) {
+    public SearchResponse loadInBackground() {
 
         try {
             String urlString = "https://api.themoviedb.org/3/" + "search/multi"
                     + "?"
                     + "api_key=" + mContext.getResources().getString(R.string.MOVIE_DB_API_KEY)
                     + "&"
-                    + "query=" + params[0]
+                    + "query=" + mQuery
                     + "&"
-                    + "page=" + params[1];
+                    + "page=" + mPage;
             URL url = new URL(urlString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
-
-            if (isCancelled()) return null;
 
             httpURLConnection.connect();
 
@@ -68,7 +70,6 @@ public class SearchAsyncTask extends AsyncTask<String, Void, SearchResponse> {
             JSONArray resultsJsonArray = searchJsonObject.getJSONArray("results");
             List<SearchResult> searchResults = new ArrayList<>();
             for (int i = 0; i < resultsJsonArray.length(); i++) {
-                if (isCancelled()) return null;
                 JSONObject result = (JSONObject) resultsJsonArray.get(i);
                 SearchResult searchResult = new SearchResult();
                 switch (result.getString("media_type")) {
@@ -112,14 +113,4 @@ public class SearchAsyncTask extends AsyncTask<String, Void, SearchResponse> {
 
         return null;
     }
-
-    @Override
-    protected void onPostExecute(SearchResponse searchResponse) {
-        mOnSearchDoneListener.onSearchDone(searchResponse);
-    }
-
-    public interface OnSearchDoneListener {
-        void onSearchDone(SearchResponse searchResponse);
-    }
-
 }

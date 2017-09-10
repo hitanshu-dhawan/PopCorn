@@ -437,7 +437,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 if (homepage != null) extraText += homepage;
                 movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
                 startActivity(movieShareIntent);
-
             }
         });
     }

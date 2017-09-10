@@ -1,6 +1,8 @@
 package com.hitanshudhawan.popcorn.activities;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.SearchResultsAdapter;
-import com.hitanshudhawan.popcorn.network.search.SearchAsyncTask;
+import com.hitanshudhawan.popcorn.network.search.SearchAsyncTaskLoader;
 import com.hitanshudhawan.popcorn.network.search.SearchResponse;
 import com.hitanshudhawan.popcorn.network.search.SearchResult;
 import com.hitanshudhawan.popcorn.utils.Constant;
@@ -37,8 +40,6 @@ public class SearchActivity extends AppCompatActivity {
     private boolean loading = true;
     private int previousTotal = 0;
     private int visibleThreshold = 5;
-
-    private SearchAsyncTask mSearchAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +90,20 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mSearchAsyncTask != null) mSearchAsyncTask.cancel(true);
-    }
-
     private void loadSearchResults() {
         if (pagesOver) return;
 
         mSmoothProgressBar.progressiveStart();
 
-        mSearchAsyncTask = new SearchAsyncTask(SearchActivity.this, new SearchAsyncTask.OnSearchDoneListener() {
+        getLoaderManager().initLoader(presentPage, null, new LoaderManager.LoaderCallbacks<SearchResponse>() {
+
             @Override
-            public void onSearchDone(SearchResponse searchResponse) {
+            public Loader<SearchResponse> onCreateLoader(int i, Bundle bundle) {
+                return new SearchAsyncTaskLoader(SearchActivity.this, mQuery, String.valueOf(presentPage));
+            }
+
+            @Override
+            public void onLoadFinished(Loader<SearchResponse> loader, SearchResponse searchResponse) {
 
                 if (searchResponse == null) return;
                 if (searchResponse.getResults() == null) return;
@@ -120,8 +121,12 @@ public class SearchActivity extends AppCompatActivity {
                     presentPage++;
 
             }
-        });
-        mSearchAsyncTask.execute(mQuery, String.valueOf(presentPage));
+
+            @Override
+            public void onLoaderReset(Loader<SearchResponse> loader) {
+
+            }
+        }).forceLoad();
 
     }
 
