@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.UpButtonActionControl;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 import com.hitanshudhawan.popcorn.fragments.TVShowsFragment;
@@ -47,9 +48,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(MainActivity.this);
 
-        mNavigationView.setCheckedItem(R.id.nav_movies);
-        setTitle(R.string.movies);
-        setFragment(new MoviesFragment());
+        String upButtonState = UpButtonActionControl.getUpButtonState();
+        if(upButtonState.equals("Movie")) {
+            mNavigationView.setCheckedItem(R.id.nav_movies);
+            setTitle(R.string.movies);
+            setFragment(new MoviesFragment());
+        }
+        else if(upButtonState.equals("Tv")){
+            mNavigationView.setCheckedItem(R.id.nav_tv_shows);
+            setTitle(R.string.tv_show);
+            setFragment(new TVShowsFragment());
+        }
     }
 
     @Override
@@ -122,10 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_movies:
                 setTitle(R.string.movies);
                 setFragment(new MoviesFragment());
+                UpButtonActionControl.setUpButtonState("Movie");
                 return true;
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
                 setFragment(new TVShowsFragment());
+                UpButtonActionControl.setUpButtonState("Tv");
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);

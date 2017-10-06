@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +54,9 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_all_tvshows);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        ActionBar toolActionBar = getSupportActionBar();
+        if(toolActionBar!=null)
+            toolActionBar.setDisplayHomeAsUpEnabled(true);
         Intent receivedIntent = getIntent();
         mTVShowType = receivedIntent.getIntExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, -1);
 
