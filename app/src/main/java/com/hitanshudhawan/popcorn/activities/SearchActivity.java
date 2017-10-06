@@ -4,13 +4,13 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.SearchResultsAdapter;
@@ -47,7 +47,9 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         Intent receivedIntent = getIntent();
         mQuery = receivedIntent.getStringExtra(Constant.QUERY);
 
