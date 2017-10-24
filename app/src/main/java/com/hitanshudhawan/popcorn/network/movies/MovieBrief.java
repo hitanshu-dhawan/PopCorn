@@ -2,6 +2,7 @@ package com.hitanshudhawan.popcorn.network.movies;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -38,6 +39,31 @@ public class MovieBrief {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
+
+    public static Comparator<MovieBrief> popularitySorting = new Comparator<MovieBrief>() {
+        @Override
+        public int compare(MovieBrief o1, MovieBrief o2) {
+            Double p1 = o1.getPopularity();
+            Double p2 = o2.getPopularity();
+
+            if(p1<=p2)
+                return 1;
+            else
+                return -1;
+        }
+    } ;
+    public static Comparator<MovieBrief> ratingSorting = new Comparator<MovieBrief>() {
+        @Override
+        public int compare(MovieBrief o1, MovieBrief o2) {
+            Double v1 = o1.getVoteAverage();
+            Double v2 = o2.getVoteAverage();
+
+            if(v1<=v2)
+                return 1;
+            else
+                return -1;
+        }
+    } ;
 
     public MovieBrief(Integer voteCount, Integer id, Boolean video, Double voteAverage,
                       String title, Double popularity, String posterPath, String originalLanguage,

@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.hitanshudhawan.popcorn.R;
+import com.hitanshudhawan.popcorn.SortingData;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
@@ -266,4 +269,24 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_details,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId){
+            case R.id.sort_popularity_id:
+                mMoviesAdapter.movieDataSetChanged( SortingData.sortAccordingToPopularityMovie(mMovies));
+                return true;
+            case R.id.sort_rating_id:
+                mMoviesAdapter.movieDataSetChanged( SortingData.sortAccordingToRatingMovie(mMovies));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

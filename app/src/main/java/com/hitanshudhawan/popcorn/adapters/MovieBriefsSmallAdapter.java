@@ -69,6 +69,11 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
         return mMovies.size();
     }
 
+    public void movieDataSetChanged(List<MovieBrief> movieBriefList){
+            mMovies = movieBriefList;
+        notifyDataSetChanged();
+    }
+
     public class MovieViewHolder extends RecyclerView.ViewHolder {
 
         public CardView movieCard;
