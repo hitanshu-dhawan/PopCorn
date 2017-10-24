@@ -68,7 +68,7 @@
     <string name="title_activity_tvshow_detail">TVShowDetailActivity</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_search">SearchActivity</string>
-    <string name="MOVIE_DB_API_KEY">532dfe3fbb248c4ecc6f42703334d18e</string>
+
 
     <!--sorting menu-->
     <string name="sort_popularity">Sort::Popularity</string>
