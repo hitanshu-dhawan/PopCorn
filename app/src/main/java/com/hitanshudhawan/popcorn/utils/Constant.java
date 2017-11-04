@@ -6,6 +6,7 @@ package com.hitanshudhawan.popcorn.utils;
 
 public class Constant {
 
+    public static final String FIRST_TIME_LAUNCH = "first_time_launch";
     public static final String MOVIE_ID = "movie_id";
     public static final String TV_SHOW_ID = "tv_show_id";
     public static final String VIEW_ALL_MOVIES_TYPE = "type_view_all_movies";
