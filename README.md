@@ -10,7 +10,7 @@
 <img src="/images/favorites.gif" height=512 width=288></img>
 <img src="/images/search.gif" height=512 width=288></img>
 
-# API KEYS
+# API Keys
 PopCorn uses [The Movie DB](https://www.themoviedb.org/) API in order to fetch all the Movies and TV Shows Data.
 <br>
 To run this application on your machine you have to issue an API KEY from The Movie DB and place it in your strings resource folder.
