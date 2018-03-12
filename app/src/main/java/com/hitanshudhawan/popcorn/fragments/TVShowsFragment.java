@@ -30,7 +30,7 @@ import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.hitanshudhawan.popcorn.utils.TVShowGenres;
 
@@ -146,7 +146,7 @@ public class TVShowsFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.AIRING_TODAY_TV_SHOWS_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_TV_SHOWS_TYPE, Constants.AIRING_TODAY_TV_SHOWS_TYPE);
                 startActivity(intent);
             }
         });
@@ -158,7 +158,7 @@ public class TVShowsFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.ON_THE_AIR_TV_SHOWS_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_TV_SHOWS_TYPE, Constants.ON_THE_AIR_TV_SHOWS_TYPE);
                 startActivity(intent);
             }
         });
@@ -170,7 +170,7 @@ public class TVShowsFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.POPULAR_TV_SHOWS_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_TV_SHOWS_TYPE, Constants.POPULAR_TV_SHOWS_TYPE);
                 startActivity(intent);
             }
         });
@@ -182,7 +182,7 @@ public class TVShowsFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllTVShowsActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, Constant.TOP_RATED_TV_SHOWS_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_TV_SHOWS_TYPE, Constants.TOP_RATED_TV_SHOWS_TYPE);
                 startActivity(intent);
             }
         });

@@ -18,7 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.TVShowDetailActivity;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.hitanshudhawan.popcorn.utils.TVShowGenres;
 
@@ -46,7 +46,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
     @Override
     public void onBindViewHolder(TVShowViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_780 + mTVShows.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_780 + mTVShows.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -59,7 +59,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
 
         if (mTVShows.get(position).getVoteAverage() != null && mTVShows.get(position).getVoteAverage() > 0) {
             holder.tvShowRatingTextView.setVisibility(View.VISIBLE);
-            holder.tvShowRatingTextView.setText(String.format("%.1f", mTVShows.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
+            holder.tvShowRatingTextView.setText(String.format("%.1f", mTVShows.get(position).getVoteAverage()) + Constants.RATING_SYMBOL);
         } else {
             holder.tvShowRatingTextView.setVisibility(View.GONE);
         }
@@ -121,7 +121,7 @@ public class TVShowBriefsLargeAdapter extends RecyclerView.Adapter<TVShowBriefsL
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, TVShowDetailActivity.class);
-                    intent.putExtra(Constant.TV_SHOW_ID, mTVShows.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constants.TV_SHOW_ID, mTVShows.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

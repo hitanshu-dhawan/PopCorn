@@ -4,7 +4,7 @@ package com.hitanshudhawan.popcorn.utils;
  * Created by hitanshu on 9/8/17.
  */
 
-public class Constant {
+public class Constants {
 
     public static final String FIRST_TIME_LAUNCH = "first_time_launch";
     public static final String MOVIE_ID = "movie_id";
@@ -22,7 +22,7 @@ public class Constant {
     public static final String PERSON_ID = "person_id";
     public static final String QUERY = "query";
     public static final String RATING_SYMBOL = "\u2605";
-    public static final String IMAGE_LOADING_BASE_URL_1000 = "https://image.tmdb.org/t/p/w1000/";
+    public static final String IMAGE_LOADING_BASE_URL_1280 = "https://image.tmdb.org/t/p/w1280/";
     public static final String IMAGE_LOADING_BASE_URL_342 = "https://image.tmdb.org/t/p/w342/";
     public static final String IMAGE_LOADING_BASE_URL_780 = "https://image.tmdb.org/t/p/w780/";
     public static final String YOUTUBE_WATCH_BASE_URL = "https://www.youtube.com/watch?v=";

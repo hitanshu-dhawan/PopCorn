@@ -17,7 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mMovies.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_342 + mMovies.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -91,7 +91,7 @@ public class MovieBriefsSmallAdapter extends RecyclerView.Adapter<MovieBriefsSma
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(Constant.MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constants.MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

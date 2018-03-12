@@ -18,7 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.network.movies.MovieBrief;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.hitanshudhawan.popcorn.utils.MovieGenres;
 
@@ -46,7 +46,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_780 + mMovies.get(position).getBackdropPath())
+        Glide.with(mContext.getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_780 + mMovies.get(position).getBackdropPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -59,7 +59,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
 
         if (mMovies.get(position).getVoteAverage() != null && mMovies.get(position).getVoteAverage() > 0) {
             holder.movieRatingTextView.setVisibility(View.VISIBLE);
-            holder.movieRatingTextView.setText(String.format("%.1f", mMovies.get(position).getVoteAverage()) + Constant.RATING_SYMBOL);
+            holder.movieRatingTextView.setText(String.format("%.1f", mMovies.get(position).getVoteAverage()) + Constants.RATING_SYMBOL);
         } else {
             holder.movieRatingTextView.setVisibility(View.GONE);
         }
@@ -121,7 +121,7 @@ public class MovieBriefsLargeAdapter extends RecyclerView.Adapter<MovieBriefsLar
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                    intent.putExtra(Constant.MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constants.MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

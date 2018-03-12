@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.network.videos.Video;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(VideoViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.YOUTUBE_THUMBNAIL_BASE_URL + mVideos.get(position).getKey() + Constant.YOUTUBE_THUMBNAIL_IMAGE_QUALITY)
+        Glide.with(mContext.getApplicationContext()).load(Constants.YOUTUBE_THUMBNAIL_BASE_URL + mVideos.get(position).getKey() + Constants.YOUTUBE_THUMBNAIL_IMAGE_QUALITY)
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -73,7 +73,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constant.YOUTUBE_WATCH_BASE_URL + mVideos.get(getAdapterPosition()).getKey()));
+                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.YOUTUBE_WATCH_BASE_URL + mVideos.get(getAdapterPosition()).getKey()));
                     mContext.startActivity(youtubeIntent);
                 }
             });

@@ -17,7 +17,7 @@ import com.hitanshudhawan.popcorn.adapters.SearchResultsAdapter;
 import com.hitanshudhawan.popcorn.network.search.SearchAsyncTaskLoader;
 import com.hitanshudhawan.popcorn.network.search.SearchResponse;
 import com.hitanshudhawan.popcorn.network.search.SearchResult;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent receivedIntent = getIntent();
-        mQuery = receivedIntent.getStringExtra(Constant.QUERY);
+        mQuery = receivedIntent.getStringExtra(Constants.QUERY);
 
         if (mQuery == null || mQuery.trim().isEmpty()) finish();
 

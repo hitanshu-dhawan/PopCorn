@@ -16,7 +16,7 @@ import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowBrief;
 import com.hitanshudhawan.popcorn.network.tvshows.TopRatedTVShowsResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,21 +55,21 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent receivedIntent = getIntent();
-        mTVShowType = receivedIntent.getIntExtra(Constant.VIEW_ALL_TV_SHOWS_TYPE, -1);
+        mTVShowType = receivedIntent.getIntExtra(Constants.VIEW_ALL_TV_SHOWS_TYPE, -1);
 
         if (mTVShowType == -1) finish();
 
         switch (mTVShowType) {
-            case Constant.AIRING_TODAY_TV_SHOWS_TYPE:
+            case Constants.AIRING_TODAY_TV_SHOWS_TYPE:
                 setTitle(R.string.airing_today_tv_shows);
                 break;
-            case Constant.ON_THE_AIR_TV_SHOWS_TYPE:
+            case Constants.ON_THE_AIR_TV_SHOWS_TYPE:
                 setTitle(R.string.on_the_air_tv_shows);
                 break;
-            case Constant.POPULAR_TV_SHOWS_TYPE:
+            case Constants.POPULAR_TV_SHOWS_TYPE:
                 setTitle(R.string.popular_tv_shows);
                 break;
-            case Constant.TOP_RATED_TV_SHOWS_TYPE:
+            case Constants.TOP_RATED_TV_SHOWS_TYPE:
                 setTitle(R.string.top_rated_tv_shows);
                 break;
         }
@@ -132,7 +132,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
         mSmoothProgressBar.progressiveStart();
 
         switch (tvShowType) {
-            case Constant.AIRING_TODAY_TV_SHOWS_TYPE:
+            case Constants.AIRING_TODAY_TV_SHOWS_TYPE:
                 mAiringTodayTVShowsCall = apiService.getAiringTodayTVShows(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
                 mAiringTodayTVShowsCall.enqueue(new Callback<AiringTodayTVShowsResponse>() {
                     @Override
@@ -164,7 +164,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.ON_THE_AIR_TV_SHOWS_TYPE:
+            case Constants.ON_THE_AIR_TV_SHOWS_TYPE:
                 mOnTheAirTVShowsCall = apiService.getOnTheAirTVShows(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
                 mOnTheAirTVShowsCall.enqueue(new Callback<OnTheAirTVShowsResponse>() {
                     @Override
@@ -196,7 +196,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.POPULAR_TV_SHOWS_TYPE:
+            case Constants.POPULAR_TV_SHOWS_TYPE:
                 mPopularTVShowsCall = apiService.getPopularTVShows(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
                 mPopularTVShowsCall.enqueue(new Callback<PopularTVShowsResponse>() {
                     @Override
@@ -228,7 +228,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.TOP_RATED_TV_SHOWS_TYPE:
+            case Constants.TOP_RATED_TV_SHOWS_TYPE:
                 mTopRatedTVShowsCall = apiService.getTopRatedTVShows(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage);
                 mTopRatedTVShowsCall.enqueue(new Callback<TopRatedTVShowsResponse>() {
                     @Override

@@ -32,7 +32,7 @@ import com.hitanshudhawan.popcorn.network.movies.MovieCastsOfPersonResponse;
 import com.hitanshudhawan.popcorn.network.people.Person;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastOfPerson;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastsOfPersonResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -94,7 +94,7 @@ public class PersonDetailActivity extends AppCompatActivity {
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mPersonId = receivedIntent.getIntExtra(Constant.PERSON_ID, -1);
+        mPersonId = receivedIntent.getIntExtra(Constants.PERSON_ID, -1);
 
         if (mPersonId == -1) finish();
 
@@ -216,7 +216,7 @@ public class PersonDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getProfilePath())
+                Glide.with(getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_1280 + response.body().getProfilePath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)

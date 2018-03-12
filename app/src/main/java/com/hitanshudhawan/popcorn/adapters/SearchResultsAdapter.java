@@ -17,7 +17,7 @@ import com.hitanshudhawan.popcorn.activities.MovieDetailActivity;
 import com.hitanshudhawan.popcorn.activities.PersonDetailActivity;
 import com.hitanshudhawan.popcorn.activities.TVShowDetailActivity;
 import com.hitanshudhawan.popcorn.network.search.SearchResult;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +46,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     @Override
     public void onBindViewHolder(final ResultViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mSearchResults.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_342 + mSearchResults.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -116,15 +116,15 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
                 public void onClick(View view) {
                     if (mSearchResults.get(getAdapterPosition()).getMediaType().equals("movie")) {
                         Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                        intent.putExtra(Constant.MOVIE_ID, mSearchResults.get(getAdapterPosition()).getId());
+                        intent.putExtra(Constants.MOVIE_ID, mSearchResults.get(getAdapterPosition()).getId());
                         mContext.startActivity(intent);
                     } else if (mSearchResults.get(getAdapterPosition()).getMediaType().equals("tv")) {
                         Intent intent = new Intent(mContext, TVShowDetailActivity.class);
-                        intent.putExtra(Constant.TV_SHOW_ID, mSearchResults.get(getAdapterPosition()).getId());
+                        intent.putExtra(Constants.TV_SHOW_ID, mSearchResults.get(getAdapterPosition()).getId());
                         mContext.startActivity(intent);
                     } else if (mSearchResults.get(getAdapterPosition()).getMediaType().equals("person")) {
                         Intent intent = new Intent(mContext, PersonDetailActivity.class);
-                        intent.putExtra(Constant.PERSON_ID, mSearchResults.get(getAdapterPosition()).getId());
+                        intent.putExtra(Constants.PERSON_ID, mSearchResults.get(getAdapterPosition()).getId());
                         mContext.startActivity(intent);
                     }
                 }

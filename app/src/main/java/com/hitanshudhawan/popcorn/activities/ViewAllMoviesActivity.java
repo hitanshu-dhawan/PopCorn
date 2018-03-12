@@ -16,7 +16,7 @@ import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,21 +55,21 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent receivedIntent = getIntent();
-        mMovieType = receivedIntent.getIntExtra(Constant.VIEW_ALL_MOVIES_TYPE, -1);
+        mMovieType = receivedIntent.getIntExtra(Constants.VIEW_ALL_MOVIES_TYPE, -1);
 
         if (mMovieType == -1) finish();
 
         switch (mMovieType) {
-            case Constant.NOW_SHOWING_MOVIES_TYPE:
+            case Constants.NOW_SHOWING_MOVIES_TYPE:
                 setTitle(R.string.now_showing_movies);
                 break;
-            case Constant.POPULAR_MOVIES_TYPE:
+            case Constants.POPULAR_MOVIES_TYPE:
                 setTitle(R.string.popular_movies);
                 break;
-            case Constant.UPCOMING_MOVIES_TYPE:
+            case Constants.UPCOMING_MOVIES_TYPE:
                 setTitle(R.string.upcoming_movies);
                 break;
-            case Constant.TOP_RATED_MOVIES_TYPE:
+            case Constants.TOP_RATED_MOVIES_TYPE:
                 setTitle(R.string.top_rated_movies);
                 break;
         }
@@ -132,7 +132,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         mSmoothProgressBar.progressiveStart();
 
         switch (movieType) {
-            case Constant.NOW_SHOWING_MOVIES_TYPE:
+            case Constants.NOW_SHOWING_MOVIES_TYPE:
                 mNowShowingMoviesCall = apiService.getNowShowingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
                 mNowShowingMoviesCall.enqueue(new Callback<NowShowingMoviesResponse>() {
                     @Override
@@ -164,7 +164,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.POPULAR_MOVIES_TYPE:
+            case Constants.POPULAR_MOVIES_TYPE:
                 mPopularMoviesCall = apiService.getPopularMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
                 mPopularMoviesCall.enqueue(new Callback<PopularMoviesResponse>() {
                     @Override
@@ -196,7 +196,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.UPCOMING_MOVIES_TYPE:
+            case Constants.UPCOMING_MOVIES_TYPE:
                 mUpcomingMoviesCall = apiService.getUpcomingMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
                 mUpcomingMoviesCall.enqueue(new Callback<UpcomingMoviesResponse>() {
                     @Override
@@ -228,7 +228,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case Constant.TOP_RATED_MOVIES_TYPE:
+            case Constants.TOP_RATED_MOVIES_TYPE:
                 mTopRatedMoviesCall = apiService.getTopRatedMovies(getResources().getString(R.string.MOVIE_DB_API_KEY), presentPage, "US");
                 mTopRatedMoviesCall.enqueue(new Callback<TopRatedMoviesResponse>() {
                     @Override

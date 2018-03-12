@@ -23,7 +23,7 @@ import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
 import com.hitanshudhawan.popcorn.fragments.TVShowsFragment;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if (sharedPreferences.getBoolean(Constant.FIRST_TIME_LAUNCH, true)) {
+        if (sharedPreferences.getBoolean(Constants.FIRST_TIME_LAUNCH, true)) {
             startActivity(new Intent(MainActivity.this, IntroActivity.class));
             SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
-            sharedPreferencesEditor.putBoolean(Constant.FIRST_TIME_LAUNCH, false);
+            sharedPreferencesEditor.putBoolean(Constants.FIRST_TIME_LAUNCH, false);
             sharedPreferencesEditor.apply();
         }
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return true;
                 }
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                intent.putExtra(Constant.QUERY, query);
+                intent.putExtra(Constants.QUERY, query);
                 startActivity(intent);
                 searchMenuItem.collapseActionView();
                 return true;

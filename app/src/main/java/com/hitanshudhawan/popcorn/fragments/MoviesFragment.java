@@ -30,7 +30,7 @@ import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.MovieGenres;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 
@@ -146,7 +146,7 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.NOW_SHOWING_MOVIES_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE, Constants.NOW_SHOWING_MOVIES_TYPE);
                 startActivity(intent);
             }
         });
@@ -158,7 +158,7 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.POPULAR_MOVIES_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE, Constants.POPULAR_MOVIES_TYPE);
                 startActivity(intent);
             }
         });
@@ -170,7 +170,7 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.UPCOMING_MOVIES_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE, Constants.UPCOMING_MOVIES_TYPE);
                 startActivity(intent);
             }
         });
@@ -182,7 +182,7 @@ public class MoviesFragment extends Fragment {
                     return;
                 }
                 Intent intent = new Intent(getContext(), ViewAllMoviesActivity.class);
-                intent.putExtra(Constant.VIEW_ALL_MOVIES_TYPE, Constant.TOP_RATED_MOVIES_TYPE);
+                intent.putExtra(Constants.VIEW_ALL_MOVIES_TYPE, Constants.TOP_RATED_MOVIES_TYPE);
                 startActivity(intent);
             }
         });

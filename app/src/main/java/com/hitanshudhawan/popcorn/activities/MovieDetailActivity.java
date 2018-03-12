@@ -39,7 +39,7 @@ import com.hitanshudhawan.popcorn.network.movies.MovieCreditsResponse;
 import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.videos.Video;
 import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -121,7 +121,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mMovieId = receivedIntent.getIntExtra(Constant.MOVIE_ID, -1);
+        mMovieId = receivedIntent.getIntExtra(Constants.MOVIE_ID, -1);
 
         if (mMovieId == -1) finish();
 
@@ -280,7 +280,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getPosterPath())
+                Glide.with(getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_1280 + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -299,7 +299,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         })
                         .into(mPosterImageView);
 
-                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getBackdropPath())
+                Glide.with(getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_1280 + response.body().getBackdropPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -403,23 +403,23 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void setImageButtons(final Integer movieId, final String posterPath, final String movieTitle, final String movieTagline, final String imdbId, final String homepage) {
         if (movieId == null) return;
         if (Favourite.isMovieFav(MovieDetailActivity.this, movieId)) {
-            mFavImageButton.setTag(Constant.TAG_FAV);
+            mFavImageButton.setTag(Constants.TAG_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
         } else {
-            mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+            mFavImageButton.setTag(Constants.TAG_NOT_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
         }
         mFavImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                if ((int) mFavImageButton.getTag() == Constant.TAG_FAV) {
+                if ((int) mFavImageButton.getTag() == Constants.TAG_FAV) {
                     Favourite.removeMovieFromFav(MovieDetailActivity.this, movieId);
-                    mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+                    mFavImageButton.setTag(Constants.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
                     Favourite.addMovieToFav(MovieDetailActivity.this, movieId, posterPath, movieTitle);
-                    mFavImageButton.setTag(Constant.TAG_FAV);
+                    mFavImageButton.setTag(Constants.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }
             }
@@ -433,7 +433,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 String extraText = "";
                 if (movieTitle != null) extraText += movieTitle + "\n";
                 if (movieTagline != null) extraText += movieTagline + "\n";
-                if (imdbId != null) extraText += Constant.IMDB_BASE_URL + imdbId + "\n";
+                if (imdbId != null) extraText += Constants.IMDB_BASE_URL + imdbId + "\n";
                 if (homepage != null) extraText += homepage;
                 movieShareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
                 startActivity(movieShareIntent);

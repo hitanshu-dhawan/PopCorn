@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.TVShowDetailActivity;
 import com.hitanshudhawan.popcorn.network.tvshows.TVCastOfPerson;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class TVCastsOfPersonAdapter extends RecyclerView.Adapter<TVCastsOfPerson
     @Override
     public void onBindViewHolder(TVShowViewHolder holder, int position) {
 
-        Glide.with(mContext.getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_342 + mTVCasts.get(position).getPosterPath())
+        Glide.with(mContext.getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_342 + mTVCasts.get(position).getPosterPath())
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -84,7 +84,7 @@ public class TVCastsOfPersonAdapter extends RecyclerView.Adapter<TVCastsOfPerson
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, TVShowDetailActivity.class);
-                    intent.putExtra(Constant.TV_SHOW_ID, mTVCasts.get(getAdapterPosition()).getId());
+                    intent.putExtra(Constants.TV_SHOW_ID, mTVCasts.get(getAdapterPosition()).getId());
                     mContext.startActivity(intent);
                 }
             });

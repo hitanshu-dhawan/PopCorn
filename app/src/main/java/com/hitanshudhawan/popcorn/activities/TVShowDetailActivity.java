@@ -40,7 +40,7 @@ import com.hitanshudhawan.popcorn.network.tvshows.TVShowCastBrief;
 import com.hitanshudhawan.popcorn.network.tvshows.TVShowCreditsResponse;
 import com.hitanshudhawan.popcorn.network.videos.Video;
 import com.hitanshudhawan.popcorn.network.videos.VideosResponse;
-import com.hitanshudhawan.popcorn.utils.Constant;
+import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.Favourite;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -122,7 +122,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mTVShowId = receivedIntent.getIntExtra(Constant.TV_SHOW_ID, -1);
+        mTVShowId = receivedIntent.getIntExtra(Constants.TV_SHOW_ID, -1);
 
         if (mTVShowId == -1) finish();
 
@@ -281,7 +281,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getPosterPath())
+                Glide.with(getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_1280 + response.body().getPosterPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -300,7 +300,7 @@ public class TVShowDetailActivity extends AppCompatActivity {
                         })
                         .into(mPosterImageView);
 
-                Glide.with(getApplicationContext()).load(Constant.IMAGE_LOADING_BASE_URL_1000 + response.body().getBackdropPath())
+                Glide.with(getApplicationContext()).load(Constants.IMAGE_LOADING_BASE_URL_1280 + response.body().getBackdropPath())
                         .asBitmap()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -403,23 +403,23 @@ public class TVShowDetailActivity extends AppCompatActivity {
     private void setImageButtons(final Integer tvShowId, final String posterPath, final String tvShowName, final String homepage) {
         if (tvShowId == null) return;
         if (Favourite.isTVShowFav(TVShowDetailActivity.this, tvShowId)) {
-            mFavImageButton.setTag(Constant.TAG_FAV);
+            mFavImageButton.setTag(Constants.TAG_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
         } else {
-            mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+            mFavImageButton.setTag(Constants.TAG_NOT_FAV);
             mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
         }
         mFavImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                if ((int) mFavImageButton.getTag() == Constant.TAG_FAV) {
+                if ((int) mFavImageButton.getTag() == Constants.TAG_FAV) {
                     Favourite.removeTVShowFromFav(TVShowDetailActivity.this, tvShowId);
-                    mFavImageButton.setTag(Constant.TAG_NOT_FAV);
+                    mFavImageButton.setTag(Constants.TAG_NOT_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_border_white_24dp);
                 } else {
                     Favourite.addTVShowToFav(TVShowDetailActivity.this, tvShowId, posterPath, tvShowName);
-                    mFavImageButton.setTag(Constant.TAG_FAV);
+                    mFavImageButton.setTag(Constants.TAG_FAV);
                     mFavImageButton.setImageResource(R.mipmap.ic_favorite_white_24dp);
                 }
             }
