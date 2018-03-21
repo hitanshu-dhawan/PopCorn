@@ -2,10 +2,6 @@
 [![Open Source Love png2](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/hitanshu-dhawan/PopCorn)
 [![License](https://img.shields.io/badge/License-Apache--2.0-green.svg)](https://github.com/hitanshu-dhawan/PopCorn/blob/master/LICENSE)
 
-[![GitHub followers](https://img.shields.io/github/followers/hitanshu-dhawan.svg?style=social&logo=github&label=Follow)](https://github.com/hitanshu-dhawan)
-[![GitHub stars](https://img.shields.io/github/stars/hitanshu-dhawan/PopCorn.svg?style=social&logo=github&label=Stars)](https://github.com/hitanshu-dhawan/PopCorn)
-[![GitHub forks](https://img.shields.io/github/forks/hitanshu-dhawan/PopCorn.svg?style=social&logo=github&label=Fork)](https://github.com/hitanshu-dhawan/PopCorn)
-
 <img src="/images/web_hi_res_512.png" height=250 width=250></img>
 <a href='https://play.google.com/store/apps/details?id=com.hitanshudhawan.popcorn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=300 /></a>
 
