@@ -1,4 +1,6 @@
-![](/images/popcorn_feature_graphic.png)
+[![Hitanshu Dhawan](https://img.shields.io/badge/Hitanshu-Dhawan-blue.svg)](https://github.com/hitanshu-dhawan)
+[![Open Source Love png2](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/hitanshu-dhawan/PopCorn)
+[![License](https://img.shields.io/badge/License-Apache--2.0-green.svg)](https://github.com/hitanshu-dhawan/PopCorn/blob/master/LICENSE)
 
 <img src="/images/web_hi_res_512.png" height=250 width=250></img>
 <a href='https://play.google.com/store/apps/details?id=com.hitanshudhawan.popcorn&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=300 /></a>
@@ -10,6 +12,15 @@
 <img src="/images/favorites.gif" height=512 width=288></img>
 <img src="/images/search.gif" height=512 width=288></img>
 
+# Implementations
+<ul>
+<li>The Movie Database (TMDb)</li>
+<li>SQLite Database</li>
+<li>Retrofit - for networking</li>
+<li>Glide - for images</li>
+<li>BroadcastReceiver</li>
+</ul>
+
 # API Keys
 PopCorn uses [The Movie DB](https://www.themoviedb.org/) API in order to fetch all the Movies and TV Shows Data.
 <br>
@@ -18,15 +29,6 @@ To run this application on your machine you have to issue an API KEY from The Mo
 ```
 <string name="MOVIE_DB_API_KEY">YOUR API KEY HERE</string>
 ```
-# Implementations
-List of all the APIs and Libraries used.
-<ul>
-<li>The Movie Database (TMDb)</li>
-<li>SQLite Database</li>
-<li>Retrofit - for networking</li>
-<li>Glide - for images</li>
-</ul>
-
 
 # Licence
 ```
