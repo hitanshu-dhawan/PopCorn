@@ -74,6 +74,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mTitleTextView;
     private TextView mGenreTextView;
     private TextView mYearTextView;
+    private ImageButton mBackImageButton;
     private ImageButton mFavImageButton;
     private ImageButton mShareImageButton;
 
@@ -151,6 +152,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         mGenreTextView = (TextView) findViewById(R.id.text_view_genre_movie_detail);
         mYearTextView = (TextView) findViewById(R.id.text_view_year_movie_detail);
 
+        mBackImageButton = (ImageButton) findViewById(R.id.image_button_back_movie_detail);
+        mBackImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         mFavImageButton = (ImageButton) findViewById(R.id.image_button_fav_movie_detail);
         mShareImageButton = (ImageButton) findViewById(R.id.image_button_share_movie_detail);
 

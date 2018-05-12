@@ -34,13 +34,12 @@
                     android:layout_height="140dp"
                     android:layout_marginBottom="32dp"
                     android:layout_marginLeft="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="64dp"
                     android:elevation="100dp"
                     app:cardCornerRadius="70dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-
 
                     <ImageView
                         android:id="@+id/image_view_cast_detail"
@@ -55,8 +54,20 @@
                         android:layout_gravity="center"
                         app:indicatorName="BallScaleMultipleIndicator" />
 
-
                 </android.support.v7.widget.CardView>
+
+                <ImageButton
+                    android:id="@+id/image_button_back_cast_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@null"
+                    android:src="@mipmap/baseline_arrow_back_white_24"
+                    android:translationZ="2dp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/text_view_name_cast_detail"
@@ -64,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="64dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:textColor="@android:color/white"

@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="32dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@null"
                     android:src="@mipmap/ic_share_white_24dp"
                     android:translationZ="2dp"
                     android:visibility="gone"
@@ -97,11 +97,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="32dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@null"
                     android:src="@mipmap/ic_favorite_border_white_24dp"
                     android:translationZ="2dp"
                     android:visibility="gone"
                     app:layout_constraintRight_toLeftOf="@id/image_button_share_tv_show_detail"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/image_button_back_tv_show_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@null"
+                    android:src="@mipmap/baseline_arrow_back_white_24"
+                    android:translationZ="2dp"
+                    android:visibility="visible"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView

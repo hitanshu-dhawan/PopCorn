@@ -14,8 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -53,6 +55,7 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private AppBarLayout mAppBarLayout;
+    private Toolbar mToolbar;
 
     private CardView mCastImageCardView;
     private int mCastImageSideSize;
@@ -61,6 +64,7 @@ public class PersonDetailActivity extends AppCompatActivity {
     private TextView mCastNameTextView;
     private TextView mCastAgeTextView;
     private TextView mCastBirthPlaceTextView;
+    private ImageButton mBackImageButton;
 
     private TextView mCastBioHeaderTextView;
     private TextView mCastBioTextView;
@@ -88,8 +92,8 @@ public class PersonDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         setTitle("");
 
@@ -111,9 +115,17 @@ public class PersonDetailActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.GONE);
         mCastNameTextView = (TextView) findViewById(R.id.text_view_name_cast_detail);
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mCastNameTextView.getLayoutParams();
-        params.setMargins(params.leftMargin, mCastImageSideSize / 3, params.rightMargin, params.bottomMargin);
+        params.setMargins(params.leftMargin, mCastImageSideSize / 2, params.rightMargin, params.bottomMargin);
         mCastAgeTextView = (TextView) findViewById(R.id.text_view_age_cast_detail);
         mCastBirthPlaceTextView = (TextView) findViewById(R.id.text_view_birthplace_cast_detail);
+
+        mBackImageButton = (ImageButton) findViewById(R.id.image_button_back_cast_detail);
+        mBackImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         mCastBioHeaderTextView = (TextView) findViewById(R.id.text_view_bio_header_person_detail);
         mCastBioTextView = (TextView) findViewById(R.id.text_view_bio_person_detail);
@@ -210,8 +222,10 @@ public class PersonDetailActivity extends AppCompatActivity {
                                 mCollapsingToolbarLayout.setTitle(response.body().getName());
                             else
                                 mCollapsingToolbarLayout.setTitle("");
+                            mToolbar.setVisibility(View.VISIBLE);
                         } else {
                             mCollapsingToolbarLayout.setTitle("");
+                            mToolbar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });

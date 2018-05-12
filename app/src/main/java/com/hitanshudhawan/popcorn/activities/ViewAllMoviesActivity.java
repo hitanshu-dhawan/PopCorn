@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
@@ -53,6 +54,7 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_all_movies);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent receivedIntent = getIntent();
         mMovieType = receivedIntent.getIntExtra(Constants.VIEW_ALL_MOVIES_TYPE, -1);
@@ -261,6 +263,14 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
                 });
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
