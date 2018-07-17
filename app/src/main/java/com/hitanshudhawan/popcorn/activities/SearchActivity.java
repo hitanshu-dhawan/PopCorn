@@ -23,13 +23,13 @@ import com.hitanshudhawan.popcorn.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+//import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class SearchActivity extends AppCompatActivity {
 
     private String mQuery;
 
-    private SmoothProgressBar mSmoothProgressBar;
+//    private SmoothProgressBar mSmoothProgressBar;
     private RecyclerView mSearchResultsRecyclerView;
     private List<SearchResult> mSearchResults;
     private SearchResultsAdapter mSearchResultsAdapter;
@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
 
         setTitle(mQuery);
 
-        mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
+//        mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
         mEmptyTextView = (TextView) findViewById(R.id.text_view_empty_search);
 
         mSearchResultsRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_search);
@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
     private void loadSearchResults() {
         if (pagesOver) return;
 
-        mSmoothProgressBar.progressiveStart();
+//        mSmoothProgressBar.progressiveStart();
 
         getLoaderManager().initLoader(presentPage, null, new LoaderManager.LoaderCallbacks<SearchResponse>() {
 
@@ -110,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (searchResponse == null) return;
                 if (searchResponse.getResults() == null) return;
 
-                mSmoothProgressBar.progressiveStop();
+//                mSmoothProgressBar.progressiveStop();
                 for (SearchResult searchResult : searchResponse.getResults()) {
                     if (searchResult != null)
                         mSearchResults.add(searchResult);

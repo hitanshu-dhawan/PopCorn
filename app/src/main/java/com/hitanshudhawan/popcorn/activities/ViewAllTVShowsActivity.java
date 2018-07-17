@@ -22,14 +22,14 @@ import com.hitanshudhawan.popcorn.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+//import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewAllTVShowsActivity extends AppCompatActivity {
 
-    private SmoothProgressBar mSmoothProgressBar;
+//    private SmoothProgressBar mSmoothProgressBar;
 
     private RecyclerView mRecyclerView;
     private List<TVShowBrief> mTVShows;
@@ -76,7 +76,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                 break;
         }
 
-        mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
+//        mSmoothProgressBar = (SmoothProgressBar) findViewById(R.id.smooth_progress_bar);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_all);
         mTVShows = new ArrayList<>();
@@ -131,7 +131,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
         if (pagesOver) return;
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        mSmoothProgressBar.progressiveStart();
+//        mSmoothProgressBar.progressiveStart();
 
         switch (tvShowType) {
             case Constants.AIRING_TODAY_TV_SHOWS_TYPE:
@@ -148,7 +148,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                         if (response.body() == null) return;
                         if (response.body().getResults() == null) return;
 
-                        mSmoothProgressBar.progressiveStop();
+//                        mSmoothProgressBar.progressiveStop();
                         for (TVShowBrief tvShowBrief : response.body().getResults()) {
                             if (tvShowBrief != null && tvShowBrief.getName() != null && tvShowBrief.getPosterPath() != null)
                                 mTVShows.add(tvShowBrief);
@@ -180,7 +180,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                         if (response.body() == null) return;
                         if (response.body().getResults() == null) return;
 
-                        mSmoothProgressBar.progressiveStop();
+//                        mSmoothProgressBar.progressiveStop();
                         for (TVShowBrief tvShowBrief : response.body().getResults()) {
                             if (tvShowBrief != null && tvShowBrief.getName() != null && tvShowBrief.getPosterPath() != null)
                                 mTVShows.add(tvShowBrief);
@@ -212,7 +212,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                         if (response.body() == null) return;
                         if (response.body().getResults() == null) return;
 
-                        mSmoothProgressBar.progressiveStop();
+//                        mSmoothProgressBar.progressiveStop();
                         for (TVShowBrief tvShowBrief : response.body().getResults()) {
                             if (tvShowBrief != null && tvShowBrief.getName() != null && tvShowBrief.getPosterPath() != null)
                                 mTVShows.add(tvShowBrief);
@@ -244,7 +244,7 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
                         if (response.body() == null) return;
                         if (response.body().getResults() == null) return;
 
-                        mSmoothProgressBar.progressiveStop();
+//                        mSmoothProgressBar.progressiveStop();
                         for (TVShowBrief tvShowBrief : response.body().getResults()) {
                             if (tvShowBrief != null && tvShowBrief.getName() != null && tvShowBrief.getPosterPath() != null)
                                 mTVShows.add(tvShowBrief);
