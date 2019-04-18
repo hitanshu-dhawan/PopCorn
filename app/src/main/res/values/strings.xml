@@ -69,4 +69,8 @@
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_search">SearchActivity</string>
 
+    <!--YOUR API KEY HERE-->
+    <string name="MOVIE_DB_API_KEY">YOUR API KEY HERE</string>
+
+
 </resources>
