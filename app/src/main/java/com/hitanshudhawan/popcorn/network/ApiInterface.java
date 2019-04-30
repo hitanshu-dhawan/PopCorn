@@ -9,6 +9,7 @@ import com.hitanshudhawan.popcorn.network.movies.SimilarMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.people.Person;
+import com.hitanshudhawan.popcorn.network.person_parce.PersonPopular;
 import com.hitanshudhawan.popcorn.network.tvshows.AiringTodayTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.OnTheAirTVShowsResponse;
 import com.hitanshudhawan.popcorn.network.tvshows.PopularTVShowsResponse;
@@ -26,6 +27,8 @@ import retrofit2.http.Query;
 
 /**
  * Created by hitanshu on 27/7/17.
+ *
+ * Modified by Angelo on 19/04/19
  */
 
 public interface ApiInterface {
@@ -98,5 +101,8 @@ public interface ApiInterface {
 
     @GET("person/{id}/tv_credits")
     Call<TVCastsOfPersonResponse> getTVCastsOfPerson(@Path("id") Integer personId, @Query("api_key") String apiKey);
+
+    @GET("person/popular")
+    Call<PersonPopular> getPopularPeopleWithParcelable(@Query("api_key") String apiKey, @Query("page") Integer page);
 
 }

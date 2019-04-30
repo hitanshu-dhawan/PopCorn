@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.activities.ViewAllMoviesActivity;
+import com.hitanshudhawan.popcorn.activities.ViewAllPeopleActivity;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsLargeAdapter;
 import com.hitanshudhawan.popcorn.adapters.MovieBriefsSmallAdapter;
+import com.hitanshudhawan.popcorn.adapters.PeopleBriefsSmallAdapter;
 import com.hitanshudhawan.popcorn.broadcastreceivers.ConnectivityBroadcastReceiver;
 import com.hitanshudhawan.popcorn.network.ApiClient;
 import com.hitanshudhawan.popcorn.network.ApiInterface;
@@ -30,6 +32,8 @@ import com.hitanshudhawan.popcorn.network.movies.NowShowingMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.PopularMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.TopRatedMoviesResponse;
 import com.hitanshudhawan.popcorn.network.movies.UpcomingMoviesResponse;
+import com.hitanshudhawan.popcorn.network.person_parce.PersonPopular;
+import com.hitanshudhawan.popcorn.network.person_parce.PersonPopularResult;
 import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.MovieGenres;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
@@ -43,6 +47,8 @@ import retrofit2.Response;
 
 /**
  * Created by hitanshu on 30/7/17.
+ *
+ * Modified by Angelo on 19/04/19
  */
 
 public class MoviesFragment extends Fragment {
@@ -65,6 +71,9 @@ public class MoviesFragment extends Fragment {
     private List<MovieBrief> mPopularMovies;
     private MovieBriefsSmallAdapter mPopularAdapter;
 
+    //People
+    private boolean mPopularSectionLoadedPeople;
+
     private FrameLayout mUpcomingLayout;
     private TextView mUpcomingViewAllTextView;
     private RecyclerView mUpcomingRecyclerView;
@@ -77,6 +86,15 @@ public class MoviesFragment extends Fragment {
     private List<MovieBrief> mTopRatedMovies;
     private MovieBriefsSmallAdapter mTopRatedAdapter;
 
+    //People
+    private FrameLayout mPopularLayoutPeople;
+    private TextView mPopularViewAllTextViewPeople;
+    private RecyclerView mPopularRecyclerViewPeople;
+    //private List<PeopleBrief> mPopularPeople;
+    //OR with Parcelable
+    private List<PersonPopularResult> mPopularPeople;
+    private PeopleBriefsSmallAdapter mPopularAdapterPeople;
+
     private Snackbar mConnectivitySnackbar;
     private ConnectivityBroadcastReceiver mConnectivityBroadcastReceiver;
     private boolean isBroadcastReceiverRegistered;
@@ -86,6 +104,9 @@ public class MoviesFragment extends Fragment {
     private Call<PopularMoviesResponse> mPopularMoviesCall;
     private Call<UpcomingMoviesResponse> mUpcomingMoviesCall;
     private Call<TopRatedMoviesResponse> mTopRatedMoviesCall;
+
+    //People
+    private Call<PersonPopular> mPopularPeopleCall;
 
     @Nullable
     @Override
@@ -116,6 +137,17 @@ public class MoviesFragment extends Fragment {
         (new LinearSnapHelper()).attachToRecyclerView(mUpcomingRecyclerView);
         mTopRatedRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_top_rated);
 
+        //People
+        mPopularSectionLoadedPeople = false;
+
+        //People
+        mPopularLayoutPeople = (FrameLayout) view.findViewById(R.id.layout_popular_people);
+
+        mPopularViewAllTextViewPeople = (TextView) view.findViewById(R.id.text_view_view_all_popular_people);
+
+        mPopularRecyclerViewPeople = (RecyclerView) view.findViewById(R.id.recycler_view_popular_people);
+        //...end
+
         mNowShowingMovies = new ArrayList<>();
         mPopularMovies = new ArrayList<>();
         mUpcomingMovies = new ArrayList<>();
@@ -137,6 +169,15 @@ public class MoviesFragment extends Fragment {
 
         mTopRatedRecyclerView.setAdapter(mTopRatedAdapter);
         mTopRatedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        //People
+        mPopularPeople = new ArrayList<PersonPopularResult>();
+
+        mPopularAdapterPeople = new PeopleBriefsSmallAdapter(getContext(), mPopularPeople);
+
+        mPopularRecyclerViewPeople.setAdapter(mPopularAdapterPeople);
+        mPopularRecyclerViewPeople.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        //People....end
 
         mNowShowingViewAllTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +228,21 @@ public class MoviesFragment extends Fragment {
             }
         });
 
+        //People
+        mPopularViewAllTextViewPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!NetworkConnection.isConnected(getContext())) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(getContext(), ViewAllPeopleActivity.class);
+                intent.putExtra(Constants.VIEW_ALL_PEOPLE_TYPE, Constants.POPULAR_PEOPLE_TYPE);
+                startActivity(intent);
+            }
+        });
+        //....end
+
         if (NetworkConnection.isConnected(getContext())) {
             isFragmentLoaded = true;
             loadFragment();
@@ -203,6 +259,9 @@ public class MoviesFragment extends Fragment {
         mPopularAdapter.notifyDataSetChanged();
         mUpcomingAdapter.notifyDataSetChanged();
         mTopRatedAdapter.notifyDataSetChanged();
+
+        //People.
+        mPopularAdapterPeople.notifyDataSetChanged();
     }
 
     @Override
@@ -251,6 +310,9 @@ public class MoviesFragment extends Fragment {
         if (mPopularMoviesCall != null) mPopularMoviesCall.cancel();
         if (mUpcomingMoviesCall != null) mUpcomingMoviesCall.cancel();
         if (mTopRatedMoviesCall != null) mTopRatedMoviesCall.cancel();
+
+        //People
+        if (mPopularPeopleCall != null) mPopularPeopleCall.cancel();
     }
 
     private void loadFragment() {
@@ -260,6 +322,7 @@ public class MoviesFragment extends Fragment {
             loadPopularMovies();
             loadUpcomingMovies();
             loadTopRatedMovies();
+
         } else {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
             mProgressBar.setVisibility(View.VISIBLE);
@@ -288,6 +351,11 @@ public class MoviesFragment extends Fragment {
 
                 }
             });
+
+            //People
+            loadPopularPeople();
+            //mProgressBar.setVisibility(View.VISIBLE);
+
         }
 
     }
@@ -420,8 +488,49 @@ public class MoviesFragment extends Fragment {
         });
     }
 
+    /**setOnClickListener**/
+    /**PeopleBriefsSmallAdapter **/
+    private void loadPopularPeople() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mPopularPeopleCall = apiService.getPopularPeopleWithParcelable(getResources().getString(R.string.MOVIE_DB_API_KEY), 1);
+        mPopularPeopleCall.enqueue(new Callback<PersonPopular>() {
+            @Override
+            public void onResponse(Call<PersonPopular> call, Response<PersonPopular> response) {
+                if (!response.isSuccessful()) {
+                    mPopularPeopleCall = call.clone();
+                    mPopularPeopleCall.enqueue(this);
+                    return;
+                }
+                if (response.body() == null) return;
+                if (response.body().getResults() == null) return;
+                mPopularSectionLoadedPeople = true;
+                checkAllDataLoaded();
+//                for (PeopleBrief people_actor : response.body().getResults()) {
+//                    if (people_actor != null && people_actor.getProfilePath() != null)
+//                        mPopularPeople.add(people_actor);
+//                }
+                //OR with Parcelable
+                for (PersonPopularResult people_actor : response.body().getResults()) {
+                    if (people_actor != null && people_actor.getProfilePath() != null)
+                        mPopularPeople.add(people_actor);
+                }
+                /**  Here I have one change. **/
+                mPopularAdapterPeople.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<PersonPopular> call, Throwable t) {
+            }
+        });
+    }
+
+    /**setOnClickListener**/
+    /**PeopleBriefsSmallAdapter **/
     private void checkAllDataLoaded() {
-        if (mNowShowingSectionLoaded && mPopularSectionLoaded && mUpcomingSectionLoaded && mTopRatedSectionLoaded) {
+        if (mNowShowingSectionLoaded && mPopularSectionLoaded && mUpcomingSectionLoaded && mTopRatedSectionLoaded
+
+                && mPopularSectionLoadedPeople
+                ) {
             mProgressBar.setVisibility(View.GONE);
             mNowShowingLayout.setVisibility(View.VISIBLE);
             mNowShowingRecyclerView.setVisibility(View.VISIBLE);
@@ -431,6 +540,11 @@ public class MoviesFragment extends Fragment {
             mUpcomingRecyclerView.setVisibility(View.VISIBLE);
             mTopRatedLayout.setVisibility(View.VISIBLE);
             mTopRatedRecyclerView.setVisibility(View.VISIBLE);
+
+            //People
+            mPopularLayoutPeople.setVisibility(View.VISIBLE);
+            mPopularRecyclerViewPeople.setVisibility(View.VISIBLE);
         }
     }
+
 }

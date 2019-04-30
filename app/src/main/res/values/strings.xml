@@ -72,5 +72,11 @@
     <!--YOUR API KEY HERE-->
     <string name="MOVIE_DB_API_KEY">YOUR API KEY HERE</string>
 
+    <!--People-->
+    <string name="people">Actors</string>
+    <string name="no_fav_people">No Favourite Actors</string>
+    <string name="nav_favorites_people">Favorites People</string>
+    <string name="popular_response_people">Similar People</string>
+
 
 </resources>
