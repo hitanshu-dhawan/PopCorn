@@ -3,7 +3,6 @@
 [![License](https://img.shields.io/badge/License-Apache--2.0-green.svg)](https://github.com/hitanshu-dhawan/PopCorn/blob/master/LICENSE)
 
 <img src="/images/web_hi_res_512.png" height=250 width=250></img>
-<a href='https://play.google.com/store/apps/details?id=com.hitanshudhawan.popcorn'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width=300 /></a>
 
 <b>Awesome Material Design Movies and TV Shows App.</b>
 
