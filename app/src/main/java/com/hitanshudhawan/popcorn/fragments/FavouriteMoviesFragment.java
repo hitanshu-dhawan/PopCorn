@@ -22,6 +22,7 @@ import java.util.List;
  * Created by hitanshu on 10/8/17.
  */
 
+// hitanshu : FavouriteMoviesFragment and FavouriteTVShowsFragment are mostly similar
 public class FavouriteMoviesFragment extends Fragment {
 
     private RecyclerView mFavMoviesRecyclerView;
@@ -52,6 +53,7 @@ public class FavouriteMoviesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // TODO (feature or a bug? :P)
+        // hitanshu : use Room with LiveData to solve this problem
         // for now when coming back to this activity after removing from fav it shows border heart.
         mFavMoviesAdapter.notifyDataSetChanged();
     }

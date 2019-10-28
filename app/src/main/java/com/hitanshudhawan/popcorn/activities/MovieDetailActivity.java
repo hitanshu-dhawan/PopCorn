@@ -54,6 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// hitanshu : MovieDetailActivity and TVShowDetailActivity are mostly similar
 public class MovieDetailActivity extends AppCompatActivity {
 
     private int mMovieId;
@@ -248,6 +249,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+        // hitanshu : you can make this lifecycle aware so the requests get canceled automatically on onDestroy()
         if (mMovieDetailsCall != null) mMovieDetailsCall.cancel();
         if (mMovieTrailersCall != null) mMovieTrailersCall.cancel();
         if (mMovieCreditsCall != null) mMovieCreditsCall.cancel();

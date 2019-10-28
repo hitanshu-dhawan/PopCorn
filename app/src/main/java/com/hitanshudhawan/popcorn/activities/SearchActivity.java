@@ -66,6 +66,8 @@ public class SearchActivity extends AppCompatActivity {
         mSearchResultsRecyclerView.setAdapter(mSearchResultsAdapter);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this, LinearLayoutManager.VERTICAL, false);
         mSearchResultsRecyclerView.setLayoutManager(linearLayoutManager);
+
+        // hitanshu : use Paging Library
         mSearchResultsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

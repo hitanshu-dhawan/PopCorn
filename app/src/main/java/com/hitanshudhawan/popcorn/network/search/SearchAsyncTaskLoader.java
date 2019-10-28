@@ -24,11 +24,14 @@ import java.util.Scanner;
 
 public class SearchAsyncTaskLoader extends AsyncTaskLoader<SearchResponse> {
 
+    // hitanshu : passing Context will lead to memory leaks
     private Context mContext;
 
     private String mQuery;
     private String mPage;
 
+    // hitanshu : use Custom deserialization with GSON
+    // https://medium.com/@int02h/custom-deserialization-with-gson-1bab538c0bfa
     public SearchAsyncTaskLoader(Context context, String query, String page) {
         super(context);
         this.mContext = context;

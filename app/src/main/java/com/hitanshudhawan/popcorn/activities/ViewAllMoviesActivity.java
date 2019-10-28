@@ -27,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// hitanshu : ViewAllMoviesActivity and ViewAllTVShowsActivity are mostly similar
 public class ViewAllMoviesActivity extends AppCompatActivity {
 
 //    private SmoothProgressBar mSmoothProgressBar;
@@ -84,6 +85,8 @@ public class ViewAllMoviesActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mMoviesAdapter);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(ViewAllMoviesActivity.this, 3);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        // hitanshu : use Paging Library
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

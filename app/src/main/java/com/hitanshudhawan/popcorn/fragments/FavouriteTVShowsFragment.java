@@ -52,6 +52,7 @@ public class FavouriteTVShowsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // TODO (feature or a bug? :P)
+        // hitanshu : use Room with LiveData to solve this problem
         // for now when coming back to this activity after removing from fav it shows border heart.
         mFavTVShowsAdapter.notifyDataSetChanged();
     }

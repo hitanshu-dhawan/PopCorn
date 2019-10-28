@@ -84,6 +84,8 @@ public class ViewAllTVShowsActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mTVShowsAdapter);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(ViewAllTVShowsActivity.this, 3);
         mRecyclerView.setLayoutManager(gridLayoutManager);
+
+        // hitanshu : use Paging Library
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

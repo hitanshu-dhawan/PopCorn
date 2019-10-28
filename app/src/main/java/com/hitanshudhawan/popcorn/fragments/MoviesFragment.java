@@ -45,6 +45,7 @@ import retrofit2.Response;
  * Created by hitanshu on 30/7/17.
  */
 
+// hitanshu : MoviesFragment and TVShowsFragment are mostly similar
 public class MoviesFragment extends Fragment {
 
     private ProgressBar mProgressBar;
