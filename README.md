@@ -1,7 +1,3 @@
-[![Hitanshu Dhawan](https://img.shields.io/badge/Hitanshu-Dhawan-blue.svg)](https://github.com/hitanshu-dhawan)
-[![Open Source Love png2](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/hitanshu-dhawan/PopCorn)
-[![License](https://img.shields.io/badge/License-Apache--2.0-green.svg)](https://github.com/hitanshu-dhawan/PopCorn/blob/master/LICENSE)
-
 <img src="/images/web_hi_res_512.png" height=250 width=250></img>
 
 <b>Awesome Material Design Movies and TV Shows App.</b>
