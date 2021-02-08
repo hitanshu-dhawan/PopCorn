@@ -3,9 +3,9 @@
 <b>Awesome Material Design Movies and TV Shows App.</b>
 
 # Have a Look
-<img src="/images/movies.gif" height=512 width=288></img>
-<img src="/images/favorites.gif" height=512 width=288></img>
-<img src="/images/search.gif" height=512 width=288></img>
+|     |     |     |
+| --- | --- | --- |
+| ![](/images/movies.gif) | ![](/images/favorites.gif) | ![](/images/search.gif) |
 
 # Implementations
 <ul>
