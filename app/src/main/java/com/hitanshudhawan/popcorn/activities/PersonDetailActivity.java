@@ -1,5 +1,11 @@
 package com.hitanshudhawan.popcorn.activities;
 
+/**
+ * Created by hitanshu
+ *
+ * Modified by Angelo on 19/04/19
+ */
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -98,7 +104,7 @@ public class PersonDetailActivity extends AppCompatActivity {
         setTitle("");
 
         Intent receivedIntent = getIntent();
-        mPersonId = receivedIntent.getIntExtra(Constants.PERSON_ID, -1);
+        mPersonId = receivedIntent.getIntExtra(Constants.PEOPLE_ID, -1);
 
         if (mPersonId == -1) finish();
 

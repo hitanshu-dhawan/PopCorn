@@ -1,5 +1,11 @@
 package com.hitanshudhawan.popcorn.activities;
 
+/**
+ * Created by hitanshu
+ *
+ * Modified by Angelo on 19/04/19
+ */
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +28,7 @@ import android.widget.Toast;
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouritesFragment;
 import com.hitanshudhawan.popcorn.fragments.MoviesFragment;
+import com.hitanshudhawan.popcorn.fragments.PeopleFragment;
 import com.hitanshudhawan.popcorn.fragments.TVShowsFragment;
 import com.hitanshudhawan.popcorn.utils.Constants;
 import com.hitanshudhawan.popcorn.utils.NetworkConnection;
@@ -137,6 +144,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_tv_shows:
                 setTitle(R.string.tv_shows);
                 setFragment(new TVShowsFragment());
+                return true;
+            /**   nav_people. I have code here and below. **/
+            case R.id.nav_people:
+                setTitle(R.string.people);
+                setFragment(new PeopleFragment());
                 return true;
             case R.id.nav_favorites:
                 setTitle(R.string.favorites);

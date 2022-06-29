@@ -14,6 +14,11 @@
             android:icon="@mipmap/ic_tv_black_24dp"
             android:iconTint="@android:color/darker_gray"
             android:title="@string/tv_shows" />
+        <item
+            android:id="@+id/nav_people"
+            android:icon="@mipmap/ic_tv_black_24dp"
+            android:iconTint="@android:color/darker_gray"
+            android:title="@string/people" />
     </group>
 
     <group

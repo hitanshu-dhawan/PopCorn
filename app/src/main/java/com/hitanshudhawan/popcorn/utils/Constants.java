@@ -2,6 +2,8 @@ package com.hitanshudhawan.popcorn.utils;
 
 /**
  * Created by hitanshu on 9/8/17.
+ *
+ * Modified by Angelo on 19/04/19
  */
 
 public class Constants {
@@ -35,4 +37,9 @@ public class Constants {
     //public static final String TAG_TV_SHOWS_FRAGMENT = "tag_tv_shows_fragment";
     //public static final String TAG_FAV_FRAGMENT = "tag_fav_fragment";
 
+    //People
+    //public static final String PERSON_ID = "person_id";
+    public static final String PEOPLE_ID = "people_id";
+    public static final String VIEW_ALL_PEOPLE_TYPE = "type_view_all_people";
+    public static final int POPULAR_PEOPLE_TYPE = 1;
 }

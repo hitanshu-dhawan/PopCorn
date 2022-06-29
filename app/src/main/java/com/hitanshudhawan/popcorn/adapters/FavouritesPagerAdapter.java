@@ -7,10 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.hitanshudhawan.popcorn.R;
 import com.hitanshudhawan.popcorn.fragments.FavouriteMoviesFragment;
+import com.hitanshudhawan.popcorn.fragments.FavouritePeopleFragment;
 import com.hitanshudhawan.popcorn.fragments.FavouriteTVShowsFragment;
 
 /**
  * Created by hitanshu on 10/8/17.
+ *
+ * Modified by Angelo on 19/04/19
  */
 
 public class FavouritesPagerAdapter extends FragmentPagerAdapter {
@@ -29,13 +32,15 @@ public class FavouritesPagerAdapter extends FragmentPagerAdapter {
                 return new FavouriteMoviesFragment();
             case 1:
                 return new FavouriteTVShowsFragment();
+            case 2:
+                return new FavouritePeopleFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -45,6 +50,9 @@ public class FavouritesPagerAdapter extends FragmentPagerAdapter {
                 return mContext.getResources().getString(R.string.movies);
             case 1:
                 return mContext.getResources().getString(R.string.tv_shows);
+            case 2:
+                return mContext.getResources().getString(R.string.people);
+
         }
         return null;
     }
